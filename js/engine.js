@@ -3,10 +3,11 @@ function engine(ga) {
   var frames = en.frames = [];
   var io = en.io = [];
   var timer;
+  
   en.startTime;
   en.head = 0; //the last clean frame
   en.end = 0; //the last frame that is required
-  en.fps = 1;
+  en.fps = 60;
   en.fpms = 1000/en.fps;
   
   //create a frame
@@ -29,12 +30,12 @@ function engine(ga) {
   en.start=function(){
     en.stop();
     en.startTime = Date.now();
-    frames[0] = {x:0};
+    frames[0] = ga.firstFrame();
     en.head = 0;
     timer = setInterval(function() {
-      en.end = ((Date.now() - en.startTime)/en.fpms)|0;
+      en.end = en.frameId();
       en.refresh();
-      console.log(en.head+" "+en.end+" "+frames[en.head].x);
+ //     console.log(en.head+" "+en.end+" ("+frames[en.head].x+", "+frames[en.head].y+")");
     },en.fpms);
   }
   
@@ -45,12 +46,16 @@ function engine(ga) {
   }
   
   /* e: event
-   * frame: frame event happens on
+   * frame: frame number event happens on
    */
-  en.addIOEvent = function(e,frame){
-    io[frame] = io[frame] === undefined ? [] : io[frame];
-    io[frame].push(e);
-    en.head = en.head > frame ? frame : en.head;
+  en.addIOEvent = function(e,frameId){
+    io[frameId] = io[frameId] === undefined ? [] : io[frameId];
+    io[frameId].push(e);
+    en.head = en.head > frameId ? frameId : en.head;
+  }
+  
+  en.frameId = function() {
+    return ((Date.now() - en.startTime)/en.fpms)|0;
   }
   
   return en;
