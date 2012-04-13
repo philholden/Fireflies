@@ -9,7 +9,6 @@ function joystick(p,io,pid) {
   
   if(!p) {
     init();
-    console.log(p.keys);
   }
   
   var controls = "lurd"; //left up right down
@@ -27,14 +26,10 @@ function joystick(p,io,pid) {
   
   function update(e) {
     if(e.id == pid) {
-      console.log(e);
       var l = e.k.toLowerCase();
       if(controls.indexOf(l) != -1){
-        console.log(l);
         var keyDown = controls.indexOf(e.k) == -1;
-        console.log(keyDown); 
         c.keys[l] = keyDown;
-        console.log(c.keys);
       } 
     }
   }
