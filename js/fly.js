@@ -27,9 +27,8 @@ function fly(p,j,w) {
   c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity
   c.ya = p.y<30?w.gy*4:(j.v*p.yi)+w.gy;
 
-  //c.xa = p.x<50?w.gy*5:p.xa; //bounds
-  //c.xa = p.x>w.w-50?-w.gy*5:p.xa;
-  console.log(c.xa);
+  c.xa = p.x<50?w.gy*5:c.xa; //bounds
+  c.xa = p.x>w.w-50?-w.gy*5:c.xa;
   c.xs = p.xs + c.xa; //speed
   c.ys = p.ys + c.ya;
 
