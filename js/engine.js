@@ -7,7 +7,7 @@ function engine(ga) {
   en.startTime;
   en.head = 0; //the last clean frame
   en.end = 0; //the last frame that is required
-  en.fps = 60;
+  en.fps = 20;
   en.fpms = 1000/en.fps;
   
   //create a frame

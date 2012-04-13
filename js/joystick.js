@@ -23,7 +23,6 @@ function joystick(p,io,pid) {
    * detect which key is pressed or released and set key state for
    * this key
    */
-  
   function update(e) {
     if(e.id == pid) {
       var l = e.k.toLowerCase();
@@ -44,6 +43,7 @@ function joystick(p,io,pid) {
     };
   }
   
+  //horizontal and vertical state of the joystick
   c.state = function() {
     return {
       h: (c.keys.l === c.keys.r) ? 0 : c.keys.l ? -1 : 1,
