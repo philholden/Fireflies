@@ -2,12 +2,14 @@
   <head>
   <script src="js/game.js" type="text/javascript"></script>
   <script src="js/engine.js" type="text/javascript"></script>
+  <script src="js/keyboard.js" type="text/javascript"></script>
   <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
   <script>
     requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
                         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-    var ga = game();
-    var en = engine(ga);
+    var ga = new game();
+    var en = new engine(ga);
+    var kb = new keyboard();
     en.start();
     var a=0;
     var man;
@@ -18,7 +20,11 @@
     $(function(){
       man = $("#man");
       input = $("input[type=text]");
+      body = $("body");
       requestAnimationFrame(step);
+      body.keyup(function(e){console.log(kb.keyUp(e.keyCode))});
+      body.keydown(function(e){console.log(kb.keyDown(e.keyCode))});
+      
     });
     
     function turn(){
@@ -41,13 +47,12 @@
       var sec = (Date.now()-st)/1000.0;
 //      console.log("fps:"+(rf/sec));
     },1000);
-    
   </script>
   <style>
     #man {position: absolute}
   </style>
   </head>
-  <body>
+  <body tabindex="0">
     <input type="text"/ value="-30">
     <button onclick="turn()">turn</button>
     <div id="man">o</div>

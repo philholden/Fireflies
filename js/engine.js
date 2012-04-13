@@ -1,5 +1,5 @@
 function engine(ga) {
-  var en={};
+  var en=this;
   var frames = en.frames = [];
   var io = en.io = [];
   var timer;
@@ -57,6 +57,4 @@ function engine(ga) {
   en.frameId = function() {
     return ((Date.now() - en.startTime)/en.fpms)|0;
   }
-  
-  return en;
 }

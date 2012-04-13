@@ -1,5 +1,5 @@
 function game(){
-  var ga = {};
+  var ga = this;
   
   function frame() {
     this.x = 0.0;
@@ -31,5 +31,4 @@ function game(){
     cf.y = pf.y + cf.ys * 2;
     return cf;
   }
-  return ga;
 }
