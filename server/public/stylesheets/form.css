@@ -1,0 +1,124 @@
+fieldset {
+  margin-bottom: 10px;
+  background: transparent;
+  padding: 0px 0px;
+  line-height: 1.5;
+}
+fieldset .input,
+fieldset .section {
+  padding: 5px 0;
+  margin: 0;
+}
+fieldset .section {
+  padding: 5px 0;
+  width: auto;
+}
+fieldset legend {
+  padding: 0;
+  font-weight: bold;
+}
+fieldset label {
+  display: block;
+  vertical-align: top;
+}
+fieldset .required label:after {
+  content: '*';
+  color: #ff0000;
+}
+fieldset label,
+fieldset legend {
+  font-weight: bold;
+  font-size: 13px;
+}
+fieldset input,
+fieldset select,
+fieldset textarea {
+  font-weight: normal;
+  font-size: 19px;
+  font-family: 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
+  border: 1px solid #dadada;
+}
+fieldset input,
+fieldset textarea {
+  width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+fieldset input[type=checkbox],
+fieldset textarea[type=checkbox],
+fieldset input[type=radio],
+fieldset textarea[type=radio] {
+  border: 0px solid #dadada;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+fieldset .twelth input,
+fieldset .twelth select {
+  width: 8.333333333333334%;
+}
+fieldset .sixth_1 input,
+fieldset .sixth_1 select {
+  width: 16.666666666666668%;
+}
+fieldset .sixth_2 input,
+fieldset .sixth_2 select {
+  width: 33.333333333333336%;
+}
+fieldset .sixth_3 input,
+fieldset .sixth_3 select {
+  width: 50%;
+}
+fieldset .sixth_4 input,
+fieldset .sixth_4 select {
+  width: 66.66666666666667%;
+}
+fieldset .sixth_5 input,
+fieldset .sixth_5 select {
+  width: 83.33333333333334%;
+}
+fieldset .sixth_6 input,
+fieldset .sixth_6 select {
+  width: 100%;
+}
+fieldset input[type=checkbox],
+fieldset input[type=radio] {
+  width: 19px;
+  height: 19px;
+  margin-left: 0;
+  padding-left: 0;
+  vertical-align: middle;
+}
+fieldset button,
+fieldset input[type=submit] {
+  width: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+fieldset .short input,
+fieldset .short select {
+  width: 200px;
+}
+fieldset .input.checkbox,
+fieldset .input.radio {
+  padding: 0 0;
+}
+fieldset .input.checkbox label,
+fieldset .input.radio label {
+  display: inline;
+  font-size: 13px;
+  font-size: bold;
+  vertical-align: middle;
+}
+fieldset label {
+  font-weight: bold;
+}
+fieldset li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+fieldset select {
+  width: 100%;
+}
+fieldset .input.datetime select {
+  width: auto;
+}

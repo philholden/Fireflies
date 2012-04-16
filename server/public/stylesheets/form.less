@@ -1,0 +1,156 @@
+.form (
+	@fontfamily: Arial,
+	@labelweight: normal,
+	@inputweight: normal,
+	@fontsizelabel: 15px,
+	@fontsizeinput: 15px,
+	@vpadding: 30px,
+	@fieldsetwidth: 300px,
+	@inputbordercolor: #ccc,
+	@inputborderwidth: 1px,
+	@inputhpadding: 0px,
+	@requiredtext: '*',
+	@requiredcolor: red,
+	)
+	{
+	@inputinnerwidth: @fieldsetwidth - ((@inputhpadding + @inputborderwidth * 0) * 2);
+	@sixth: @inputinnerwidth/6;
+	margin-bottom: 10px;
+	//width: @fieldsetwidth;
+	.input, .section {
+		padding: @vpadding 0;
+		margin: 0;
+	}
+	.section {
+		padding: @vpadding 0;
+		width: auto;
+	}
+
+	legend {
+		padding: 0;
+		font-weight: bold;
+	}
+	
+	label {
+		display: block;
+		vertical-align: top;
+	}
+	
+	.required label:after {
+		content: @requiredtext;
+		color: @requiredcolor;
+	}
+	
+	label, legend {
+		font-weight: @labelweight;
+		font-size: @fontsizelabel;
+	}
+	input, select,textarea{
+		font-weight: @inputweight;
+		font-size: @fontsizeinput;
+		font-family: @fontfamily;
+		border: @inputborderwidth solid @inputbordercolor;
+	}
+	input, textarea {
+		
+		width: @inputinnerwidth;
+		padding-left: @inputhpadding;
+		padding-right: @inputhpadding;
+		&[type=checkbox], &[type=radio] {
+			border: 0px solid @inputbordercolor;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+	}
+	
+	.auto input, .auto select {
+		
+	}
+	
+	.twelth input, .twelth select {
+		width: @sixth / 2;
+	}
+	
+	.sixth_1 input, .sixth_1 select  {
+		width: @sixth * 1;
+	}
+	
+	.sixth_2 input, .sixth_2 select  {
+		width: @sixth * 2;
+	}
+	.sixth_3 input, .sixth_3 select  {
+		width: @sixth * 3;
+	}
+	.sixth_4 input, .sixth_4 select  {
+		width: @sixth * 4;
+	}
+	.sixth_5 input, .sixth_5 select  {
+		width: @sixth * 5;
+	}
+	.sixth_6 input, .sixth_6 select  {
+		width: @inputinnerwidth;
+	}
+	
+	input[type=checkbox], input[type=radio] {
+		width: @fontsizeinput;
+		height: @fontsizeinput;
+		margin-left: 0;
+		padding-left: 0;
+		vertical-align: middle;
+	}
+	button, input[type=submit] {
+		width: auto;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	.short input, .short select {
+		width: 200px;
+	}
+	
+	.input.checkbox,  .input.radio {
+		padding: 0 0;
+		label {
+			display: inline;
+			font-size: @fontsizelabel;
+			font-size: @labelweight;
+			vertical-align: middle;
+		}
+	}
+	label {
+		font-weight: @labelweight;
+	}
+	li {
+		padding-top:@vpadding;
+		padding-bottom:@vpadding;
+	}
+	select {
+		width: @fieldsetwidth;
+	}
+	
+	.input.datetime {
+		select {
+			width: auto;
+		}
+	}
+}
+
+fieldset{
+	@fontfamily: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
+	@labelweight: bold;
+	@inputweight: normal;
+	@fontsizelabel: 13px;
+	@fontsizeinput: 19px;
+	@vpadding: 5px;
+	@fieldsetwidth: 100%;
+	@inputbordercolor: #dadada;
+	@inputborderwidth: 1px;
+	@inputhpadding: 0px;
+	@requiredtext: '*';
+	@requiredcolor: red;
+	.form(@fontfamily, @labelweight, @inputweight, @fontsizelabel, @fontsizeinput, @vpadding, @fieldsetwidth,
+		@inputbordercolor, @inputborderwidth, @inputhpadding, @requiredtext,
+		@requiredcolor);
+	background: transparent;
+	padding: 0px 0px;
+	line-height: 1.5;
+}
