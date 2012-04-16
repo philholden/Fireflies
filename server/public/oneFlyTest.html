@@ -1,0 +1,72 @@
+<html>
+  <head>
+  <script src="javascripts/underscore-min.js" type="text/javascript"></script>  
+  <script src="javascripts/world.js" type="text/javascript"></script>
+  <script src="javascripts/joystick.js" type="text/javascript"></script>
+  <script src="javascripts/fly.js" type="text/javascript"></script>
+  <script src="javascripts/oneFlyGame.js" type="text/javascript"></script>
+  <script src="javascripts/engine.js" type="text/javascript"></script>
+  <script src="javascripts/keyboard.js" type="text/javascript"></script>
+  <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+  <script>
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
+                        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    var ga = new game();
+    var en = new engine(ga);
+    var kb = new keyboard();
+    en.start();
+    var a=0;
+    var man;
+    var input;
+    var rf = 0;
+    var st = Date.now();
+    
+    $(function(){
+      man = $("#man");
+      input = $("input[type=text]");
+      body = $("body");
+      requestAnimationFrame(step);
+      body.keyup(function(e){key(kb.keyUp(e.keyCode))});
+      body.keydown(function(e){key(kb.keyDown(e.keyCode))});   
+    });
+    
+    function key(k){
+      if(k){
+//        console.log(k);
+        var fId = en.frameId();
+        en.addIOEvent({id:0,k:k},fId+parseInt(input.val()));
+      }
+    }
+    
+    function turn(){
+//      var fId = en.frameId();
+//      en.addIOEvent(a%5,fId+parseInt(input.val()));
+//      a++;
+        en.stop();
+    }
+    
+    function step(timestamp) {
+      rf++;
+      cf = en.frames[en.end];
+      man.css({
+        left:(100 + cf.fly.x) + "px",
+        top:(100 + cf.fly.y) + "px"
+      });
+      requestAnimationFrame(step);
+    }
+    
+    setInterval(function() {
+      var sec = (Date.now()-st)/1000.0;
+//      console.log("fps:"+(rf/sec));
+    },1000);
+  </script>
+  <style>
+    #man {position: absolute}
+  </style>
+  </head>
+  <body tabindex="0">
+    <input type="text"/ value="-0">
+    <button onclick="turn()">turn</button>
+    <div id="man">o</div>
+  </body>
+</html>

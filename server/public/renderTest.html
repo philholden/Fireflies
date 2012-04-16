@@ -1,0 +1,60 @@
+<html>
+  <head>
+  <script src="javascripts/game.js" type="text/javascript"></script>
+  <script src="javascripts/engine.js" type="text/javascript"></script>
+  <script src="javascripts/keyboard.js" type="text/javascript"></script>
+  <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+  <script>
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
+                        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    var ga = new game();
+    var en = new engine(ga);
+    var kb = new keyboard();
+    en.start();
+    var a=0;
+    var man;
+    var input;
+    var rf = 0;
+    var st = Date.now();
+    
+    $(function(){
+      man = $("#man");
+      input = $("input[type=text]");
+      body = $("body");
+      requestAnimationFrame(step);
+      body.keyup(function(e){console.log(kb.keyUp(e.keyCode))});
+      body.keydown(function(e){console.log(kb.keyDown(e.keyCode))});
+      
+    });
+    
+    function turn(){
+      var fId = en.frameId();
+      en.addIOEvent(a%5,fId+parseInt(input.val()));
+      a++;
+    }
+    
+    function step(timestamp) {
+      rf++;
+      cf = en.frames[en.end];
+      man.css({
+        left:(100 + cf.x) + "px",
+        top:(100 + cf.y) + "px"
+      });
+      requestAnimationFrame(step);
+    }
+    
+    setInterval(function() {
+      var sec = (Date.now()-st)/1000.0;
+//      console.log("fps:"+(rf/sec));
+    },1000);
+  </script>
+  <style>
+    #man {position: absolute}
+  </style>
+  </head>
+  <body tabindex="0">
+    <input type="text"/ value="-30">
+    <button onclick="turn()">turn</button>
+    <div id="man">o</div>
+  </body>
+</html>
