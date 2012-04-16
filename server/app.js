@@ -30,12 +30,12 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-
-http.createServer(app).listen(3000);
+var httpServer = http.createServer(app);
+io = io.listen(httpServer);
+httpServer.listen(3000);
 
 console.log("Express server listening on port 3000");
 
-io = io.listen(app);
 io.sockets.on('connection', function(client){
   console.log('connected');
   client.json.on('subscribe', function(req){
