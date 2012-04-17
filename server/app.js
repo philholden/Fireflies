@@ -5,10 +5,12 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , http = require('http');
+  , http = require('http')
+  , gameChannel = require('./gameChannel');
 
 io = require('socket.io');
 
+var gcs = new gameChannel.gameChannels();
 var app = express();
 
 app.configure(function(){
@@ -40,13 +42,15 @@ io.sockets.on('connection', function(client){
   console.log('connected');
   client.json.on('subscribe', function(req){
     client.join(req.channel);
-    client.json.send({
-      user: 'Server',
-      text: 'subscribed to ' + req.channel
-    });
+    gcs.getChannel(req.channel).addClient(client);
+//    client.json.send({
+//      user: 'Server',
+//      text: 'subscribed to ' + req.channel
+//    });
   });
   client.json.on('message', function(req){
     if(req.channel !== undefined) {
+      console.log(req);
       client.json.send(req);
       client.json.broadcast.to(req.channel).send(req);
     }
