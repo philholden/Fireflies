@@ -2,18 +2,19 @@
  * 
  */
 
-function player(p,w) {
+function player(p,w,cio) {
   var c = this;
   if(!(p instanceof player)) {
     init();
     return;
   }
   
-  c.joy = new joy(p.joy);
-  c.fly = new fly(p.fly,c.joy,w);
+  c.joy = new joystick(p.joy,cio,0);
+  c.fly = new fly(p.fly,c.joy.state(),w);
   
   function init() {
-    c.joy = new joy();
-    c.fly = new fly(p,c.joy,w); // p = {n:,i:}
+    console.log('init');
+    c.joy = new joystick();
+    c.fly = new fly({n:1,i:0},c.joy,w); // p = {n:,i:}
   }
 }

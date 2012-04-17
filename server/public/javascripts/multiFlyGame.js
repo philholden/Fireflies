@@ -1,0 +1,32 @@
+function game(){
+  var ga = {};
+  var w = new world();
+  
+  function frame(p,cio) {
+    var c = this;
+    if(!arguments.length) {
+      console.log("init");
+      init();
+      return;
+    }
+ 
+    c.player = new player(p.player,w,cio);
+    function init() {
+      c.player = new player({},w,cio);
+    }
+  }
+  
+  ga.firstFrame = function() {
+    var cf = new frame();
+    return cf; 
+  }
+  
+  /* the current frame (cf) is derived from the
+   * previous frame (pf) based on incoming io events
+   */ 
+  ga.next = function(pf,cio) {
+    var cf = new frame(pf,cio);
+    return cf;
+  }
+  return ga;
+}

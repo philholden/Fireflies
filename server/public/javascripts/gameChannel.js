@@ -11,7 +11,6 @@ socket.on('connect', function(data){
 socket.on('message', function(req){
   var fId = en.frameId();
   en.addIOEvent({id:0,k:req.e},req.f);
-  console.log(req);
 });
 
 socket.on('start', function(){

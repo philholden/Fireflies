@@ -7,15 +7,18 @@ function engine(ga) {
   en.startTime;
   en.head = 0; //the last clean frame
   en.end = 0; //the last frame that is required
-  en.fps = 25;
+  en.fps = 20;
   en.fpms = 1000/en.fps;
   
   //create a frame
   en.tick = function(){
+    
     var pf = frames[en.head];
     //en.head++;
+    
     var cio = io[en.head] === undefined ? [] : io[en.head];
     var cf = ga.next(pf,cio);
+    
     en.head++; //io taken from prev frame
     frames[en.head] = cf;
   }
