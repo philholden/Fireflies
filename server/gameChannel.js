@@ -22,9 +22,8 @@ exports.gameChannel=function(id) {
     gc.clients.push(client);
     if(gc.canStart()){
       gc.started = true;
-      var message = {op:"start"};
-      client.json.send(message);
-      client.json.broadcast.to(gc.id).send(message);
+      client.json.emit('start');
+      client.json.broadcast.to(gc.id).emit('start',{});
       console.log(gc.id);
       console.log(gc.clients.length);
     }

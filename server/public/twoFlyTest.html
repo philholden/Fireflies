@@ -16,21 +16,21 @@
     var ga = new game();
     var en = new engine(ga);
     var kb = new keyboard();
-    en.start();
+    
     var a=0;
     var man;
     var input;
     var rf = 0;
     var st = Date.now();
     
-    $(function(){
+    function loop(){
       man = $("#man");
       input = $("input[type=text]");
       body = $("body");
       requestAnimationFrame(step);
       body.keyup(function(e){key(kb.keyUp(e.keyCode))});
       body.keydown(function(e){key(kb.keyDown(e.keyCode))});   
-    });
+    }
     
     function key(k){
       if(k){

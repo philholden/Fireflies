@@ -14,6 +14,12 @@ socket.on('message', function(req){
   console.log(req);
 });
 
+socket.on('start', function(){
+  en.start();
+  console.log('start');
+  loop();
+});
+
 $(document).ready(function(){
   
 });
