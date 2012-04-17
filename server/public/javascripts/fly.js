@@ -6,7 +6,7 @@
 function fly(p,j,w) {
   
   var c = this;
-  if(!arguments.length){
+  if(!(p instanceof fly)){
     init();
     return;
   }
@@ -48,7 +48,7 @@ function fly(p,j,w) {
   }
   
   function init() {
-    c.x = 0.0;
+    c.x = (w.w/(p.n+2))+p.i;
     c.y = 0.0;
     c.xs = 0.0;
     c.ys = 0.0;

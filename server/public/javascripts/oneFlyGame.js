@@ -15,7 +15,7 @@ function game(){
     
     function init() {
       c.joy = new joystick();
-      c.fly = new fly();
+      c.fly = new fly({n:1,i:0},c.joy,w);
     }
   }
   
