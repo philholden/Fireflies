@@ -30,10 +30,10 @@ function engine(ga) {
     }
   }
   
-  en.start=function(){
+  en.start=function(obj){
     en.stop();
     en.startTime = Date.now();
-    frames[0] = ga.firstFrame();
+    frames[0] = new ga.frame(obj);
     en.head = 0;
     timer = setInterval(function() {
       en.end = en.frameId();

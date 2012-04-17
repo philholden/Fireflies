@@ -14,7 +14,7 @@ socket.on('message', function(req){
 });
 
 socket.on('start', function(){
-  en.start();
+  en.start({n:1});
   console.log('start');
   loop();
 });

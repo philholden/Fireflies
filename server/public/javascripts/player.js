@@ -15,6 +15,6 @@ function player(p,w,cio) {
   function init() {
     console.log('init');
     c.joy = new joystick();
-    c.fly = new fly({n:1,i:0},c.joy,w); // p = {n:,i:}
+    c.fly = new fly(p,c.joy,w); // p = {n:,i:}
   }
 }

@@ -2,30 +2,32 @@ function game(){
   var ga = {};
   var w = new world();
   
-  function frame(p,cio) {
+  ga.frame = function(p,cio) {
     var c = this;
-    if(!arguments.length) {
-      console.log("init");
+    c.players = [];
+    if(!(p instanceof ga.frame)) {
       init();
       return;
     }
- 
-    c.player = new player(p.player,w,cio);
+    
+    c.players = [];
+    p.players.forEach(function(obj){
+      c.players.push(new player(obj,w,cio));
+    });
+    
     function init() {
-      c.player = new player({},w,cio);
+      for(i = 0;i < p.n;i++){
+        c.players.push(new player({n:p.n,i:i},w,cio));
+      }
     }
   }
   
-  ga.firstFrame = function() {
-    var cf = new frame();
-    return cf; 
-  }
-  
+
   /* the current frame (cf) is derived from the
    * previous frame (pf) based on incoming io events
    */ 
   ga.next = function(pf,cio) {
-    var cf = new frame(pf,cio);
+    var cf = new ga.frame(pf,cio);
     return cf;
   }
   return ga;
