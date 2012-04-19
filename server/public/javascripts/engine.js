@@ -1,4 +1,4 @@
-function engine(fr) {
+function engine() {
   var en=this;
   var frames = en.frames = [];
   var io = en.io = [];
@@ -33,6 +33,7 @@ function engine(fr) {
   en.start=function(obj){
     en.stop();
     en.startTime = Date.now();
+    console.log(obj);
     frames[0] = new Frame(obj);
     en.head = 0;
     timer = setInterval(function() {

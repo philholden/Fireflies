@@ -4,6 +4,7 @@ function Frame(p,cio,w){
  
   c.players = [];
   if(!(p instanceof Frame)) {
+    console.log(p);
     init();
     return;
   }
