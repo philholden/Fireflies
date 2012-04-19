@@ -1,4 +1,4 @@
-function engine(ga) {
+function engine(fr) {
   var en=this;
   var frames = en.frames = [];
   var io = en.io = [];
@@ -17,7 +17,7 @@ function engine(ga) {
     //en.head++;
     
     var cio = io[en.head] === undefined ? [] : io[en.head];
-    var cf = new ga.frame(pf,cio);
+    var cf = new Frame(pf,cio);
     
     en.head++; //io taken from prev frame
     frames[en.head] = cf;
@@ -33,7 +33,7 @@ function engine(ga) {
   en.start=function(obj){
     en.stop();
     en.startTime = Date.now();
-    frames[0] = new ga.frame(obj);
+    frames[0] = new Frame(obj);
     en.head = 0;
     timer = setInterval(function() {
       en.end = en.frameId();
