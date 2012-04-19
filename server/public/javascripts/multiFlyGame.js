@@ -11,12 +11,12 @@ function Frame(p,cio,w){
   
   c.players = [];
   p.players.forEach(function(obj){
-    c.players.push(new player(obj,w,cio));
+    c.players.push(new Player(obj,w,cio));
   });
   
   function init() {
     for(i = 0;i < p.n;i++){
-      c.players.push(new player({n:p.n,i:i},w,cio));
+      c.players.push(new Player({n:p.n,i:i},w,cio));
     }
   }
 }

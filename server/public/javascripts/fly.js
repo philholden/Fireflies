@@ -3,10 +3,10 @@
  * w: world defines the play area for the game
  */
 
-function fly(p,j,w) {
+function Fly(p,j,w) {
   
   var c = this;
-  if(!(p instanceof fly)){
+  if(!(p instanceof Fly)){
     init();
     return;
   }

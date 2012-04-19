@@ -16,7 +16,7 @@
   $(document).ready(function(){
 
 test("joystick", function() {
-  var j = new joystick();
+  var j = new Joystick();
   deepEqual(j.keys, {
     d: false,
     l: false,
@@ -24,7 +24,7 @@ test("joystick", function() {
     u: false
   }, "init no keys pressed" );
  
-  var j2 = new joystick(j,[{id:1,k:"U"}],1);
+  var j2 = new Joystick(j,[{id:1,k:"U"}],1);
   deepEqual(j2.keys, {
     d: false,
     l: false,
@@ -32,7 +32,7 @@ test("joystick", function() {
     u: true
   }, "up key pressed" );
   
-  var j3 = new joystick(j2,undefined,1);
+  var j3 = new Joystick(j2,undefined,1);
   deepEqual(j3.keys, {
     d: false,
     l: false,
@@ -40,7 +40,7 @@ test("joystick", function() {
     u: true
   }, "up key still pressed" );
   
-  var j4 = new joystick(j3,[{id:1,k:"u"},{id:1,k:"D"}],1);
+  var j4 = new Joystick(j3,[{id:1,k:"u"},{id:1,k:"D"}],1);
   deepEqual(j4.keys, {
     d: true,
     l: false,
@@ -48,7 +48,7 @@ test("joystick", function() {
     u: false
   }, "up released key down pressed" );
   
-  var j5 = new joystick(j4,[{id:1,k:"L"},{id:1,k:"D"},{id:1,k:"R"}],1);
+  var j5 = new Joystick(j4,[{id:1,k:"L"},{id:1,k:"D"},{id:1,k:"R"}],1);
   deepEqual(j5.keys, {
     d: true,
     l: true,

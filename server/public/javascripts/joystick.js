@@ -4,7 +4,7 @@
  * pid: id for the player
  */
 
-function joystick(p,io,pid) {
+function Joystick(p,io,pid) {
   var c = this;
   
   if(!p) {
