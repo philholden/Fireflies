@@ -1,5 +1,5 @@
-function game(){
-  var ga = {};
+function frame(){
+  var ga = this;
   var w = new world();
   
   ga.frame = function(p,cio) {
@@ -21,14 +21,4 @@ function game(){
       }
     }
   }
-  
-
-  /* the current frame (cf) is derived from the
-   * previous frame (pf) based on incoming io events
-   */ 
-  ga.next = function(pf,cio) {
-    var cf = new ga.frame(pf,cio);
-    return cf;
-  }
-  return ga;
 }

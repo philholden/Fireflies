@@ -17,7 +17,7 @@ function engine(ga) {
     //en.head++;
     
     var cio = io[en.head] === undefined ? [] : io[en.head];
-    var cf = ga.next(pf,cio);
+    var cf = new ga.frame(pf,cio);
     
     en.head++; //io taken from prev frame
     frames[en.head] = cf;
