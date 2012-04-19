@@ -13,8 +13,9 @@ socket.on('message', function(req){
   en.addIOEvent({id:0,k:req.e},req.f);
 });
 
-socket.on('start', function(){
-  en.start({n:1});
+socket.on('start', function(req){
+  console.log(req);
+  en.start(req);
   console.log('start');
   loop();
 });
