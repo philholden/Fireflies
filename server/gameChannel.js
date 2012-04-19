@@ -22,10 +22,11 @@ exports.gameChannel=function(id) {
     gc.clients.push(client);
     if(gc.canStart()){
       gc.started = true;
-      client.json.emit('start',{n:gc.startNumber});
-      client.json.broadcast.to(gc.id).emit('start',{n:gc.startNumber});
-      console.log(gc.id);
-      console.log(gc.clients.length);
+      gc.clients.forEach(function(client) {
+        client.json.emit('start',{n:gc.startNumber,i:gc.clients.length});
+        console.log(gc.id);
+        console.log(gc.clients.length);
+      });
     }
   };
   
