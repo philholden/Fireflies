@@ -1,4 +1,4 @@
-function engine() {
+function Engine() {
   var en=this;
   var frames = en.frames = [];
   var io = en.io = [];
