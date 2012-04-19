@@ -1,0 +1,84 @@
+<html>
+  <head>
+  <script src="javascripts/underscore-min.js" type="text/javascript"></script>  
+  <script src="javascripts/world.js" type="text/javascript"></script>
+  <script src="javascripts/joystick.js" type="text/javascript"></script>
+  <script src="javascripts/fly.js" type="text/javascript"></script>
+  <script src="javascripts/multiFlyGame.js" type="text/javascript"></script>
+  <script src="javascripts/engine.js" type="text/javascript"></script>
+  <script src="javascripts/keyboard.js" type="text/javascript"></script>
+  <script src="javascripts/player.js" type="text/javascript"></script>
+  <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/javascripts/gameChannel.js"></script>
+  <script>
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
+                        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+ //   var fr = new Frame();
+    var en = new Engine();
+    var kb = new Keyboard();
+    var a=0;
+    var man;
+    var input;
+    var rf = 0;
+    var st = Date.now();
+    var man;
+    
+    function loop(){
+
+      input = $("input[type=text]");
+      body = $("body");
+      for(i = 0; i<en.numPlayers; i++){
+        $('body').append("<div class='man'>"+ i +"</div>");
+      }
+      man = $(".man");
+      console.log(man);
+      requestAnimationFrame(step);
+      body.keyup(function(e){key(kb.keyUp(e.keyCode))});
+      body.keydown(function(e){key(kb.keyDown(e.keyCode))});
+    }
+    
+    function key(k){
+      if(k){
+        k.channel = $('#channel').attr('value');
+        socket.json.send({
+          channel:$('#channel').val(),
+          e:k,
+          id:en.me,
+          f:en.frameId()
+        });
+//        en.addIOEvent({id:0,k:k},fId+parseInt(input.val()));
+      }
+    }
+    
+    function turn(){
+        en.stop();
+    }
+    
+    function step(timestamp) {
+      rf++;
+      cf = en.frames[en.end];
+      cf.players.forEach(function(player,i){
+        $(man[i]).css({
+          left:(10 + player.fly.x) + "px",
+          top:(10 + player.fly.y) + "px"
+        });
+      });
+      requestAnimationFrame(step);
+    }
+    
+    setInterval(function() {
+      var sec = (Date.now()-st)/1000.0;
+//      console.log("fps:"+(rf/sec));
+    },1000);
+  </script>
+  <style>
+    .man {position: absolute}
+  </style>
+  </head>
+  <body tabindex="0">
+    <input type="hidden" id="channel" value="physics" />
+    <input type="text"/ value="-0">
+    <button onclick="turn()">turn</button>
+  </body>
+</html>
