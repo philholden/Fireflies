@@ -10,18 +10,10 @@ socket.on('connect', function(data){
 
 socket.on('message', function(req){
   var fId = en.frameId();
-  en.addIOEvent({id:0,k:req.e},req.f);
+  en.addIOEvent({id:req.id,k:req.e},req.f);
 });
 
 socket.on('start', function(req){
-  console.log(req);
   en.start(req);
-  console.log('start');
   loop();
 });
-
-$(document).ready(function(){
-  
-});
-
-

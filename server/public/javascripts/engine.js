@@ -10,6 +10,8 @@ function Engine() {
   en.fps = 20;
   en.fpms = 1000/en.fps;
   en.world = new World();
+  en.me = undefined; //number of this player
+  en.numPlayers = undefined;;
   
   //create a frame
   en.tick = function(){
@@ -37,6 +39,8 @@ function Engine() {
     console.log(obj);
     frames[0] = new Frame(obj,null,en.world);
     en.head = 0;
+    en.me = obj.i;
+    en.numPlayers = obj.n;
     timer = setInterval(function() {
       en.end = en.frameId();
       en.refresh();

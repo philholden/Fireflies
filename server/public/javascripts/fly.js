@@ -48,8 +48,7 @@ function Fly(p,j,w) {
   }
   
   function init() {
-    
-    c.x = (w.w/(p.n+2))+p.i;
+    c.x = (w.w/(p.n+2))*(p.i+1);
     console.log(c.x);
     c.y = 0.0;
     c.xs = 0.0;

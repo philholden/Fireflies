@@ -43,10 +43,6 @@ io.sockets.on('connection', function(client){
   client.json.on('subscribe', function(req){
     client.join(req.channel);
     gcs.getChannel(req.channel).addClient(client);
-//    client.json.send({
-//      user: 'Server',
-//      text: 'subscribed to ' + req.channel
-//    });
   });
   client.json.on('message', function(req){
     if(req.channel !== undefined) {

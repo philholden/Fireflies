@@ -9,11 +9,12 @@ function Player(p,w,cio) {
     return;
   }
   
-  c.joy = new Joystick(p.joy,cio,0);
+  c.id = p.id;
+  c.joy = new Joystick(p.joy,cio,c.id);
   c.fly = new Fly(p.fly,c.joy.state(),w);
   
   function init() {
-    console.log('init');
+    c.id = p.i;
     c.joy = new Joystick();
     c.fly = new Fly(p,c.joy,w); // p = {n:,i:}
   }
