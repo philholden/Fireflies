@@ -1,4 +1,4 @@
-function world() {
+function World() {
   var w = this;
   w.w = 800;     
   w.h = 450;

@@ -1,6 +1,5 @@
 function Frame(p,cio,w){
   var c = this;
-  var w = new world();
  
   c.players = [];
   if(!(p instanceof Frame)) {

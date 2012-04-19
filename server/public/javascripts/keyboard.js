@@ -1,4 +1,4 @@
-function keyboard() {
+function Keyboard() {
   var k = this;
   k.trans = {
     "37":"l",

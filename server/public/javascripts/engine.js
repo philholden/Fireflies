@@ -9,6 +9,7 @@ function Engine() {
   en.end = 0; //the last frame that is required
   en.fps = 20;
   en.fpms = 1000/en.fps;
+  en.world = new World();
   
   //create a frame
   en.tick = function(){
@@ -17,7 +18,7 @@ function Engine() {
     //en.head++;
     
     var cio = io[en.head] === undefined ? [] : io[en.head];
-    var cf = new Frame(pf,cio);
+    var cf = new Frame(pf,cio,en.world);
     
     en.head++; //io taken from prev frame
     frames[en.head] = cf;
@@ -34,7 +35,7 @@ function Engine() {
     en.stop();
     en.startTime = Date.now();
     console.log(obj);
-    frames[0] = new Frame(obj);
+    frames[0] = new Frame(obj,null,en.world);
     en.head = 0;
     timer = setInterval(function() {
       en.end = en.frameId();
