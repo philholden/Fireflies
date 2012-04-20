@@ -20,8 +20,8 @@ function Fly(p,j,w) {
   
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
-    c.xi = 1.0;  //inertia
-    c.yi = 1.0;
+    c.xi = 0.4;  //inertia
+    c.yi = 0.4;
     c.uc = 0;
   
   c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity
