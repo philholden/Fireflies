@@ -11,6 +11,7 @@
   <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="socket.io/socket.io.js"></script>
   <script type="text/javascript" src="javascripts/gameChannel.js"></script>
+  <script type="text/javascript" src="javascripts/renderer.js"></script>
   <script>
     requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
                         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -23,16 +24,17 @@
     var rf = 0;
     var st = Date.now();
     var man;
+    var rd;
     
     function loop(){
 
       input = $("input[type=text]");
       body = $("body");
-      for(i = 0; i<en.numPlayers; i++){
-        $('body').append("<div class='man'>"+ i +"</div>");
-      }
-      man = $(".man");
-      console.log(man);
+//      for(i = 0; i<en.numPlayers; i++){
+//        $('body').append("<div class='man'>"+ i +"</div>");
+//      }
+//      man = $(".man");
+//      console.log(man);
       requestAnimationFrame(step);
       body.keyup(function(e){key(kb.keyUp(e.keyCode))});
       body.keydown(function(e){key(kb.keyDown(e.keyCode))});
@@ -57,23 +59,39 @@
     
     function step(timestamp) {
       rf++;
-      cf = en.frames[en.end];
-      cf.players.forEach(function(player,i){
-        $(man[i]).css({
-          left:(10 + player.fly.x) + "px",
-          top:(10 + player.fly.y) + "px"
-        });
-      });
+//      cf = en.frames[en.end];
+//      cf.players.forEach(function(player,i){
+//        $(man[i]).css({
+//          left:(10 + player.fly.x) + "px",
+//          top:(10 + player.fly.y) + "px"
+//        });
+//      });
+      if (rd) {
+        rd.drawFlies(en);
+      }
       requestAnimationFrame(step);
     }
     
     setInterval(function() {
       var sec = (Date.now()-st)/1000.0;
-//      console.log("fps:"+(rf/sec));
+      console.log("fps:"+(rf/sec));
     },1000);
+    
+    $().ready(function(){
+      console.log(1);
+      var w = new World();
+      rd = new Renderer($('body'),w);
+      rd.init();
+    });
+
+    
   </script>
   <style>
-    .man {position: absolute}
+    .man {
+      position: absolute;
+      color: white;
+    }
+    canvas {display: block}
   </style>
   </head>
   <body tabindex="0">

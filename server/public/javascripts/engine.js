@@ -7,7 +7,7 @@ function Engine() {
   en.startTime;
   en.head = 0; //the last clean frame
   en.end = 0; //the last frame that is required
-  en.fps = 20;
+  en.fps = 30;
   en.fpms = 1000/en.fps;
   en.world = new World();
   en.me = undefined; //number of this player

@@ -13,7 +13,7 @@ exports.gameChannels = function() {
 exports.gameChannel=function(id) {
   var gc = this;
   gc.id = id;
-  gc.startNumber = 3;
+  gc.startNumber = 2;
   gc.firstClientTime = Date.now();
   gc.clients = [];
   gc.started = false;
@@ -21,12 +21,15 @@ exports.gameChannel=function(id) {
   gc.addClient = function(client){
     gc.clients.push(client);
     if(gc.canStart()){
-      gc.started = true;
-      gc.clients.forEach(function(client,i) {
-        client.json.emit('start',{n:gc.startNumber,i:i});
-        console.log(gc.id);
-        console.log(gc.clients.length);
-      });
+      setTimeout(start,500);
+      function start(){
+        gc.started = true;
+        gc.clients.forEach(function(client,i) {
+          client.json.emit('start',{n:gc.startNumber,i:i});
+          console.log(gc.id);
+          console.log(gc.clients.length);
+        });
+      }
     }
   };
   
