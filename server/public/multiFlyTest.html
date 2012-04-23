@@ -74,7 +74,7 @@
     
     setInterval(function() {
       var sec = (Date.now()-st)/1000.0;
-      console.log("fps:"+(rf/sec));
+      $('#status').html("fps:"+(rf/sec));
     },1000);
     
     $().ready(function(){
@@ -98,5 +98,7 @@
     <input type="hidden" id="channel" value="physics" />
     <input type="text"/ value="-0">
     <button onclick="turn()">turn</button>
+    <div id="status"></div>
+    <div id="col"></div>
   </body>
 </html>

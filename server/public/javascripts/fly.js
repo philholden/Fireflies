@@ -15,14 +15,15 @@ function Fly(p,j,w) {
   {
     j.h=0;
     j.v=0;
-    p.uc--;
+    c.uc = p.uc - 1;
+  } else {
+    c.uc =0;
   }
   
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
     c.xi = 0.4;  //inertia
     c.yi = 0.4;
-    c.uc = 0;
   
   c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity
   c.ya = p.y<30?w.gy*4:(j.v*p.yi)+w.gy;
@@ -57,8 +58,8 @@ function Fly(p,j,w) {
     c.ya = 0.0;
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
-    c.xi = 1.0;  //inertia
-    c.yi = 1.0;
+    c.xi = 1.3;  //inertia
+    c.yi = 1.3;
     c.uc = 0;
   }
 }

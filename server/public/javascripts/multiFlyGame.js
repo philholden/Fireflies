@@ -29,13 +29,16 @@ function Frame(p,cio,w){
     {
       for(var i=j+1;i<p.length;i++)
       {
+        $('#col').html("dist:"+p[i].fly.uc);
         if ((p[i].fly.uc==0)&&(p[j].fly.uc==0))
         {
           x=Math.abs(p[i].fly.x-p[j].fly.x);
           y=Math.abs(p[i].fly.y-p[j].fly.y);
           dist= x * x + y * y;
-          if (dist<144)
+          $('#col').html("dist:"+dist);
+          if (dist<196)
           {
+            console.log('hit');
             if(p[i].fly.ys>p[j].fly.ys)
             {
               p[j].fly.uc=125;
