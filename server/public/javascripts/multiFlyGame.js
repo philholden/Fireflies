@@ -13,14 +13,14 @@ function Frame(p,cio,w){
   p.players.forEach(function(obj){
     c.players.push(new Player(obj,w,cio));
   });
-  c.fish = new Fish(p.fish,w);
+  c.fish = new Fish(p.fish,c.players,w);
   collision();
   
   function init() {
     for(i = 0;i < p.n;i++){
       c.players.push(new Player({n:p.n,i:i},w,cio));
     }
-    c.fish = new Fish({},w);
+    c.fish = new Fish({},c.players,w);
   }
   
   function collision()
