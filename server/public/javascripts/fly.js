@@ -58,8 +58,8 @@ function Fly(p,j,w) {
     c.ya = 0.0;
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
-    c.xi = 1.3;  //inertia
-    c.yi = 1.3;
+    c.xi = 1.5;  //inertia
+    c.yi = 1.5;
     c.uc = 0;
   }
 }

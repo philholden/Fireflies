@@ -41,10 +41,10 @@ function Frame(p,cio,w){
             console.log('hit');
             if(p[i].fly.ys>p[j].fly.ys)
             {
-              p[j].fly.uc=125;
+              p[j].fly.uc=250;
             } else
             {
-              p[i].fly.uc=125;
+              p[i].fly.uc=250;
             }
           }
         }
