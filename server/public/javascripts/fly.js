@@ -25,6 +25,7 @@ function Fly(p,j,w) {
     c.xi = 0.4;  //inertia
     c.yi = 0.4;
   
+
   c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity
   c.ya = p.y<30?w.gy*4:(j.v*p.yi)+w.gy;
 
@@ -40,9 +41,15 @@ function Fly(p,j,w) {
   
   c.x = p.x + c.xs;
   c.y = p.y + c.ys;
-  
+
+  c.plop = c.y < (w.wl - 5) ? true : p.plop;
+
   if (c.y>w.wl) //bounds
   {
+    if(c.plop) {
+      audio[1].play();
+    }
+    c.plop = false;
     c.y=w.wl;
     c.ys=0;
     c.xs*=.3;
@@ -61,5 +68,6 @@ function Fly(p,j,w) {
     c.xi = 1.5;  //inertia
     c.yi = 1.5;
     c.uc = 0;
+    c.plop = true;
   }
 }

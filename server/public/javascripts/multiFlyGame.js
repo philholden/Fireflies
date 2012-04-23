@@ -2,6 +2,7 @@ function Frame(p,cio,w){
   var c = this;
  
   c.players = [];
+  
   if(!(p instanceof Frame)) {
     console.log(p);
     init();
@@ -35,10 +36,10 @@ function Frame(p,cio,w){
           x=Math.abs(p[i].fly.x-p[j].fly.x);
           y=Math.abs(p[i].fly.y-p[j].fly.y);
           dist= x * x + y * y;
-          $('#col').html("dist:"+dist);
+ //         $('#col').html("dist:"+dist);
           if (dist<196)
           {
-            console.log('hit');
+            audio[0].play();
             if(p[i].fly.ys>p[j].fly.ys)
             {
               p[j].fly.uc=250;

@@ -15,7 +15,6 @@
   <script>
     requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
                         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
- //   var fr = new Frame();
     var en = new Engine();
     var kb = new Keyboard();
     var a=0;
@@ -25,31 +24,27 @@
     var st = Date.now();
     var man;
     var rd;
+    var gc;
+    var audio;
     
     function loop(){
 
       input = $("input[type=text]");
       body = $("body");
-//      for(i = 0; i<en.numPlayers; i++){
-//        $('body').append("<div class='man'>"+ i +"</div>");
-//      }
-//      man = $(".man");
-//      console.log(man);
       requestAnimationFrame(step);
       body.keyup(function(e){key(kb.keyUp(e.keyCode))});
       body.keydown(function(e){key(kb.keyDown(e.keyCode))});
     }
     
     function key(k){
-      if(k){
+      if(k && gc){
         k.channel = $('#channel').attr('value');
-        socket.json.send({
+        gc.socket.json.send({
           channel:$('#channel').val(),
           e:k,
           id:en.me,
           f:en.frameId()
         });
-//        en.addIOEvent({id:0,k:k},fId+parseInt(input.val()));
       }
     }
     
@@ -59,13 +54,6 @@
     
     function step(timestamp) {
       rf++;
-//      cf = en.frames[en.end];
-//      cf.players.forEach(function(player,i){
-//        $(man[i]).css({
-//          left:(10 + player.fly.x) + "px",
-//          top:(10 + player.fly.y) + "px"
-//        });
-//      });
       if (rd) {
         rd.drawFlies(en);
       }
@@ -82,6 +70,12 @@
       var w = new World();
       rd = new Renderer($('body'),w);
       rd.init();
+      audio = $('audio');
+      audio.each(function(i,a){
+        a.load();
+     //   a.play();
+      });
+      gc = new gameChannel();
     });
 
     
@@ -92,6 +86,7 @@
       color: white;
     }
     canvas {display: block}
+    audio {display: none}
   </style>
   </head>
   <body tabindex="0">
@@ -100,5 +95,9 @@
     <button onclick="turn()">turn</button>
     <div id="status"></div>
     <div id="col"></div>
+    <audio src="sound/hit4.ogg" controls></audio>
+    <audio src="sound/drip3.ogg" controls></audio>
+    <audio src="sound/drip2.ogg" controls></audio>
+    <audio src="sound/lick.ogg" controls></audio>
   </body>
 </html>
