@@ -52,4 +52,11 @@ function Renderer(wrapper,w) {
     }
   }
   
+  rd.drawFish = function(en){
+    var c = en.frames[en.end].fish;
+    var w = 10;
+    ctx.fillStyle = "red";
+    ctx.fillRect(c.x - w/2,c.y - w/2,w,w);
+  }
+  
 }
