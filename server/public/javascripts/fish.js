@@ -30,7 +30,7 @@ function Fish(p,players,w) {
       }
     });
     c.t = tar;
-    $('#col').html("x:"+mindist +"y:"+c.t.y);
+ //   $('#col').html("x:"+mindist +"y:"+c.t.y);
   }
   
   function move() {
@@ -49,6 +49,7 @@ function Fish(p,players,w) {
   
   function jump() {
     if(c.jump == 0) {
+      audio[4].play();
       c.ys = -7;
       c.jump = 80;
     } 

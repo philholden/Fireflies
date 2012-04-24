@@ -1,15 +1,21 @@
 function Renderer(wrapper,w) {
   var rd = this;
-  var ctx;
+  var ctx,fctx;
   var bg = new Image();
+  var fish = new Image();
+  rd.w = w;
  
   rd.init = function() {
     wrapper.append('<canvas id="screen" width="'+w.w+'" height="'+w.h+'"></canvas>');
+    wrapper.append('<canvas id="fishscreen" width="'+100+'" height="'+100+'"></canvas>');
     rd.canvas = document.getElementById('screen');
+    rd.fcanvas = document.getElementById('fishscreen');
     rd.ctx = ctx = rd.canvas.getContext('2d');
+    rd.fctx = fctx = rd.fcanvas.getContext('2d');
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);
     bg.src = "images/fireflies-bg.png";
+    fish.src = "images/fish.png"
   }
   
   rd.drawFlies = function(en){
@@ -47,7 +53,7 @@ function Renderer(wrapper,w) {
     }
     ctx.lineWidth = 1;
   }
-  
+/*  
   rd.drawHalo = function(i,n,en) {
     var c = en.frames[en.end].players[i].fly;
     if(c.dead) {
@@ -75,11 +81,15 @@ function Renderer(wrapper,w) {
     ctx.lineCap = 'butt';
     ctx.lineWidth = 1;
   }
-  
+*/  
   rd.drawReflection = function(i,n,en) {
     var c = en.frames[en.end].players[i].fly;
     if(c.dead) {
       return;
+    }
+    ctx.lineWidth = i == en.me ? 2 : 1;
+    if(i = en.me){
+      ctx.lineWidth = 2;
     }
     ctx.beginPath();
     var hue = 360/n * i + 0;
@@ -92,13 +102,23 @@ function Renderer(wrapper,w) {
         ctx.stroke();
       }
     }
+    ctx.lineWidth = 1;
   }
   
   rd.drawFish = function(en){
     var c = en.frames[en.end].fish;
     var w = 10;
-    ctx.fillStyle = "red";
-    ctx.fillRect(c.x - w/2,c.y - w/2,w,w);
+    var scale = c.xs < 0 ? -1 : 1;
+    var theta = (-45 - (c.jump) /360)*Math.PI*2*scale;
+//    ctx.fillStyle = "red";
+//    ctx.fillRect(c.x - w/2,c.y - w/2,w,w);
+
+    ctx.save();
+    ctx.translate(c.x,c.y);
+    ctx.rotate(theta);ctx.scale(scale,1);
+    ctx.drawImage(fish,-44,-8);
+    ctx.restore();
+
   }
   
 }
