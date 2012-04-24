@@ -37,9 +37,6 @@ function Renderer(wrapper,w) {
       return;
     }
     ctx.lineWidth = i == en.me ? 2 : 1;
-    if(i = en.me){
-      ctx.lineWidth = 2;
-    }
     ctx.beginPath();
     var hue = 360/n * i + 0;
     ctx.lineTo(c.x,c.y);
@@ -51,7 +48,7 @@ function Renderer(wrapper,w) {
         ctx.stroke();
       }
     }
-    ctx.lineWidth = 1;
+    //ctx.lineWidth = 1;
   }
 /*  
   rd.drawHalo = function(i,n,en) {
@@ -88,9 +85,6 @@ function Renderer(wrapper,w) {
       return;
     }
     ctx.lineWidth = i == en.me ? 2 : 1;
-    if(i = en.me){
-      ctx.lineWidth = 2;
-    }
     ctx.beginPath();
     var hue = 360/n * i + 0;
     ctx.lineTo(c.x,w.wl+(w.wl-c.y)/2);
@@ -102,7 +96,7 @@ function Renderer(wrapper,w) {
         ctx.stroke();
       }
     }
-    ctx.lineWidth = 1;
+   // ctx.lineWidth = 1;
   }
   
   rd.drawFish = function(en){
