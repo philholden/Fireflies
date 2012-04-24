@@ -23,8 +23,11 @@ function Renderer(wrapper,w) {
   };
   
   rd.drawFly = function(i,n,en) {
-    ctx.beginPath();
     var c = en.frames[en.end].players[i].fly;
+    if(c.dead) {
+      return;
+    }
+    ctx.beginPath();
     var hue = 360/n * i + 0;
     ctx.lineTo(c.x,c.y);
     for (j = 1;j < 10; j++) {
@@ -38,8 +41,11 @@ function Renderer(wrapper,w) {
   }
   
   rd.drawReflection = function(i,n,en) {
-    ctx.beginPath();
     var c = en.frames[en.end].players[i].fly;
+    if(c.dead) {
+      return;
+    }
+    ctx.beginPath();
     var hue = 360/n * i + 0;
     ctx.lineTo(c.x,w.wl+(w.wl-c.y)/2);
     for (j = 1;j < 10; j++) {

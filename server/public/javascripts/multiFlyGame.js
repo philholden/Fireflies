@@ -14,7 +14,8 @@ function Frame(p,cio,w){
     c.players.push(new Player(obj,w,cio));
   });
   c.fish = new Fish(p.fish,c.players,w);
-  collision();
+  collisionFlies();
+  collisionFish();
   
   function init() {
     for(i = 0;i < p.n;i++){
@@ -23,7 +24,7 @@ function Frame(p,cio,w){
     c.fish = new Fish({},c.players,w);
   }
   
-  function collision()
+  function collisionFlies()
   {
     var x,y,dist;
     var p = c.players;
@@ -52,6 +53,15 @@ function Frame(p,cio,w){
           }
         }
       }
+    }
+  }
+  
+  function collisionFish() {
+    var a = c.fish;
+    var b = c.fish.t;
+    if(Util.nearerThan(a.x,a.y,b.x,b.y,10)) {
+      b.dead = 120;
+      audio[0].play();
     }
   }
 }

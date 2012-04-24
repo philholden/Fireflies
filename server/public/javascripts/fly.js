@@ -19,7 +19,7 @@ function Fly(p,j,w) {
   } else {
     c.uc =0;
   }
-  
+   
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
     c.xi = 0.4;  //inertia
@@ -43,6 +43,13 @@ function Fly(p,j,w) {
   c.y = p.y + c.ys;
 
   c.plop = c.y < (w.wl - 5) ? true : p.plop;
+
+  if(p.dead > 0){
+    c.dead = p.dead - 1;
+    c.y = 0;
+    c.ys = 0;
+    c.uc = 0;
+  }
 
   if (c.y>w.wl) //bounds
   {
@@ -69,5 +76,6 @@ function Fly(p,j,w) {
     c.yi = 1.5;
     c.uc = 0;
     c.plop = true;
+    c.dead = 0;
   }
 }
