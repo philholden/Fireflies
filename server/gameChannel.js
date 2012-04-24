@@ -21,7 +21,7 @@ exports.gameChannel=function(id) {
   gc.addClient = function(client){
     gc.clients.push(client);
     if(gc.canStart()){
-      setTimeout(start,500);
+      setTimeout(start,100);
       function start(){
         gc.started = true;
         gc.clients.forEach(function(client,i) {

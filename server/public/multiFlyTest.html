@@ -50,7 +50,7 @@
     }
     
     function turn(){
-        en.stop();
+      en.stop();
     }
     
     function step(timestamp) {
@@ -67,17 +67,17 @@
       $('#status').html("fps:"+(rf/sec));
     },1000);
     
-    $().ready(function(){
-      console.log(1);
+    $(window).load(function(){
       var w = new World();
       rd = new Renderer($('body'),w);
       rd.init();
       audio = $('audio');
       audio.each(function(i,a){
         a.load();
-     //   a.play();
       });
-      gc = new gameChannel();
+      setTimeout(function(){
+        gc = new gameChannel()
+      },500);
     });
 
     
