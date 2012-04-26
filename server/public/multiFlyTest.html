@@ -56,8 +56,7 @@
     function step(timestamp) {
       rf++;
       if (rd) {
-        rd.drawFlies(en);
-        rd.drawFish(en);
+        rd.draw(en);
       }
       requestAnimationFrame(step);
     }
