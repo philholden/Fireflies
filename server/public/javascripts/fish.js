@@ -80,13 +80,9 @@ function Fish(p,players,w) {
     }
   }
   
-  
-  
-  
-  
   function init(){
     c.x = 100;
-    c.y = 0;
+    c.y = w.wl;
     c.xs = 0;
     c.ys = 0;
     c.xa = 0;

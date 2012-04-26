@@ -1,6 +1,6 @@
 function Renderer(wrapper,w) {
   var rd = this;
-  var ctx,fctx;
+  var ctx;
   var bg = new Image();
   var fish = new Image();
   var ref = 3;
@@ -8,11 +8,8 @@ function Renderer(wrapper,w) {
  
   rd.init = function() {
     wrapper.append('<canvas id="screen" width="'+w.w+'" height="'+w.h+'"></canvas>');
-    wrapper.append('<canvas id="fishscreen" width="'+100+'" height="'+100+'"></canvas>');
     rd.canvas = document.getElementById('screen');
-    rd.fcanvas = document.getElementById('fishscreen');
     rd.ctx = ctx = rd.canvas.getContext('2d');
-    rd.fctx = fctx = rd.fcanvas.getContext('2d');
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);
     bg.src = "images/fireflies-bg3.jpg";
