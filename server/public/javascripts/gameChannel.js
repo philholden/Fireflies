@@ -17,11 +17,21 @@ function gameChannel(){
   
   socket.on('message', function(req){
     var fId = en.frameId();
-    en.addIOEvent({id:req.id,k:req.e},req.f);
+    var rq = keyDecode(req);
+    en.addIOEvent({id:rq.id,k:rq.e},rq.f);
   });
   
   socket.on('start', function(req){
     en.start(req);
     loop();
   });
+  
+  function keyDecode(c){
+    var sp = c.split(':');
+    return {
+      e:c.charAt(0),
+      id:parseInt(sp[0].substr(1)),
+      f:parseInt(sp[1])
+    };
+  }
 }

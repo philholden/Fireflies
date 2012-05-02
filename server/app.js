@@ -42,13 +42,15 @@ io.sockets.on('connection', function(client){
   console.log('connected');
   client.json.on('subscribe', function(req){
     client.join(req.channel);
-    gcs.getChannel(req.channel).addClient(client);
+    gcs.getChannel(req.channel).addClient(client,gcs);
   });
   client.json.on('message', function(req){
-    if(req.channel !== undefined) {
+    var channel = gcs.getClientChannel(client);
+    console.log(channel);
+    if(channel !== undefined) {
       console.log(req);
       client.json.send(req);
-      client.json.broadcast.to(req.channel).send(req);
+      client.json.broadcast.to(channel).send(req);
     }
   });
 });

@@ -39,14 +39,27 @@
     
     function key(k){
       if(k && gc){
-        k.channel = $('#channel').attr('value');
-        gc.socket.json.send({
-          channel:$('#channel').val(),
+        gc.socket.json.send(keyEncode(k));
+
+/*        gc.socket.json.send({
           e:k,
           id:en.me,
           f:en.frameId()
-        });
+        });*/
       }
+    }
+    
+    function keyEncode(k){
+      return k + en.me + ":" + en.frameId(); 
+    }
+    
+    function keyDecode(c){
+      var sp = c.split(':');
+      return {
+        e:c.charAt(0),
+        id:sp.substr(1),
+        f:sp[1]
+      };
     }
     
     function turn(){
