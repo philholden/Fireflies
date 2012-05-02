@@ -11,6 +11,10 @@ function gameChannel(){
     console.log('send hello');
   });
   
+  socket.on('disconnect', function(data){
+    location.reload();
+  });
+  
   socket.on('message', function(req){
     var fId = en.frameId();
     en.addIOEvent({id:req.id,k:req.e},req.f);

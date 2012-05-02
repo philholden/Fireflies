@@ -3,6 +3,7 @@ function Renderer(wrapper,w) {
   var ctx;
   var bg = new Image();
   var fish = new Image();
+  var halo = new Image();
   var ref = 3;
   rd.w = w;
  
@@ -13,7 +14,8 @@ function Renderer(wrapper,w) {
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);
     bg.src = "images/fireflies-bg3.jpg";
-    fish.src = "images/fish.png"
+    fish.src = "images/fish.png";
+    halo.src = "images/halo.png";
   }
   
   rd.draw = function(en){
@@ -27,7 +29,6 @@ function Renderer(wrapper,w) {
   
   rd.drawFlies = function(en){
     var players = en.frames[en.end].players;
-    //rd.drawHalo(en.me,players.length,en);
     players.forEach(function(player,i){
       rd.drawFly(i,players.length,en);
     });
@@ -42,17 +43,26 @@ function Renderer(wrapper,w) {
   
   rd.drawFly = function(i,n,en) {
     var c = en.frames[en.end].players[i].fly;
+    var length = i == en.me ? 15 : 10;
     if(c.dead) {
       return;
     }
-    ctx.lineWidth = i == en.me ? 2 : 1;
+    
+    
+    ctx.lineWidth = i == en.me ? 1 : 1;
     ctx.beginPath();
     var hue = 360/n * i + 0;
     ctx.lineTo(c.x,c.y);
-    for (j = 1;j < 10; j++) {
-      ctx.strokeStyle = "hsla("+hue+",100%,50%,"+(1-j/10)+")";
+    if(i==en.me){
+      //rd.drawHalo(en.me,players.length,en);
+      ctx.drawImage(halo,c.x-8,c.y-8);
+    }
+    for (j = 1;j < length; j++) {
+      
+      ctx.strokeStyle = "hsla("+hue+",100%,50%,"+(1-j/length)+")";
       if((en.end - j)>0){
         c = en.frames[en.end - j].players[i].fly;
+        
         ctx.lineTo(c.x,c.y);
         ctx.stroke();
       }
