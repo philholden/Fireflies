@@ -6,11 +6,13 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , gameChannel = require('./gameChannel');
+  , gameChannel = require('./gameChannel')
+  , user = require('./user');
 
 io = require('socket.io');
 
 var gcs = new gameChannel.gameChannels();
+var usr = new user.Users();
 var app = express();
 
 app.configure(function(){
@@ -44,13 +46,18 @@ io.sockets.on('connection', function(client){
     client.join(req.channel);
     gcs.getChannel(req.channel).addClient(client,gcs);
   });
+  
+  client.json.on('newuser', function(req){
+    client.join('lobby');
+    usr.addUser(client,req.name);
+  });
+  
   client.json.on('message', function(req){
     var channel = gcs.getClientChannel(client);
-    console.log(channel);
     if(channel !== undefined) {
-      console.log(req);
+//      console.log(req);
       client.json.send(req);
-      client.json.broadcast.to(channel).send(req);
+      client.json.broadcast.to(channel.id).send(req);
     }
   });
 });

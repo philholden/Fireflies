@@ -4,10 +4,10 @@ exports.gameChannels = function() {
   gcs.clientChannel={};
   
   gcs.getChannel = function(id) {
-    if (gcs.channels.id === undefined) {
-      gcs.channels.id = new exports.gameChannel(id,gcs);
+    if (gcs.channels[id] === undefined) {
+      gcs.channels[id] = new exports.gameChannel(id,gcs);
     }
-    return gcs.channels.id;
+    return gcs.channels[id];
   };
   
   gcs.getClientChannel = function(client){
@@ -19,7 +19,7 @@ exports.gameChannels = function() {
 exports.gameChannel = function(id,gcs) {
   var gc = this;
   gc.id = id;
-  gc.startNumber = 1;
+  gc.startNumber = 2;
   gc.firstClientTime = Date.now();
   gc.clients = [];
   gc.started = false;
@@ -36,8 +36,8 @@ exports.gameChannel = function(id,gcs) {
         gc.started = true;
         gc.clients.forEach(function(client,i) {
           client.json.emit('start',{n:gc.startNumber,i:i});
-          console.log(gc.id);
-          console.log(gc.clients.length);
+//          console.log(gc.id);
+//          console.log(gc.clients.length);
         });
       }
     }
