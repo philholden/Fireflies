@@ -36,12 +36,18 @@ exports.gameChannel = function(id,gcs) {
         gc.started = true;
         gc.clients.forEach(function(client,i) {
           client.json.emit('start',{n:gc.startNumber,i:i});
-//          console.log(gc.id);
-//          console.log(gc.clients.length);
         });
       }
     }
   };
+  
+  gc.removeClient = function(client){
+    var channel = gc.gcs.clientChannel[client.id];
+    delete gc.gcs.clientChannel[client.id];
+    gc.clients = gc.clients.filter(function(clnt){
+      return clnt.id !== client.id;
+    });
+  }
   
   gc.canStart = function(){
     return (gc.clients.length >= gc.startNumber) && !gc.started;

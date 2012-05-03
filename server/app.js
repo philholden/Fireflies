@@ -50,6 +50,8 @@ io.sockets.on('connection', function(client){
   client.json.on('newuser', function(req){
     client.join('lobby');
     usr.addUser(client,req.name);
+    console.log(usr);
+    //push lobby users
   });
   
   client.json.on('message', function(req){
@@ -60,4 +62,10 @@ io.sockets.on('connection', function(client){
       client.json.broadcast.to(channel.id).send(req);
     }
   });
+  
+  client.on('disconnect',function(req){
+    var channel = gcs.getClientChannel(client);
+    channel.removeClient(client);
+  });
+  
 });

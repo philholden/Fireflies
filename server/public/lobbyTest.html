@@ -16,7 +16,17 @@
   <script type="text/javascript" src="javascripts/gameChannel.js"></script>
   <script type="text/javascript" src="javascripts/renderer.js"></script>
   <script>
-        
+    var gc;
+    $(window).load(function(){
+      setTimeout(function(){
+        gc = new gameChannel();
+      },500);
+      $('button').click(function(){
+        gc.newUser($("#name").val());
+        console.log($("#name").val());
+      });
+    });
+ 
   </script>
   <style>
     .man {

@@ -4,11 +4,14 @@ exports.Users = function() {
   usr.clientUser={};
   
   usr.addUser = function(client,name) {
-    if (usr.users[client.id] === undefined) {
-      var user = new exports.User(usr.users.length,client.id);
+    console.log(usr.users[client.id]);
+    if (usr.clientUser[client.id] === undefined) {
+      console.log("reached");
+      var user = new exports.User(usr.users.length,client);
       usr.users.push(user);
       usr.clientUser[client.id] = user;
     }
+    usr.clientUser[client.id].name = name;
     return usr.clientUser[client.id];
   };
   
@@ -21,7 +24,7 @@ exports.User = function(id,client) {
   var user = this;
   user.id = id;
   user.clientId = client.id;
-  user.name = name;
+  user.name = 'anonymous';
   user.score = 100;
 }
 

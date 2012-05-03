@@ -5,7 +5,7 @@ function gameChannel(){
   
   socket.on('connect', function(data){
     var message = {
-      channel: $('#channel').attr('value')
+      channel: "physics"
     }; 
     socket.json.emit('subscribe', message);
     console.log('send hello');
@@ -22,9 +22,17 @@ function gameChannel(){
   });
   
   socket.on('start', function(req){
-    en.start(req);
-    loop();
+    if(en){
+      en.start(req);
+      loop();
+    }
   });
+  
+  gc.newUser = function(name) {
+     socket.json.emit('newuser', {
+       'name':name
+     }); 
+  }
   
   function keyDecode(c){
     var sp = c.split(':');
