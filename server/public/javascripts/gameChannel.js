@@ -28,6 +28,10 @@ function gameChannel(){
     }
   });
   
+  socket.on('lobby', function(req){
+    console.log(req);
+  });
+  
   gc.newUser = function(name) {
      socket.json.emit('newuser', {
        'name':name

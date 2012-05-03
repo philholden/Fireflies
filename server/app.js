@@ -52,6 +52,8 @@ io.sockets.on('connection', function(client){
     usr.addUser(client,req.name);
     console.log(usr);
     //push lobby users
+    client.json.broadcast.to('lobby').emit('lobby',usr.users);
+    client.json.emit('lobby',usr.users);
   });
   
   client.json.on('message', function(req){
