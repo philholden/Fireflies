@@ -30,6 +30,7 @@ function gameChannel(){
   
   socket.on('lobby', function(req){
     console.log(req);
+    kob(req);
   });
   
   gc.newUser = function(name) {

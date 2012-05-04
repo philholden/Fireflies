@@ -1,7 +1,10 @@
+var _ = require('underscore');
+
 exports.Users = function() {
   var usr = this;
   usr.users=[];
   usr.clientUser={};
+  
   usr.availables=[]; //id of available users
   usr.challenges=[]; //arrays of challenges
   
@@ -21,19 +24,38 @@ exports.Users = function() {
     return usr.clientUser[client.id];
   };
   
-  usr.challenge = function(challenged) {
-    var challengable = usr.availables.filter(function(user){
-      _.include(challenged,user);
+  //brute force remove user from lobby
+  usr.purge = function(userid) {
+    usr.availables = usr.availables.filter(function(id){
+      return userid != id;
+    });
+    usr.challenges.forEach(function(challenge){
+      challenge.purge(userid);
+    });
+  }
+  
+  usr.makeAvailable = function(userid) {
+    console.log(userid);
+    if(!_.include(usr.availables,userid)) {
+      usr.availables.push(userid);
+    } else {console.log("sdfsdf")}
+    //could delete from accepteds
+  }
+  
+  usr.makeChallenge = function(userids) { //userids[0] = challenger
+    //filter for challengable users 
+    var challengable = usr.availables.filter(function(userid){
+      _.include(userids,userid);
     });
     
-    if((challengable[0] === challenged[0]) &&
-        (challengable.length > 1)) {
+    //create new challenge
+    if((challengable[0] === userids[0]) &&
+        (challengable.length > 1) &&
+        usr.challenges[challenger] === undefined) {
       var challenger = challengable[0];
-      usr.challenges[challenger](challengable);
+      usr.challenges[challenger](new Challenge(challengable));
     }
   };
-  
-  
   
   function Challenge(challenged){
     var ch = this;
@@ -41,17 +63,26 @@ exports.Users = function() {
     ch.undecided = challenged;
     
     ch.accept = function(userid) {
-      ch.undecided.filter(function(id){
+      ch.undecided = ch.undecided.filter(function(id){
         return userid != id;
       });
       ch.accepted.push(userid);
     }
     
     ch.decline = function(userid) {
-      ch.undecided.filter(function(id){
+      ch.undecided = ch.undecided.filter(function(id){
         return userid != id;
       });
-      usr.availables.push(userid);
+      usr.makeAvailable(userid);
+    }
+    
+    ch.purge = function(userid){
+      ch.accepted = ch.accepted.filter(function(id){
+        return userid != id;
+      });
+      ch.undecided = ch.undecided.filter(function(id){
+        return userid != id;
+      });
     }
   }
 }

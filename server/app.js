@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , gameChannel = require('./gameChannel')
-  , user = require('./user');
+  , user = require('./user')
+  , _ = require('underscore');
 
 io = require('socket.io');
 
@@ -49,11 +50,21 @@ io.sockets.on('connection', function(client){
   
   client.json.on('newuser', function(req){
     client.join('lobby');
-    usr.addUser(client,req.name);
+    var user = usr.addUser(client,req.name);
+    usr.makeAvailable(user.id);
     console.log(usr);
     //push lobby users
-    client.json.broadcast.to('lobby').emit('lobby',usr.users);
-    client.json.emit('lobby',usr.users);
+    broadcastLobby();
+  });
+  
+  client.json.on('enterlobby', function(req){
+//    client.join('lobby');
+    var user = usr.getClientUser(client);
+    usr.makeAvailable(user.id);
+    console.log(usr);
+    //push lobby users
+//    client.json.broadcast.to('lobby').emit('lobby',usr.users);
+//    client.json.emit('lobby',usr.users);
   });
   
   client.json.on('message', function(req){
@@ -69,5 +80,15 @@ io.sockets.on('connection', function(client){
     var channel = gcs.getClientChannel(client);
     channel.removeClient(client);
   });
+  
+  function broadcastLobby() {
+    var msg = {
+      users: usr.users,
+      availables: usr.availables,
+      challenges: usr.challenges
+    }
+    client.json.broadcast.to('lobby').emit('lobby',usr);
+    client.json.emit('lobby',usr);
+  }
   
 });

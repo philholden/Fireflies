@@ -15,17 +15,25 @@
   <script type="text/javascript" src="socket.io/socket.io.js"></script>
   <script type="text/javascript" src="javascripts/gameChannel.js"></script>
   <script type="text/javascript" src="javascripts/renderer.js"></script>
+  <script type="text/javascript" src="javascripts/lobbyViewModel.js"></script>
   <script>
     var gc;
+    var lobby;
     $(window).load(function(){
       setTimeout(function(){
         gc = new gameChannel();
       },500);
-      $('button').click(function(){
+      $('#join').click(function(){
         gc.newUser($("#name").val());
         console.log($("#name").val());
       });
+      lobby = new LobbyViewModel();
+      ko.applyBindings(lobby);
     });
+    
+    function kob(req) {
+      lobby.update(req);
+    }
  
   </script>
   <style>
@@ -35,11 +43,25 @@
     }
     canvas {display: block}
     audio {display: none}
+    .selected {
+      background: #ccc;
+    }
+    .users {
+      list-style-type: none;
+    }
+    
+    .users li {
+      cursor: default;
+    }
   </style>
   </head>
   <body tabindex="0">
-    name:
-    <input type="text" id="name"/>
-    <button>Play</button>
+    <input type="text" id="name" placeholder="name" data-bind="executeOnEnter: changeName"/>
+    <!--<button id="join">Play</button>-->
+    <button id="challenge">Challenge</button>
+    <ul data-bind="foreach: users" class="users">
+      <li data-bind="text: name, click: $parent.toggleSelected,
+       attr: {class : selected() ? 'selected' : ''}"></li>
+    </ul>
   </body>
 </html>
