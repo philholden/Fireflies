@@ -60,7 +60,7 @@
     <!--<button id="join">Play</button>-->
     <button id="challenge">Challenge</button>
     <ul data-bind="foreach: users" class="users">
-      <li data-bind="text: name, click: $parent.toggleSelected,
+      <li data-bind="text: name, click: $parent.addSelection,
        attr: {class : selected() ? 'selected' : ''}"></li>
     </ul>
   </body>

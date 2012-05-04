@@ -26,30 +26,21 @@ exports.Users = function() {
   
   //brute force remove user from lobby
   usr.purge = function(userid) {
-    usr.availables = usr.availables.filter(function(id){
-      return userid != id;
-    });
-    usr.challenges.forEach(function(challenge){
-      challenge.purge(userid);
-    });
+    usr.availables = _.without(usr.availables,userid);
+    usr.challenges = _.without(usr.challenges,userid);
   }
   
   usr.makeAvailable = function(userid) {
-    console.log(userid);
-    if(!_.include(usr.availables,userid)) {
-      usr.availables.push(userid);
-    } else {console.log("sdfsdf")}
+    _.union(usr.availables,userid);
     //could delete from accepteds
   }
   
   usr.makeChallenge = function(userids) { //userids[0] = challenger
     //filter for challengable users 
-    var challengable = usr.availables.filter(function(userid){
-      _.include(userids,userid);
-    });
+    var challengable = _.intersection(userids,usr.availables);
     
     //create new challenge
-    if((challengable[0] === userids[0]) &&
+    if((challengable[0] === userids[0]) && //one who made challenge is available
         (challengable.length > 1) &&
         usr.challenges[challenger] === undefined) {
       var challenger = challengable[0];
@@ -63,26 +54,18 @@ exports.Users = function() {
     ch.undecided = challenged;
     
     ch.accept = function(userid) {
-      ch.undecided = ch.undecided.filter(function(id){
-        return userid != id;
-      });
+      ch.undecided = _.without(ch.undecided,userid);
       ch.accepted.push(userid);
     }
     
     ch.decline = function(userid) {
-      ch.undecided = ch.undecided.filter(function(id){
-        return userid != id;
-      });
+      ch.undecided = _.without(ch.undecided,userid);
       usr.makeAvailable(userid);
     }
     
     ch.purge = function(userid){
-      ch.accepted = ch.accepted.filter(function(id){
-        return userid != id;
-      });
-      ch.undecided = ch.undecided.filter(function(id){
-        return userid != id;
-      });
+      ch.undecided = _.without(ch.undecided,userid);
+      ch.accepted = _.without(ch.accepted,userid);
     }
   }
 }

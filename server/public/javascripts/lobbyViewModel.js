@@ -2,29 +2,41 @@
 function LobbyViewModel() {
   var self = this;
   self.users = ko.observableArray([]);
+  self.maxSelected = 2;
+  self.selected = [];
   
   self.update = function(req) {
-    var selected = self.selected();
     var users = [];
     var isSelected;
     req.users.forEach(function(user) {
-      isSelected = _.include(selected,user.id);
-      users.push(new User(user,selected));
+      isSelected = _.include(self.selected,user.id);
+      users.push(new User(user,isSelected));
     });
     self.users(users);
+    self.updateSelection();
   }
   
-  //returns array of selected userIds
-  self.selected = function(){
-    var selected = [];
-    console.log(self.users());
+  self.selected = [];
+  
+  self.addSelection = function(user) {
+    var hasUser = _.include(self.selected,user.id);
+    if(hasUser){
+      self.selected = _.without(self.selected,user.id);
+    } else {
+      self.selected.push(user.id);
+    }
+    self.selected = self.selected.splice(-self.maxSelected);
+    self.updateSelection();
+  }
+  
+  self.updateSelection = function() {
+    self.selected = _.intersection(self.selected,userIds());
     self.users().forEach(function(user){
-      console.log(user.selected());
-      if(user.selected()){
-        selected.push(user.id);
+      var hasUser = _.include(self.selected,user.id);
+      if(hasUser != user.selected()) {
+        user.selected(hasUser);
       }
     });
-    return selected;
   }
   
   self.changeName = function() {
@@ -34,6 +46,14 @@ function LobbyViewModel() {
   self.toggleSelected = function(user) {
     user.selected(!user.selected());
     console.log(user.selected());
+  }
+  
+  function userIds() {
+    var userIds = [];
+    self.users().forEach(function(user){
+      userIds.push(user.id);
+    });
+    return userIds;
   }
 }
 
