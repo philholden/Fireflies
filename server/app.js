@@ -61,10 +61,8 @@ io.sockets.on('connection', function(client){
 //    client.join('lobby');
     var user = usr.getClientUser(client);
     usr.makeAvailable(user.id);
+    broadcastLobby(true);
     console.log(usr);
-    //push lobby users
-//    client.json.broadcast.to('lobby').emit('lobby',usr.users);
-//    client.json.emit('lobby',usr.users);
   });
   
   client.json.on('message', function(req){
@@ -84,14 +82,16 @@ io.sockets.on('connection', function(client){
     broadcastLobby();
   });
   
-  function broadcastLobby() {
+  function broadcastLobby(meOnly) {
     var msg = {
       users: usr.getLobbyUsers(),
       availables: usr.availables,
       challenges: usr.challenges
     }
-    client.json.broadcast.to('lobby').emit('lobby',msg);
-    client.json.emit('lobby',msg);
+    if(!meOnly){
+      client.json.broadcast.to('lobby').emit('lobby',msg);
+      client.json.emit('lobby',msg);
+    }
   }
   
 });
