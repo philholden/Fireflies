@@ -53,8 +53,6 @@ exports.Users = function() {
     usr.purge(userid);
     delete(usr.clientUser[user.clientId]);
     delete(usr.users[userid]);
-    console.log("disconnect");
-    console.log(usr);
   }
   
   //returns lobby users available and challenged
@@ -66,7 +64,6 @@ exports.Users = function() {
       userids.push(ch.undecided);
       userids.push(ch.accepted);
     });
-    console.log(userids);
     userids = _.union.apply(_,userids);
     userids.forEach(function(userid){
       users.push(usr.users[userid]);

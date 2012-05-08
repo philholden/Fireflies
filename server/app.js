@@ -52,23 +52,18 @@ io.sockets.on('connection', function(client){
     client.join('lobby');
     var user = usr.addUser(client,req.name);
     usr.makeAvailable(user.id);
-    console.log(usr);
     //push lobby users
     broadcastLobby();
   });
   
   client.json.on('enterlobby', function(req){
-//    client.join('lobby');
     var user = usr.getClientUser(client);
     usr.makeAvailable(user.id);
-    broadcastLobby(true);
-    console.log(usr);
   });
   
   client.json.on('message', function(req){
     var channel = gcs.getClientChannel(client);
     if(channel !== undefined) {
-//      console.log(req);
       client.json.send(req);
       client.json.broadcast.to(channel.id).send(req);
     }
