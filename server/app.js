@@ -79,16 +79,19 @@ io.sockets.on('connection', function(client){
   client.on('disconnect',function(req){
     var channel = gcs.getClientChannel(client);
     channel.removeClient(client);
+    var user = usr.getClientUser(client);
+    usr.disconnect(user.id);
+    broadcastLobby();
   });
   
   function broadcastLobby() {
     var msg = {
-      users: usr.users,
+      users: usr.getLobbyUsers(),
       availables: usr.availables,
       challenges: usr.challenges
     }
-    client.json.broadcast.to('lobby').emit('lobby',usr);
-    client.json.emit('lobby',usr);
+    client.json.broadcast.to('lobby').emit('lobby',msg);
+    client.json.emit('lobby',msg);
   }
   
 });

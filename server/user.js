@@ -3,16 +3,16 @@ var _ = require('underscore');
 exports.Users = function() {
   var usr = this;
   usr.users=[];
+  usr.n = 0;
   usr.clientUser={};
   
   usr.availables=[]; //id of available users
   usr.challenges=[]; //arrays of challenges
   
   usr.addUser = function(client,name) {
-    console.log(usr.users[client.id]);
     if (usr.clientUser[client.id] === undefined) {
       console.log("reached");
-      var user = new exports.User(usr.users.length,client);
+      var user = new exports.User(usr.n++,client);
       usr.users.push(user);
       usr.clientUser[client.id] = user;
     }
@@ -31,7 +31,7 @@ exports.Users = function() {
   }
   
   usr.makeAvailable = function(userid) {
-    _.union(usr.availables,userid);
+    usr.availables = _.union(usr.availables,userid);
     //could delete from accepteds
   }
   
@@ -47,6 +47,32 @@ exports.Users = function() {
       usr.challenges[challenger](new Challenge(challengable));
     }
   };
+  
+  usr.disconnect = function(userid) {
+    var user = usr.users[userid];
+    usr.purge(userid);
+    delete(usr.clientUser[user.clientId]);
+    delete(usr.users[userid]);
+    console.log("disconnect");
+    console.log(usr);
+  }
+  
+  //returns lobby users available and challenged
+  usr.getLobbyUsers = function() {
+    var userids = [];
+    var users = [];
+    userids.push(usr.availables);
+    usr.challenges.forEach(function(ch) {
+      userids.push(ch.undecided);
+      userids.push(ch.accepted);
+    });
+    console.log(userids);
+    userids = _.union.apply(_,userids);
+    userids.forEach(function(userid){
+      users.push(usr.users[userid]);
+    });
+    return users;
+  }
   
   function Challenge(challenged){
     var ch = this;
