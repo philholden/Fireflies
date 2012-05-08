@@ -58,7 +58,15 @@ io.sockets.on('connection', function(client){
   
   client.json.on('enterlobby', function(req){
     var user = usr.getClientUser(client);
-    usr.makeAvailable(user.id);
+    if(!usr.isChallenged(user.id)){
+      usr.makeAvailable(user.id);
+    };
+  });
+  
+  client.json.on('lobbychallenge', function(req){
+    var user = usr.getClientUser(client);
+    usr.makeChallenge(req.userids);
+    broadcastLobby();
   });
   
   client.json.on('message', function(req){
@@ -70,15 +78,21 @@ io.sockets.on('connection', function(client){
   });
   
   client.on('disconnect',function(req){
+    console.log(client);
+    console.log(usr);
     var channel = gcs.getClientChannel(client);
     channel.removeClient(client);
     var user = usr.getClientUser(client);
-    usr.disconnect(user.id);
+    if(user){
+      usr.disconnect(user.id);
+    };
     broadcastLobby();
   });
   
   function broadcastLobby(meOnly) {
+    var user = usr.getClientUser(client);
     var msg = {
+      me: user ? user.id : undefined,
       users: usr.getLobbyUsers(),
       availables: usr.availables,
       challenges: usr.challenges

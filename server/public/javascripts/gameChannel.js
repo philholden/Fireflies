@@ -37,7 +37,7 @@ function gameChannel(){
      socket.json.emit('newuser', {
        'name':name
      }); 
-  }
+  };
   
   function keyDecode(c){
     var sp = c.split(':');

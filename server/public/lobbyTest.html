@@ -27,7 +27,13 @@
         gc.newUser($("#name").val());
         console.log($("#name").val());
       });
+      
       lobby = new LobbyViewModel();
+      
+      $('#challenge').click(function(){
+        lobby.sendChallenge();
+      });
+      
       ko.applyBindings(lobby);
     });
     
@@ -59,7 +65,7 @@
     <input type="text" id="name" placeholder="name" data-bind="executeOnEnter: changeName"/>
     <!--<button id="join">Play</button>-->
     <button id="challenge">Challenge</button>
-    <ul data-bind="foreach: users" class="users">
+    <ul data-bind="foreach: availables" class="users">
       <li data-bind="text: name, click: $parent.addSelection,
        attr: {class : selected() ? 'selected' : ''}"></li>
     </ul>

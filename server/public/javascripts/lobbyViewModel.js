@@ -2,18 +2,26 @@
 function LobbyViewModel() {
   var self = this;
   self.users = ko.observableArray([]);
+  self.availables = ko.observableArray([]);
   self.maxSelected = 2;
   self.selected = [];
+  self.challenge = ko.observableArray([]);
+  
+  self.me = null;
   
   self.update = function(req) {
-    var users = [];
+    var availables = []; //available
     var isSelected;
     req.users.forEach(function(user) {
       isSelected = _.include(self.selected,user.id);
-      users.push(new User(user,isSelected));
+      isAvailable = _.include(req.availables,user.id);
+      if (isAvailable) {
+        availables.push(new User(user,isSelected));
+      };
     });
-    self.users(users);
+    self.availables(availables);
     self.updateSelection();
+    self.me = req.me;
   }
   
   self.selected = [];
@@ -30,8 +38,8 @@ function LobbyViewModel() {
   }
   
   self.updateSelection = function() {
-    self.selected = _.intersection(self.selected,userIds());
-    self.users().forEach(function(user){
+    self.selected = _.intersection(self.selected,availableUserIds());
+    self.availables().forEach(function(user){
       var hasUser = _.include(self.selected,user.id);
       if(hasUser != user.selected()) {
         user.selected(hasUser);
@@ -48,9 +56,15 @@ function LobbyViewModel() {
     console.log(user.selected());
   }
   
-  function userIds() {
+  self.sendChallenge = function(){
+    var userids = _.union(self.me,self.selected);
+    gc.socket.emit('lobbychallenge',{userids:userids});
+    console.log(userids);
+  }
+  
+  function availableUserIds() {
     var userIds = [];
-    self.users().forEach(function(user){
+    self.availables().forEach(function(user){
       userIds.push(user.id);
     });
     return userIds;

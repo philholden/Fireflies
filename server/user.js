@@ -26,9 +26,23 @@ exports.Users = function() {
   
   //brute force remove user from lobby
   usr.purge = function(userid) {
+    usr.challenges.forEach(function(ch,i){
+      ch.purge(userid);
+    });
+    usr.challenges = usr.challenges.filter(function(ch){
+      return !(ch.accepted.length == 0 && ch.undecided.length == 0);
+    });
     usr.availables = _.without(usr.availables,userid);
-    usr.challenges = _.without(usr.challenges,userid);
   }
+  
+  usr.isChallenged = function(userid){
+    usr.challenges.forEach(function(ch,i){
+      if(_.include(ch.accepted,userid) || _.include(ch.undecided,userid)){
+        return true;
+      }
+    });
+    return false;
+  };
   
   usr.makeAvailable = function(userid) {
     usr.availables = _.union(usr.availables,userid);
@@ -41,10 +55,10 @@ exports.Users = function() {
     
     //create new challenge
     if((challengable[0] === userids[0]) && //one who made challenge is available
-        (challengable.length > 1) &&
+        (challengable.length > 0) &&
         usr.challenges[challenger] === undefined) {
       var challenger = challengable[0];
-      usr.challenges[challenger](new Challenge(challengable));
+      usr.challenges[challenger] = new Challenge(challengable);
     }
   };
   
@@ -65,16 +79,27 @@ exports.Users = function() {
       userids.push(ch.accepted);
     });
     userids = _.union.apply(_,userids);
+    var user;
+    console.log(userids);
+    console.log(usr.users);
+    console.log(usr.challenges);
+    console.log(usr.availables);
     userids.forEach(function(userid){
-      users.push(usr.users[userid]);
+      user = usr.users[userid];
+      users.push({
+        id:user.id,
+        name:user.name,
+        score:user.score
+      });
     });
     return users;
   }
   
   function Challenge(challenged){
     var ch = this;
-    ch.accepted = [];
-    ch.undecided = challenged;
+    ch.accepted = [_.first(challenged)];
+    ch.undecided = _.rest(challenged);
+    usr.availables = _.without(ch.availables,challenged);
     
     ch.accept = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);
@@ -89,6 +114,11 @@ exports.Users = function() {
     ch.purge = function(userid){
       ch.undecided = _.without(ch.undecided,userid);
       ch.accepted = _.without(ch.accepted,userid);
+      if(ch.undecided.length + ch.accepted.length < 2) {
+        usr.availables = _.union(usr.availables,ch.undecided.length,ch.accepted.length);
+        ch.accepted = [];
+        ch.undecided = [];
+      }
     }
   }
 }
