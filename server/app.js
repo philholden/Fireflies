@@ -92,13 +92,13 @@ io.sockets.on('connection', function(client){
   function broadcastLobby(meOnly) {
     var user = usr.getClientUser(client);
     var msg = {
-      me: user ? user.id : undefined,
       users: usr.getLobbyUsers(),
       availables: usr.availables,
       challenges: usr.challenges
     }
     if(!meOnly){
       client.json.broadcast.to('lobby').emit('lobby',msg);
+      msg.me = user ? user.id : undefined;
       client.json.emit('lobby',msg);
     }
   }

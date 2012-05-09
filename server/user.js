@@ -55,10 +55,9 @@ exports.Users = function() {
     
     //create new challenge
     if((challengable[0] === userids[0]) && //one who made challenge is available
-        (challengable.length > 0) &&
-        usr.challenges[challenger] === undefined) {
+        (challengable.length > 0)) {
       var challenger = challengable[0];
-      usr.challenges[challenger] = new Challenge(challengable);
+      usr.challenges.push(new Challenge(challengable));
     }
   };
   

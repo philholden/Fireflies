@@ -6,8 +6,9 @@ function LobbyViewModel() {
   self.maxSelected = 2;
   self.selected = [];
   self.challenge = ko.observableArray([]);
-  
+  self.myChallengers = ko.observableArray([]);
   self.me = null;
+  self.meUndecided = ko.observable(false);
   
   self.update = function(req) {
     var availables = []; //available
@@ -21,7 +22,38 @@ function LobbyViewModel() {
     });
     self.availables(availables);
     self.updateSelection();
-    self.me = req.me;
+    self.me = req.me === undefined ? self.me : req.me;
+    getChallengers(req);
+  }
+  
+  function getChallengers(req) {
+    var chs = req.challenges;
+    var challenge;
+    var myChallengers = [];
+    var all;
+    var all2 = [];
+    chs.forEach(function(ch){
+      all = _.union(ch.undecided,ch.accepted);
+      console.log(all);
+      if(_.include(all,self.me)) {
+        challenge = ch;
+        all2 = all;
+      }
+    });
+    console.log(challenge);
+    var accepted;
+    if(challenge){
+      req.users.forEach(function(user) {
+        accepted = _.include(challenge.accepted,user.id);
+        if(_.include(all2,user.id)){
+          myChallengers.push(new User(user,false,accepted));
+          if(user.id == self.me) {
+            self.meUndecided(!accepted);
+          }
+        }
+      });
+    }
+    self.myChallengers(myChallengers);
   }
   
   self.selected = [];
@@ -61,7 +93,7 @@ function LobbyViewModel() {
     gc.socket.emit('lobbychallenge',{userids:userids});
     console.log(userids);
   }
-  
+
   function availableUserIds() {
     var userIds = [];
     self.availables().forEach(function(user){
@@ -71,16 +103,24 @@ function LobbyViewModel() {
   }
 }
 
-function User(user,selected) {
+function User(user,selected,accepted) {
   var self = this;
   
   self.id = user.id;
   self.name = user.name;
+  self.score = user.score;
   self.selected = ko.observable();
+  self.accepted = accepted;
   self.selected(_.include(selected,self.id));
   self.toggleSelected = function(user) {
     user.selected = !user.selected;
   }
+  self.userInfo = ko.computed(function() {
+    return self.name + " " + self.score;    
+  }, this);
+  self.challengeInfo = ko.computed(function() {
+    return self.name + " " + self.score + " " +(self.accepted ? "accepted" : "waiting");    
+  }, this);
 }
 
 ko.bindingHandlers.executeOnEnter = {

@@ -65,9 +65,16 @@
     <input type="text" id="name" placeholder="name" data-bind="executeOnEnter: changeName"/>
     <!--<button id="join">Play</button>-->
     <button id="challenge">Challenge</button>
+    <p>available:</p>
     <ul data-bind="foreach: availables" class="users">
-      <li data-bind="text: name, click: $parent.addSelection,
+      <li data-bind="text: userInfo, click: $parent.addSelection,
        attr: {class : selected() ? 'selected' : ''}"></li>
     </ul>
+    <p>challengers:</p>
+    <ul data-bind="foreach: myChallengers" class="users">
+      <li data-bind="text: challengeInfo"></li>
+    </ul>
+    <button data-bind="enable: meUndecided">accept</button>
+    <button data-bind="enable: meUndecided">decline</button>
   </body>
 </html>
