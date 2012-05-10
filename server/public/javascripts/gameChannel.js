@@ -31,7 +31,7 @@ function gameChannel(){
   
   socket.on('lobby', function(req){
     console.log(req);
-    kob(req);
+    lobby.update(req);
   });
   
   gc.newUser = function(name) {

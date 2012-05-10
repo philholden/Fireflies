@@ -1,0 +1,158 @@
+<html>
+  <head>
+  <link rel="stylesheet" href="stylesheets/smoke.css" type="text/css" media="screen" />
+  <script src="javascripts/smoke.min.js" type="text/javascript"></script>
+  <script src="javascripts/util.js" type="text/javascript"></script>
+  <script src="javascripts/underscore-min.js" type="text/javascript"></script>  
+  <script src="javascripts/world.js" type="text/javascript"></script>
+  <script src="javascripts/joystick.js" type="text/javascript"></script>
+  <script src="javascripts/fly.js" type="text/javascript"></script>
+  <script src="javascripts/fish.js" type="text/javascript"></script>
+  <script src="javascripts/multiFlyGame.js" type="text/javascript"></script>
+  <script src="javascripts/engine.js" type="text/javascript"></script>
+  <script src="javascripts/keyboard.js" type="text/javascript"></script>
+  <script src="javascripts/player.js" type="text/javascript"></script>
+  <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+  <script src="javascripts/knockout-2.0.0.js" type="text/javascript"></script>
+  <script type="text/javascript" src="socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="javascripts/gameChannel.js"></script>
+  <script type="text/javascript" src="javascripts/renderer.js"></script>
+  <script type="text/javascript" src="javascripts/lobbyViewModel.js"></script>
+  <script>
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
+                        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    var en = new Engine();
+    var kb = new Keyboard();
+    var a=0;
+    var man;
+    var input;
+    var rf = 0;
+    var st = Date.now();
+    var man;
+    var rd;
+    var gc;
+    var audio;
+    var lobby;
+    
+    function loop(){
+      input = $("input[type=text]");
+      body = $("body");
+      requestAnimationFrame(step);
+      body.keyup(function(e){key(kb.keyUp(e.keyCode))});
+      body.keydown(function(e){key(kb.keyDown(e.keyCode))});
+    }
+    
+    function key(k){
+      if(k && gc){
+        gc.socket.json.send(keyEncode(k));
+
+/*        gc.socket.json.send({
+          e:k,
+          id:en.me,
+          f:en.frameId()
+        });*/
+      }
+    }
+    
+    function keyEncode(k){
+      return k + en.me + ":" + en.frameId(); 
+    }
+    
+    function keyDecode(c){
+      var sp = c.split(':');
+      return {
+        e:c.charAt(0),
+        id:sp.substr(1),
+        f:sp[1]
+      };
+    }
+    
+    function turn(){
+      en.stop();
+    }
+    
+    function step(timestamp) {
+      rf++;
+      if (rd) {
+        rd.draw(en);
+      }
+      requestAnimationFrame(step);
+    }
+    
+    setInterval(function() {
+      var sec = (Date.now()-st)/1000.0;
+      $('#status').html("fps:"+(rf/sec));
+    },1000);
+    
+    $(window).load(function(){
+      var w = new World();
+      rd = new Renderer($('body'),w);
+      rd.init();
+      audio = $('audio');
+      audio.each(function(i,a){
+        a.load();
+      });
+      setTimeout(function(){
+        gc = new gameChannel()
+      },500);
+      lobby = new LobbyViewModel();
+      ko.applyBindings(lobby);
+    });
+
+    
+  </script>
+  <style>
+    .man {
+      position: absolute;
+      color: white;
+    }
+    canvas {display: block}
+    audio {display: none}
+    .selected {
+      background: #ccc;
+    }
+    .users {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .users li {
+      cursor: default;
+    }
+    
+    li.me {
+      font-weight: bold;
+    }
+    
+    li.me:after {
+      content: " (me)";
+    }
+  </style>
+  </head>
+  <body tabindex="0">
+    <input type="hidden" id="channel" value="physics" />
+    <input type="text"/ value="-0">
+    <button onclick="turn()">turn</button>
+    <div id="status"></div>
+    <div id="col"></div>
+    <audio src="sound/hit4.ogg" controls></audio>
+    <audio src="sound/drip3.ogg" controls></audio>
+    <audio src="sound/drip2.ogg" controls></audio>
+    <audio src="sound/lick.ogg" controls></audio>
+    <audio src="sound/splash2.ogg" controls></audio>
+    
+    <p>Select up to <span>1</span> player and click challenge or click your player to edit name:</p>
+    <ul data-bind="foreach: availables" class="users">
+      <li data-bind="text: userInfo, click: $parent.addSelection,
+       attr: {class : classes}"></li>
+    </ul>
+    <button id="challenge" data-bind="click: sendChallenge">Challenge</button>
+    <p>challengers:</p>
+    <ul data-bind="foreach: myChallengers" class="users">
+      <li data-bind="text: challengeInfo, attr: {class : classes}"></li>
+    </ul>
+    <button data-bind="enable: meUndecided, click: accept">accept</button>
+    <button data-bind="enable: meUndecided, click: decline">decline</button>
+    
+  </body>
+</html>
