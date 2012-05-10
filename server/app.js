@@ -106,10 +106,11 @@ io.sockets.on('connection', function(client){
     if(channel){
       channel.removeClient(client);
     }
+    console.log("dis");
     var user = usr.getClientUser(client);
     if(user){
       usr.disconnect(user.id);
-    };
+    };console.log("dis2");console.log(usr);
     broadcastLobby();
   });
   

@@ -13,6 +13,7 @@ function LobbyViewModel() {
   self.update = function(req) {
     var availables = []; //available
     var isSelected;
+    self.me = req.me === undefined ? self.me : req.me;
     req.users.forEach(function(user) {
       isSelected = _.include(self.selected,user.id);
       isAvailable = _.include(req.availables,user.id);
@@ -22,7 +23,6 @@ function LobbyViewModel() {
     });
     self.availables(availables);
     self.updateSelection();
-    self.me = req.me === undefined ? self.me : req.me;
     getChallengers(req);
   }
   
@@ -129,6 +129,11 @@ function User(user,selected,accepted) {
   self.selected = ko.observable();
   self.accepted = accepted;
   self.selected(_.include(selected,self.id));
+  console.log(lobby.me);
+  self.classes = ko.computed(function(){
+    return (self.selected() ? "selected" : "") +
+      (self.id == lobby.me ? "me" : "");
+  });
   self.toggleSelected = function(user) {
     user.selected = !user.selected;
   }

@@ -62,18 +62,26 @@
     .users li {
       cursor: default;
     }
+    
+    li.me {
+      font-weight: bold;
+    }
+    
+    li.me:after {
+      content: " (me)";
+    }
   </style>
   </head>
   <body tabindex="0">
-    <p>available:</p>
+    <p>Select up to <span>1</span> player and click challenge or click your player to edit name:</p>
     <ul data-bind="foreach: availables" class="users">
       <li data-bind="text: userInfo, click: $parent.addSelection,
-       attr: {class : selected() ? 'selected' : ''}"></li>
+       attr: {class : classes}"></li>
     </ul>
     <button id="challenge">Challenge</button>
     <p>challengers:</p>
     <ul data-bind="foreach: myChallengers" class="users">
-      <li data-bind="text: challengeInfo"></li>
+      <li data-bind="text: challengeInfo, attr: {class : classes}"></li>
     </ul>
     <button data-bind="enable: meUndecided, click: accept">accept</button>
     <button data-bind="enable: meUndecided, click: decline">decline</button>
