@@ -36,12 +36,23 @@ exports.Users = function() {
   }
   
   usr.isChallenged = function(userid){
+    var out = false;
     usr.challenges.forEach(function(ch,i){
       if(_.include(ch.accepted,userid) || _.include(ch.undecided,userid)){
-        return true;
+        out = true;
       }
     });
-    return false;
+    return out;
+  };
+  
+  usr.getChallenge = function(userid){
+    var out = null;
+    usr.challenges.forEach(function(ch,i){
+      if(_.include(ch.accepted,userid) || _.include(ch.undecided,userid)){
+        out = ch;
+      }
+    });
+    return out;
   };
   
   usr.makeAvailable = function(userid) {
@@ -103,11 +114,21 @@ exports.Users = function() {
     ch.accept = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);
       ch.accepted.push(userid);
+      //if none waiting
     }
     
     ch.decline = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);
       usr.makeAvailable(userid);
+      var union = _.union(ch.undecided,ch.accepted);
+      console.log(124);
+      console.log(union);
+      if(union.length < 2) {
+        union.forEach(function(id){
+          usr.makeAvailable(id);
+        })
+        usr.challenges = _.without(usr.challenges,ch);
+      }
     }
     
     ch.purge = function(userid){

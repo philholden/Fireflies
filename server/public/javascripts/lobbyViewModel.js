@@ -93,7 +93,19 @@ function LobbyViewModel() {
     gc.socket.emit('lobbychallenge',{userids:userids});
     console.log(userids);
   }
-
+  
+  self.accept = function() {
+    gc.socket.json.emit('lobbyaccept', {
+      'userid':self.me
+    }); 
+  };
+  
+  self.decline = function() {
+    gc.socket.json.emit('lobbydecline', {
+      'userid':self.me
+    }); 
+  }
+  
   function availableUserIds() {
     var userIds = [];
     self.availables().forEach(function(user){

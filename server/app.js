@@ -69,6 +69,22 @@ io.sockets.on('connection', function(client){
     broadcastLobby();
   });
   
+  client.json.on('lobbydecline', function(req){
+    var ch = usr.getChallenge(req.userid);
+    if(ch){
+      ch.decline(req.userid);
+    };
+    broadcastLobby();
+  });
+  
+  client.json.on('lobbyaccept', function(req){
+    var ch = usr.getChallenge(req.userid);
+    if(ch){
+      ch.accept(req.userid);
+    };
+    broadcastLobby();
+  });
+  
   client.json.on('message', function(req){
     var channel = gcs.getClientChannel(client);
     if(channel !== undefined) {

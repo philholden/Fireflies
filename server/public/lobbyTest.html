@@ -74,7 +74,7 @@
     <ul data-bind="foreach: myChallengers" class="users">
       <li data-bind="text: challengeInfo"></li>
     </ul>
-    <button data-bind="enable: meUndecided">accept</button>
-    <button data-bind="enable: meUndecided">decline</button>
+    <button data-bind="enable: meUndecided, click: accept">accept</button>
+    <button data-bind="enable: meUndecided, click: decline">decline</button>
   </body>
 </html>
