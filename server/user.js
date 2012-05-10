@@ -30,24 +30,15 @@ exports.Users = function() {
   
   //brute force remove user from lobby
   usr.purge = function(userid) {
-    console.log("pre");
-    console.log(userid);
-    console.log(usr);
-    console.log(usr.availables);
+
     usr.challenges.forEach(function(ch,i){
-      console.log(usr.availables);
-      console.log(ch);
       ch.purge(userid);
-      console.log(i);
-      console.log(usr.availables);
     });
     //delete empty challenges
     usr.challenges = usr.challenges.filter(function(ch){
       return !(ch.accepted.length == 0 && ch.undecided.length == 0);
     });
     usr.availables = _.without(usr.availables,userid);
-    console.log("post");
-    console.log(usr);
   }
   
   usr.isChallenged = function(userid){
@@ -105,10 +96,6 @@ exports.Users = function() {
     });
     userids = _.union.apply(_,userids);
     var user;
-    console.log(userids);
-    console.log(usr.users);
-    console.log(usr.challenges);
-    console.log(usr.availables);
     userids.forEach(function(userid){
       user = usr.users[userid];
       users.push({
@@ -145,15 +132,11 @@ exports.Users = function() {
     }
     
     ch.purge = function(userid){
-      console.log("xc");
-      console.log(usr.availables);
       ch.undecided = _.without(ch.undecided,userid);
       ch.accepted = _.without(ch.accepted,userid); 
       //if less than 2 put remaining user as available;
       if(ch.undecided.length + ch.accepted.length < 2) {
-        console.log(usr.availables);
         usr.availables = _.union(usr.availables,ch.undecided,ch.accepted);
-        console.log(usr.availables);
         ch.accepted = [];
         ch.undecided = [];
       }
