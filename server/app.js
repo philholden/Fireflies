@@ -43,14 +43,20 @@ console.log("Express server listening on port 3000");
 
 io.sockets.on('connection', function(client){
   console.log('connected');
+
   client.json.on('subscribe', function(req){
     client.join(req.channel);
     gcs.getChannel(req.channel).addClient(client,gcs);
+//    var user = usr.addUser(client,req.name);
+//    usr.makeAvailable(user.id);
+//    broadcastLobby();
   });
   
   client.json.on('newuser', function(req){
     client.join('lobby');
     var user = usr.addUser(client,req.name);
+    console.log(req.name);
+    console.log(usr);
     usr.makeAvailable(user.id);
     //push lobby users
     broadcastLobby();
@@ -97,7 +103,9 @@ io.sockets.on('connection', function(client){
     console.log(client);
     console.log(usr);
     var channel = gcs.getClientChannel(client);
-    channel.removeClient(client);
+    if(channel){
+      channel.removeClient(client);
+    }
     var user = usr.getClientUser(client);
     if(user){
       usr.disconnect(user.id);

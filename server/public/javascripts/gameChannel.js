@@ -4,11 +4,12 @@ function gameChannel(){
   var socket = gc.socket = io.connect('http://192.168.147.79:3000');
   
   socket.on('connect', function(data){
-    var message = {
+    gc.newUser("");
+/*    var message = {
       channel: "physics"
     }; 
     socket.json.emit('subscribe', message);
-    console.log('send hello');
+    console.log('send hello');*/
   });
   
   socket.on('disconnect', function(data){

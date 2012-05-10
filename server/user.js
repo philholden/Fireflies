@@ -8,15 +8,19 @@ exports.Users = function() {
   
   usr.availables=[]; //id of available users
   usr.challenges=[]; //arrays of challenges
+  usr.defaultNames = ['Spark','Lightning','Flash','Lumen','Photon','Neon',
+    'Glow','Ignite','Kindle','Comet','Halo','Flare','Bokeh','Light','Energy',
+    'Tinder','Glory','Torch','Meteorite','Radient','Flame','Spectrum',
+    'Ambient','Starlight','Moonbeam','Supernova','Phosphorescence','Plasma'];
   
   usr.addUser = function(client,name) {
     if (usr.clientUser[client.id] === undefined) {
-      console.log("reached");
       var user = new exports.User(usr.n++,client);
       usr.users.push(user);
       usr.clientUser[client.id] = user;
     }
-    usr.clientUser[client.id].name = name;
+    var defname = usr.defaultNames[usr.n%usr.defaultNames.length];
+    usr.clientUser[client.id].name = name !== "" ? name : defname;
     return usr.clientUser[client.id];
   };
   
@@ -66,7 +70,7 @@ exports.Users = function() {
     
     //create new challenge
     if((challengable[0] === userids[0]) && //one who made challenge is available
-        (challengable.length > 0)) {
+        (challengable.length > 1)) {
       var challenger = challengable[0];
       usr.challenges.push(new Challenge(challengable));
     }
@@ -121,8 +125,6 @@ exports.Users = function() {
       ch.undecided = _.without(ch.undecided,userid);
       usr.makeAvailable(userid);
       var union = _.union(ch.undecided,ch.accepted);
-      console.log(124);
-      console.log(union);
       if(union.length < 2) {
         union.forEach(function(id){
           usr.makeAvailable(id);

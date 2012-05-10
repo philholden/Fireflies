@@ -59,6 +59,15 @@ function LobbyViewModel() {
   self.selected = [];
   
   self.addSelection = function(user) {
+    if(user.id === self.me) {
+      smoke.prompt('Please enter your name:',function(e){
+        console.log(e);
+        if(e && e !== "") {
+          gc.newUser(e);
+        } 
+      });
+      return;
+    }
     var hasUser = _.include(self.selected,user.id);
     if(hasUser){
       self.selected = _.without(self.selected,user.id);
@@ -77,10 +86,6 @@ function LobbyViewModel() {
         user.selected(hasUser);
       }
     });
-  }
-  
-  self.changeName = function() {
-    gc.newUser($("#name").val());
   }
   
   self.toggleSelected = function(user) {
