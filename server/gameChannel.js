@@ -33,6 +33,7 @@ exports.gameChannel = function(id,gcs,n) {
   gc.gcs = gcs;
   
   gc.addClient = function(client){
+    client.join(gc.id);
     gc.clients.push(client);
     console.log(client.id);
     gc.gcs.clientChannel[client.id] = gcs.getChannel(gc.id);

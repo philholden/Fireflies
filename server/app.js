@@ -45,8 +45,8 @@ io.sockets.on('connection', function(client){
   console.log('connected');
 
   client.json.on('subscribe', function(req){
-    client.join(req.channel);
-    gcs.getChannel(req.channel).addClient(client,gcs);
+//    client.join(req.channel);
+//    gcs.getChannel(req.channel).addClient(client,gcs);
 //    var user = usr.addUser(client,req.name);
 //    usr.makeAvailable(user.id);
 //    broadcastLobby();
@@ -57,7 +57,11 @@ io.sockets.on('connection', function(client){
     var user = usr.addUser(client,req.name);
     usr.makeAvailable(user.id);
     //push lobby users
-    broadcastLobby();
+    var msg = usr.lobbyMessage(client);
+    client.json.broadcast.to('lobby').emit('lobby',msg);
+    //tell the new user their id 
+    msg.me = user ? user.id : undefined;
+    client.json.emit('lobby',msg);
   });
   
   client.json.on('enterlobby', function(req){
@@ -84,20 +88,12 @@ io.sockets.on('connection', function(client){
   client.json.on('lobbyaccept', function(req){
     console.log('accept');
     var ch = usr.getChallenge(req.userid);
-    if(ch){
-      //start game
-      if(ch.accept(req.userid)) {
-        var channel = gcs.getNewChannel(ch.accepted.length);
-        var users = usr.users.filter(function(user){
-          return _.include(ch.accepted,user.id);
-        });
-        //add user to channel
-        users.forEach(function(user){
-          channel.addClient(user.client,gcs);
-        });
-      }
+    var accepted = ch.accepted;
+    if(ch && ch.accept(req.userid)) {
+      usr.startGame(ch,gcs);
     };
     broadcastLobby();
+    console.log(io.sockets.manager.rooms);
   });
   
   client.json.on('message', function(req){
@@ -106,6 +102,7 @@ io.sockets.on('connection', function(client){
       client.json.send(req);
       client.json.broadcast.to(channel.id).send(req);
     }
+    console.log(io.sockets.manager.rooms);
   });
   
   client.on('disconnect',function(req){
@@ -120,18 +117,9 @@ io.sockets.on('connection', function(client){
     broadcastLobby();
   });
   
-  function broadcastLobby(meOnly) {
-    var user = usr.getClientUser(client);
-    var msg = {
-      users: usr.getLobbyUsers(),
-      availables: usr.availables,
-      challenges: usr.challenges
-    }
-    if(!meOnly){
-      client.json.broadcast.to('lobby').emit('lobby',msg);
-      msg.me = user ? user.id : undefined;
-      client.json.emit('lobby',msg);
-    }
+  function broadcastLobby(){
+    var msg = usr.lobbyMessage(client);
+    io.sockets.in('lobby').emit('lobby',msg);
   }
   
 });

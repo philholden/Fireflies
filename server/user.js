@@ -107,6 +107,35 @@ exports.Users = function() {
     return users;
   }
   
+  usr.startGame = function(ch,gcs){
+    //start game
+    var channel = gcs.getNewChannel(ch.accepted.length);
+    var users = usr.users.filter(function(user){
+      return _.include(ch.accepted,user.id);
+    });
+    //add user to channel
+    users.forEach(function(user){
+      channel.addClient(user.client,gcs);
+      user.client.leave('lobby');
+    });
+    
+    //delete challenge and availble users
+    console.log("jello");
+    _.without.apply(_,_.zip([usr.availables],ch.accepted));
+    _.union.apply(_,_.zip([usr.availables],ch.undecided));
+    _.without(usr.challenges,ch);
+  };
+  
+  usr.lobbyMessage = function(client) {
+    var user = usr.getClientUser(client);
+    var msg = {
+      users: usr.getLobbyUsers(),
+      availables: usr.availables,
+      challenges: usr.challenges
+    }
+    return msg;
+  }
+  
   function Challenge(challenged){
     var ch = this;
     ch.accepted = [_.first(challenged)];
