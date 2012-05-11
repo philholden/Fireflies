@@ -34,6 +34,11 @@ function gameChannel(){
     lobby.update(req);
   });
   
+  socket.on('gameover', function(req){
+    console.log('gameover');
+    en.stop();
+  });
+  
   gc.newUser = function(name) {
      socket.json.emit('newuser', {
        'name':name

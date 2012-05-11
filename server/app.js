@@ -76,6 +76,7 @@ io.sockets.on('connection', function(client){
         user.channelid == channel.id && 
           user.id != req.userid;
     });
+    
     var tithe = dead.score/10;
       if(user.length) {
       dead.score = dead.score - tithe;
@@ -84,14 +85,24 @@ io.sockets.on('connection', function(client){
         user.score += tithe/user.length;
       });
     }
+    
+    exitGame(dead);
+    if(users.length < 2) {
+      users.forEach(exitGame);
+   //   io.sockets.in(channel.id).emit('gameover',{});
+    }
 
-    client.join('lobby');
-    usr.makeAvailable(dead.id);
     broadcastLobby();
     //leave game
-    setTimeout(function(){
-      client.leave(channel.id);
-    },5000);
+      
+    function exitGame(user){
+      console.log(user);
+      usr.makeAvailable(user.id);
+      user.client.join('lobby');
+      setTimeout(function(){
+        user.client.leave(channel.id);
+      },5000);
+    }
   });
   
   client.json.on('enterlobby', function(req){

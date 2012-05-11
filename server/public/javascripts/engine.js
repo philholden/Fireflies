@@ -12,6 +12,8 @@ function Engine() {
   en.world = new World();
   en.me = undefined; //number of this player
   en.numPlayers = undefined;
+  en.go = false;
+  en.render = 0;
 
   
   //create a frame
@@ -36,6 +38,8 @@ function Engine() {
   
   en.start=function(obj,gc){
     en.stop();
+    en.render = 0;
+    en.go = true;
     en.startTime = Date.now();
     console.log(obj);
     frames[0] = new Frame(obj,null,en.world);
@@ -53,6 +57,7 @@ function Engine() {
     if(timer) {
       clearInterval(timer);
     }
+    en.go = false;
   }
   
   /* e: event

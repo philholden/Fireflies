@@ -26,7 +26,6 @@
     var a=0;
     var man;
     var input;
-    var rf = 0;
     var st = Date.now();
     var man;
     var rd;
@@ -66,17 +65,14 @@
     }
     
     function step(timestamp) {
-      rf++;
       if (rd) {
         rd.draw(en);
+        en.render++;
       }
-      requestAnimationFrame(step);
+      if(en.go){
+        requestAnimationFrame(step);
+      }
     }
-    
-    setInterval(function() {
-      var sec = (Date.now()-st)/1000.0;
-      $('#status').html("fps:"+(rf/sec));
-    },1000);
     
     $(window).load(function(){
       var w = new World();
@@ -127,7 +123,6 @@
     <input type="hidden" id="channel" value="physics" />
     <input type="text"/ value="-0">
     <button onclick="turn()">turn</button>
-    <div id="status"></div>
     <div id="col"></div>
     <audio src="sound/hit4.ogg" controls></audio>
     <audio src="sound/drip3.ogg" controls></audio>

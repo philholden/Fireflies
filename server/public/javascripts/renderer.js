@@ -25,6 +25,7 @@ function Renderer(wrapper,w) {
     ctx.drawImage(bg,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl);
     rd.drawFliesReflection(en);
     rd.drawFishReflection(en);
+    rd.fps();
   }
   
   rd.drawFlies = function(en){
@@ -107,6 +108,14 @@ function Renderer(wrapper,w) {
     ctx.lineWidth = 1;
   }
 */  
+  rd.fps = function(){
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.textAlign = 'left';
+    ctx.font = 'normal 9px Arial';
+    var secs = Date.now() - en.startTime;
+    ctx.fillText("fps: " + (en.render/(secs/1000)|0) ,4,10);
+  };
+
   rd.drawReflection = function(i,n,en) {
     var c = en.frames[en.end].players[i].fly;
     if(c.dead) {
