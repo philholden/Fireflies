@@ -60,10 +60,6 @@
       };
     }
     
-    function turn(){
-      en.stop();
-    }
-    
     function step(timestamp) {
       if (rd) {
         rd.draw(en);
@@ -121,8 +117,6 @@
   </head>
   <body tabindex="0">
     <input type="hidden" id="channel" value="physics" />
-    <input type="text"/ value="-0">
-    <button onclick="turn()">turn</button>
     <div id="col"></div>
     <audio src="sound/hit4.ogg" controls></audio>
     <audio src="sound/drip3.ogg" controls></audio>

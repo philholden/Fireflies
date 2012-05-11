@@ -37,6 +37,8 @@ function Engine() {
   }
   
   en.start=function(obj,gc){
+ //   frames = en.frames = [];
+    io = en.io = [];
     en.stop();
     en.render = 0;
     en.go = true;

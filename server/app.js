@@ -78,18 +78,22 @@ io.sockets.on('connection', function(client){
     });
     
     var tithe = dead.score/10;
-      if(user.length) {
+    if(users.length && dead.alive) {
       dead.score = dead.score - tithe;
       dead.alive = false;
       users.forEach(function(user){
-        user.score += tithe/user.length;
+        user.score += tithe/users.length;
       });
+      console.log("doom");
+      console.log(users.length);
+      console.log(tithe);
+      console.log(tithe);
     }
     
     exitGame(dead);
     if(users.length < 2) {
       users.forEach(exitGame);
-   //   io.sockets.in(channel.id).emit('gameover',{});
+      io.sockets.in(channel.id).emit('gameover',{});
     }
 
     broadcastLobby();
