@@ -109,13 +109,13 @@ exports.Users = function() {
   
   usr.startGame = function(ch,gcs){
     //start game
-    var channel = gcs.getNewChannel(ch.accepted.length);
+    var channel = gcs.getNewChannel(ch.accepted.length,usr);
     var users = usr.users.filter(function(user){
       return _.include(ch.accepted,user.id);
     });
     //add user to channel
     users.forEach(function(user){
-      channel.addClient(user.client,gcs);
+      channel.addClient(user.client,usr);
       user.client.leave('lobby');
       user.alive = true;
       user.channelid = channel.id;

@@ -11,9 +11,9 @@ exports.gameChannels = function() {
     return gcs.channels[id];
   };
   
-  gcs.getNewChannel = function(n) {
+  gcs.getNewChannel = function(n,usr) {
     var id = gcs.n++;
-    gcs.channels[id] = new exports.gameChannel(id,gcs,n);
+    gcs.channels[id] = new exports.gameChannel(id,gcs,n,usr);
     return gcs.channels[id];
   }
   
@@ -23,7 +23,7 @@ exports.gameChannels = function() {
   };
 }
 
-exports.gameChannel = function(id,gcs,n) {
+exports.gameChannel = function(id,gcs,n,usr) {
   var gc = this;
   gc.id = id;
   gc.startNumber = n;
@@ -31,6 +31,7 @@ exports.gameChannel = function(id,gcs,n) {
   gc.clients = [];
   gc.started = false;
   gc.gcs = gcs;
+  gc.usr = usr;
   
   gc.addClient = function(client){
     client.join(gc.id);
@@ -59,7 +60,7 @@ exports.gameChannel = function(id,gcs,n) {
     var user;
     gc.clients.forEach(function(client,i) {
       //get users from client id
-      user = usr.getClientUser(client);
+      user = gc.usr.getClientUser(client);
       users.push(new UserInfo(user));
     });
     return users;
