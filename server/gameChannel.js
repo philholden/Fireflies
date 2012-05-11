@@ -42,12 +42,28 @@ exports.gameChannel = function(id,gcs,n) {
       setTimeout(start,100);
       function start(){
         gc.started = true;
+        var userInfos = gc.getUserInfo();
         gc.clients.forEach(function(client,i) {
-          client.json.emit('start',{n:gc.startNumber,i:i});
+          client.json.emit('start',{
+            n:gc.startNumber,
+            i:i,
+            userInfos:userInfos
+          });
         });
       }
     }
   };
+  
+  gc.getUserInfo = function(){
+    var users=[];
+    var user;
+    gc.clients.forEach(function(client,i) {
+      //get users from client id
+      user = usr.getClientUser(client);
+      users.push(new UserInfo(user));
+    });
+    return users;
+  }
   
   gc.removeClient = function(client){
     var channel = gc.gcs.clientChannel[client.id];
@@ -60,5 +76,12 @@ exports.gameChannel = function(id,gcs,n) {
   gc.canStart = function(){
     return (gc.clients.length >= gc.startNumber) && !gc.started;
   };
+  
+  function UserInfo(user) {
+    var self = this;
+    self.name = user.name;
+    self.userid = user.id;
+    self.score = user.score;
+  }
 }
 

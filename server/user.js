@@ -117,10 +117,11 @@ exports.Users = function() {
     users.forEach(function(user){
       channel.addClient(user.client,gcs);
       user.client.leave('lobby');
+      user.alive = true;
+      user.channelid = channel.id;
     });
     
     //delete challenge and availble users
-    console.log("jello");
     _.without.apply(_,_.zip([usr.availables],ch.accepted));
     _.union.apply(_,_.zip([usr.availables],ch.undecided));
     _.without(usr.challenges,ch);
@@ -181,6 +182,8 @@ exports.User = function(id,client) {
   user.client = client;
   user.name = 'anonymous';
   user.score = 100;
+  user.alive = true;
+  user.channeid = null;
 }
 
 

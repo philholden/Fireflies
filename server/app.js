@@ -64,6 +64,32 @@ io.sockets.on('connection', function(client){
     client.json.emit('lobby',msg);
   });
   
+  client.on('dies',function(req){
+    var channel = gcs.getClientChannel(client);
+    var me = usr.getClientUser(client);
+    //tithe
+    var users = usr.users.filter(function(user){
+      return user.alive && user.channelid == channel.id;
+    });
+    
+    var tithe = me.score/10;
+      if(user.length) {
+      me.score = me.score - tithe;
+      me.alive = false;
+      users.forEach(function(user){
+        user.score += tithe/user.length;
+      });
+    }
+    
+    client.join('lobby');
+    usr.makeAvailable(user.id);
+    broadcastLobby();
+    //leave game
+    setTimeout(function(){
+      client.leave(channel.id);
+    },5000);
+  });
+  
   client.json.on('enterlobby', function(req){
     var user = usr.getClientUser(client);
     if(!usr.isChallenged(user.id)){

@@ -19,7 +19,11 @@ function Frame(p,cio,w){
   
   function init() {
     for(i = 0;i < p.n;i++){
-      c.players.push(new Player({n:p.n,i:i},w,cio));
+      c.players.push(new Player({
+        n:p.n,
+        i:i,
+        userInfo: p.userInfos[i]
+      },w,cio));
     }
     c.fish = new Fish({},c.players,w);
   }
