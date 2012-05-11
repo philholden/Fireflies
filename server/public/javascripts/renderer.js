@@ -42,14 +42,13 @@ function Renderer(wrapper,w) {
   };
   
   rd.drawFly = function(i,n,en) {
-    var c = en.frames[en.end].players[i].fly;
+    var pl = en.frames[en.end].players[i];
+    var c = pl.fly;
     var length = i == en.me ? 15 : 10;
     if(c.dead) {
       return;
     }
     
-    
-    ctx.lineWidth = i == en.me ? 1 : 1;
     ctx.beginPath();
     var hue = 360/n * i + 0;
     ctx.lineTo(c.x,c.y);
@@ -61,12 +60,22 @@ function Renderer(wrapper,w) {
       
       ctx.strokeStyle = "hsla("+hue+",100%,50%,"+(1-j/length)+")";
       if((en.end - j)>0){
-        c = en.frames[en.end - j].players[i].fly;
-        
+        c = en.frames[en.end - j].players[i].fly;  
         ctx.lineTo(c.x,c.y);
         ctx.stroke();
       }
     }
+//    ctx.fillText(pl.userInfo.score,c.x,c.y - 5);
+    var minus = 2;
+    if((en.end - minus)>0){
+      c = en.frames[en.end - minus].players[i].fly;
+    };
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.textAlign = 'center';
+    ctx.font = 'normal 9px Arial';
+    ctx.fillText(pl.userInfo.name,c.x,c.y - 26);
+    ctx.fillText(pl.userInfo.score,c.x,c.y - 15);
+    ctx.lineWidth = i == en.me ? 1 : 1;
     //ctx.lineWidth = 1;
   }
 /*  
