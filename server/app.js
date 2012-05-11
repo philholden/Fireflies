@@ -64,25 +64,29 @@ io.sockets.on('connection', function(client){
     client.json.emit('lobby',msg);
   });
   
-  client.on('dies',function(req){
+  client.json.on('dies',function(req){
+    console.log("dies");
+    console.log(req);
     var channel = gcs.getClientChannel(client);
-    var me = usr.getClientUser(client);
+    var dead = usr.getUserById(req.userid);
+    console.log(dead.name);
     //tithe
     var users = usr.users.filter(function(user){
-      return user.alive && user.channelid == channel.id;
+      return user.alive &&
+        user.channelid == channel.id && 
+          user.id != req.userid;
     });
-    
-    var tithe = me.score/10;
+    var tithe = dead.score/10;
       if(user.length) {
-      me.score = me.score - tithe;
-      me.alive = false;
+      dead.score = dead.score - tithe;
+      dead.alive = false;
       users.forEach(function(user){
         user.score += tithe/user.length;
       });
     }
-    
+
     client.join('lobby');
-    usr.makeAvailable(user.id);
+    usr.makeAvailable(dead.id);
     broadcastLobby();
     //leave game
     setTimeout(function(){

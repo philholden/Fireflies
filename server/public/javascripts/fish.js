@@ -26,7 +26,7 @@ function Fish(p,players,w) {
       dist=Math.sqrt((x*x)+(y*y));
       if(dist < mindist){
         mindist = dist;
-        tar = pl.fly;
+        tar = pl;
       }
     });
     c.t = tar;
@@ -37,7 +37,7 @@ function Fish(p,players,w) {
     var fric = c.jump ? 0.95 :0.95; 
     c.xa = p.xa;
     if(!c.jump){
-      c.xa = p.x < c.t.x ? 0.15 : -0.15;
+      c.xa = p.x < c.t.fly.x ? 0.15 : -0.15;
     }
     c.xs = (p.xs + c.xa)*fric;
     c.ys = (p.ys + w.gy)*0.97;
@@ -59,20 +59,11 @@ function Fish(p,players,w) {
     var x,y,dist;
     var js = -7;
     for(i=0;i<10;i++){
-//      rd.ctx.fillStyle = "blue";
-//      rd.ctx.fillRect(c.x+c.xs*i,c.y+js*i,2,2);
-//      rd.ctx.fillStyle = "pink";
-//      rd.ctx.fillRect(c.t.x+c.t.xs*i,c.t.y+c.t.ys*i,2,2);
-//      x=Math.abs((c.x+c.xs*i)-(c.t.x+c.t.xs*i));
-//      y=Math.abs((c.y+js*i)-(c.t.y+c.t.ys*i));
-      
-//      dist=x * x + y * y;
- //     if((x < 20) && (c.t.y + c.t.ys*i > w.wl - 90)){
       if(Util.nearerThan(
         c.x+c.xs*i,
         c.y+js*i,
-        c.t.x+c.t.xs*i,
-        c.t.y+c.t.ys*i,
+        c.t.fly.x+c.t.fly.xs*i,
+        c.t.fly.y+c.t.fly.ys*i,
         10
       )) {
         jump();

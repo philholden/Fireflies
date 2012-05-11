@@ -24,7 +24,7 @@ function gameChannel(){
   
   socket.on('start', function(req){
     if(en){
-      en.start(req);
+      en.start(req,gc);
       loop();
     }
   });

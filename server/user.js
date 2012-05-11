@@ -28,6 +28,13 @@ exports.Users = function() {
     return usr.clientUser[client.id];
   };
   
+  usr.getUserById = function(userid){
+    var u = usr.users.filter(function(user){
+      return user.id == userid;
+    });
+    return u[0];
+  };
+  
   //brute force remove user from lobby
   usr.purge = function(userid) {
 
@@ -87,9 +94,8 @@ exports.Users = function() {
   
   //returns lobby users available and challenged
   usr.getLobbyUsers = function() {
-    var userids = [];
+    var userids = [usr.availables];
     var users = [];
-    userids.push(usr.availables);
     usr.challenges.forEach(function(ch) {
       userids.push(ch.undecided);
       userids.push(ch.accepted);
@@ -122,9 +128,9 @@ exports.Users = function() {
     });
     
     //delete challenge and availble users
-    _.without.apply(_,_.zip([usr.availables],ch.accepted));
-    _.union.apply(_,_.zip([usr.availables],ch.undecided));
-    _.without(usr.challenges,ch);
+    usr.availables = _.without.apply(_,[usr.availables].concat(ch.accepted));
+    usr.availables = _.union.apply(_,[usr.availables].concat(ch.undecided));
+    usr.challenges = _.without(usr.challenges,ch);
   };
   
   usr.lobbyMessage = function(client) {

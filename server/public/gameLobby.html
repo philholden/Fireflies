@@ -45,12 +45,6 @@
     function key(k){
       if(k && gc){
         gc.socket.json.send(keyEncode(k));
-
-/*        gc.socket.json.send({
-          e:k,
-          id:en.me,
-          f:en.frameId()
-        });*/
       }
     }
     

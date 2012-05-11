@@ -1,6 +1,6 @@
 function Frame(p,cio,w){
   var c = this;
- 
+  var deadTime = 120;
   c.players = [];
   
   if(!(p instanceof Frame)) {
@@ -16,6 +16,7 @@ function Frame(p,cio,w){
   c.fish = new Fish(p.fish,c.players,w);
   collisionFlies();
   collisionFish();
+  handelDeaths();
   
   function init() {
     for(i = 0;i < p.n;i++){
@@ -62,10 +63,20 @@ function Frame(p,cio,w){
   
   function collisionFish() {
     var a = c.fish;
-    var b = c.fish.t;
-    if(Util.nearerThan(a.x,a.y,b.x,b.y,10)) {
-      b.dead = 120;
+    var b = c.fish.t.fly;
+    if(Util.nearerThan(a.x,a.y,b.x,b.y,10) && !b.dead) {
+      b.dead = deadTime;
       audio[0].play();
     }
   }
+  
+  //death is handeled after 1 sec so client can agree
+  function handelDeaths() {
+    c.players.forEach(function(pl){
+      if(pl.fly.dead == deadTime - 60){
+        gc.socket.emit('dies',{userid:pl.userInfo.userid});
+      }
+    });
+  }
+  
 }

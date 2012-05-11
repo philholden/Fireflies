@@ -11,7 +11,8 @@ function Engine() {
   en.fpms = 1000/en.fps;
   en.world = new World();
   en.me = undefined; //number of this player
-  en.numPlayers = undefined;;
+  en.numPlayers = undefined;
+
   
   //create a frame
   en.tick = function(){
@@ -33,7 +34,7 @@ function Engine() {
     }
   }
   
-  en.start=function(obj){
+  en.start=function(obj,gc){
     en.stop();
     en.startTime = Date.now();
     console.log(obj);
