@@ -55,8 +55,6 @@ io.sockets.on('connection', function(client){
   client.json.on('newuser', function(req){
     client.join('lobby');
     var user = usr.addUser(client,req.name);
-    console.log(req.name);
-    console.log(usr);
     usr.makeAvailable(user.id);
     //push lobby users
     broadcastLobby();
@@ -84,9 +82,20 @@ io.sockets.on('connection', function(client){
   });
   
   client.json.on('lobbyaccept', function(req){
+    console.log('accept');
     var ch = usr.getChallenge(req.userid);
     if(ch){
-      ch.accept(req.userid);
+      //start game
+      if(ch.accept(req.userid)) {
+        var channel = gcs.getNewChannel(ch.accepted.length);
+        var users = usr.users.filter(function(user){
+          return _.include(ch.accepted,user.id);
+        });
+        //add user to channel
+        users.forEach(function(user){
+          channel.addClient(user.client,gcs);
+        });
+      }
     };
     broadcastLobby();
   });
@@ -100,17 +109,14 @@ io.sockets.on('connection', function(client){
   });
   
   client.on('disconnect',function(req){
-    console.log(client);
-    console.log(usr);
     var channel = gcs.getClientChannel(client);
     if(channel){
       channel.removeClient(client);
     }
-    console.log("dis");
     var user = usr.getClientUser(client);
     if(user){
       usr.disconnect(user.id);
-    };console.log("dis2");console.log(usr);
+    }
     broadcastLobby();
   });
   

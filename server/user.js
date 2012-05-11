@@ -81,7 +81,7 @@ exports.Users = function() {
   usr.disconnect = function(userid) {
     var user = usr.users[userid];
     usr.purge(userid);
-    delete(usr.clientUser[user.clientId]);
+    delete(usr.clientUser[user.client.id]);
     delete(usr.users[userid]);
   }
   
@@ -116,7 +116,9 @@ exports.Users = function() {
     ch.accept = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);
       ch.accepted.push(userid);
-      //if none waiting
+      if(ch.undecided.length === 0) {
+        return true;
+      }
     }
     
     ch.decline = function(userid) {
@@ -147,7 +149,7 @@ exports.Users = function() {
 exports.User = function(id,client) {
   var user = this;
   user.id = id;
-  user.clientId = client.id;
+  user.client = client;
   user.name = 'anonymous';
   user.score = 100;
 }

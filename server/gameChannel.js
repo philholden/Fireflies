@@ -2,13 +2,20 @@ exports.gameChannels = function() {
   var gcs = this;
   gcs.channels={};
   gcs.clientChannel={};
+  gcs.n = 0;
   
   gcs.getChannel = function(id) {
-    if (gcs.channels[id] === undefined) {
-      gcs.channels[id] = new exports.gameChannel(id,gcs);
-    }
+//    if (gcs.channels[id] === undefined) {
+//      gcs.channels[id] = new exports.gameChannel(id,gcs);
+//    }
     return gcs.channels[id];
   };
+  
+  gcs.getNewChannel = function(n) {
+    var id = gcs.n++;
+    gcs.channels[id] = new exports.gameChannel(id,gcs,n);
+    return gcs.channels[id];
+  }
   
   gcs.getClientChannel = function(client){
     console.log(client.id);
@@ -16,10 +23,10 @@ exports.gameChannels = function() {
   };
 }
 
-exports.gameChannel = function(id,gcs) {
+exports.gameChannel = function(id,gcs,n) {
   var gc = this;
   gc.id = id;
-  gc.startNumber = 2;
+  gc.startNumber = n;
   gc.firstClientTime = Date.now();
   gc.clients = [];
   gc.started = false;
