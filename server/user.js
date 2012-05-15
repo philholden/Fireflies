@@ -1,10 +1,11 @@
 var _ = require('underscore');
 
-exports.Users = function() {
+exports.Users = function(gcs) {
   var usr = this;
   usr.users=[];
   usr.n = 0;
   usr.clientUser={};
+  usr.gcs=gcs;
   
   usr.availables=[]; //id of available users
   usr.challenges=[]; //arrays of challenges
@@ -73,15 +74,28 @@ exports.Users = function() {
     //could delete from accepteds
   }
   
-  usr.makeChallenge = function(userids) { //userids[0] = challenger
+  usr.makeChallenge = function(userids,fn) { //userids[0] = challenger
     //filter for challengable users 
     var challengable = _.intersection(userids,usr.availables);
-    
+    var next =  fn;
     //create new challenge
     if((challengable[0] === userids[0]) && //one who made challenge is available
         (challengable.length > 1)) {
       var challenger = challengable[0];
-      usr.challenges.push(new Challenge(challengable));
+      var ch = new Challenge(challengable)
+      usr.challenges.push(ch);
+      setTimeout(autoStart,3000);
+    };
+
+    function autoStart() {
+      if(ch.accepted.length < 2) {
+        usr.availables = _.union.apply(_,[usr.availables].concat(ch.accepted));
+        usr.availables = _.union.apply(_,[usr.availables].concat(ch.undecided));
+        usr.challenges = _.without(usr.challenges,ch);
+        next();
+      } else {
+        usr.startGame(ch,next);
+      }
     }
   };
   
@@ -113,9 +127,9 @@ exports.Users = function() {
     return users;
   }
   
-  usr.startGame = function(ch,gcs,next){
+  usr.startGame = function(ch,next){
     //start game
-    var channel = gcs.getNewChannel(ch.accepted.length,usr);
+    var channel = usr.gcs.getNewChannel(ch.accepted.length,usr);
     var users = usr.users.filter(function(user){
       return _.include(ch.accepted,user.id);
     });
@@ -145,9 +159,11 @@ exports.Users = function() {
   
   function Challenge(challenged){
     var ch = this;
+    console.log(usr.availables);
     ch.accepted = [_.first(challenged)];
     ch.undecided = _.rest(challenged);
-    usr.availables = _.without(ch.availables,challenged);
+    usr.availables = _.without.apply(_,[usr.availables].concat(challenged));
+    console.log(usr.availables);
     
     ch.accept = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);

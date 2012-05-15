@@ -13,7 +13,7 @@ var express = require('express')
 io = require('socket.io');
 
 var gcs = new gameChannel.gameChannels();
-var usr = new user.Users();
+var usr = new user.Users(gcs);
 var app = express();
 
 app.configure(function(){
@@ -121,7 +121,7 @@ io.sockets.on('connection', function(client){
   
   client.json.on('lobbychallenge', function(req){
     var user = usr.getClientUser(client);
-    usr.makeChallenge(req.userids);
+    usr.makeChallenge(req.userids,broadcastLobby);
     broadcastLobby();
   });
   
