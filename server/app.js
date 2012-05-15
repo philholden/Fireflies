@@ -104,10 +104,11 @@ io.sockets.on('connection', function(client){
       
     function exitGame(user){
       console.log(user);
+      var us = user;
       usr.makeAvailable(user.id);
       user.client.join('lobby');
       setTimeout(function(){
-        user.client.leave(channel.id);
+        us.client.leave(channel.id);
       },5000);
     }
   });
@@ -138,7 +139,7 @@ io.sockets.on('connection', function(client){
     if(ch){
       var accepted = ch.accepted;
       if(ch && ch.accept(req.userid)) {
-        usr.startGame(ch,gcs,broadcastLobby);
+        usr.startGame(ch,broadcastLobby);
       };
     }
     console.log(io.sockets.manager.rooms);
@@ -165,7 +166,7 @@ io.sockets.on('connection', function(client){
     broadcastLobby();
   });
   
-  function broadcastLobby(){
+  broadcastLobby = function(){
     var msg = usr.lobbyMessage(client);
     io.sockets.in('lobby').emit('lobby',msg);
   }

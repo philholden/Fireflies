@@ -10,6 +10,9 @@ function LobbyViewModel() {
   self.me = null;
   self.meUndecided = ko.observable(false);
   self.challengeEnabled = ko.observable(false);
+  self.displayLobby = ko.observable(false);
+  self.displayGame = ko.observable(true);
+  self.displayChallenge = ko.observable(false);
   
   self.update = function(req) {
     var availables = []; //available
@@ -22,6 +25,9 @@ function LobbyViewModel() {
         availables.push(new User(user,isSelected));
       };
     });
+    if(_.include(req.availables,self.me)){
+      self.mode("lobby");
+    }
     self.availables(availables);
     self.updateSelection();
     getChallengers(req);
@@ -44,6 +50,7 @@ function LobbyViewModel() {
     console.log(challenge);
     var accepted;
     if(challenge){
+      self.mode("challenge");
       req.users.forEach(function(user) {
         accepted = _.include(challenge.accepted,user.id);
         if(_.include(all2,user.id)){
@@ -55,8 +62,17 @@ function LobbyViewModel() {
       });
     } else {
       self.meUndecided(false);
+      if(!_.include(req.availables,self.me)){
+        self.mode("game");
+      }
     }
     self.myChallengers(myChallengers);
+  }
+  
+  self.mode = function(mode){
+    self.displayLobby(mode == "lobby");
+    self.displayGame(mode == "game");
+    self.displayChallenge(mode == "challenge");
   }
   
   self.selected = [];

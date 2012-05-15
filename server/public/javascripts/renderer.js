@@ -75,7 +75,7 @@ function Renderer(wrapper,w) {
     ctx.textAlign = 'center';
     ctx.font = 'normal 9px Arial';
     ctx.fillText(pl.userInfo.name,c.x,c.y - 26);
-    ctx.fillText(pl.userInfo.score,c.x,c.y - 15);
+    ctx.fillText(pl.userInfo.score|0,c.x,c.y - 15);
     ctx.lineWidth = i == en.me ? 1 : 1;
     //ctx.lineWidth = 1;
   }

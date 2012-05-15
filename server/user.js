@@ -84,7 +84,7 @@ exports.Users = function(gcs) {
       var challenger = challengable[0];
       var ch = new Challenge(challengable)
       usr.challenges.push(ch);
-      setTimeout(autoStart,3000);
+      ch.timer = setTimeout(autoStart,5000);
     };
 
     function autoStart() {
@@ -128,6 +128,9 @@ exports.Users = function(gcs) {
   }
   
   usr.startGame = function(ch,next){
+    if(ch.timer){
+      clearTimeout(ch.timer);
+    }
     //start game
     var channel = usr.gcs.getNewChannel(ch.accepted.length,usr);
     var users = usr.users.filter(function(user){
@@ -148,23 +151,27 @@ exports.Users = function(gcs) {
   };
   
   usr.lobbyMessage = function(client) {
+    var cl;
+    var challenges = usr.challenges.map(function(ch){
+      cl = _.clone(ch);
+      delete(cl.timer);
+      return cl;
+    });
     var user = usr.getClientUser(client);
     var msg = {
       users: usr.getLobbyUsers(),
       availables: usr.availables,
-      challenges: usr.challenges
+      challenges: challenges
     }
     return msg;
   }
   
   function Challenge(challenged){
     var ch = this;
-    console.log(usr.availables);
     ch.accepted = [_.first(challenged)];
     ch.undecided = _.rest(challenged);
-    usr.availables = _.without.apply(_,[usr.availables].concat(challenged));
-    console.log(usr.availables);
     
+    usr.availables = _.without.apply(_,[usr.availables].concat(challenged));
     ch.accept = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);
       ch.accepted.push(userid);
