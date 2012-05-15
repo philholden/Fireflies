@@ -9,6 +9,7 @@ function LobbyViewModel() {
   self.myChallengers = ko.observableArray([]);
   self.me = null;
   self.meUndecided = ko.observable(false);
+  self.challengeEnabled = ko.observable(false);
   
   self.update = function(req) {
     var availables = []; //available
@@ -88,6 +89,7 @@ function LobbyViewModel() {
         user.selected(hasUser);
       }
     });
+    self.challengeEnabled(self.selected.length>0);
   }
   
   self.toggleSelected = function(user) {

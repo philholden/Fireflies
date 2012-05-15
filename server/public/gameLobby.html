@@ -129,7 +129,7 @@
       <li data-bind="text: userInfo, click: $parent.addSelection,
        attr: {class : classes}"></li>
     </ul>
-    <button id="challenge" data-bind="click: sendChallenge">Challenge</button>
+    <button id="challenge" data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
     <p>challengers:</p>
     <ul data-bind="foreach: myChallengers" class="users">
       <li data-bind="text: challengeInfo, attr: {class : classes}"></li>
