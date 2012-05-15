@@ -69,6 +69,9 @@ io.sockets.on('connection', function(client){
     console.log(req);
     var channel = gcs.getClientChannel(client);
     var dead = usr.getUserById(req.userid);
+    if(!channel){
+      return;
+    }
     console.log(dead.name);
     //tithe
     var users = usr.users.filter(function(user){
@@ -131,13 +134,13 @@ io.sockets.on('connection', function(client){
   });
   
   client.json.on('lobbyaccept', function(req){
-    console.log('accept');
     var ch = usr.getChallenge(req.userid);
-    var accepted = ch.accepted;
-    if(ch && ch.accept(req.userid)) {
-      usr.startGame(ch,gcs);
-    };
-    broadcastLobby();
+    if(ch){
+      var accepted = ch.accepted;
+      if(ch && ch.accept(req.userid)) {
+        usr.startGame(ch,gcs,broadcastLobby);
+      };
+    }
     console.log(io.sockets.manager.rooms);
   });
   

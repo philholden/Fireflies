@@ -113,12 +113,17 @@ exports.Users = function() {
     return users;
   }
   
-  usr.startGame = function(ch,gcs){
+  usr.startGame = function(ch,gcs,next){
     //start game
     var channel = gcs.getNewChannel(ch.accepted.length,usr);
     var users = usr.users.filter(function(user){
       return _.include(ch.accepted,user.id);
     });
+    //delete challenge and availble users
+    usr.availables = _.without.apply(_,[usr.availables].concat(ch.accepted));
+    usr.availables = _.union.apply(_,[usr.availables].concat(ch.undecided));
+    usr.challenges = _.without(usr.challenges,ch);
+    next();
     //add user to channel
     users.forEach(function(user){
       channel.addClient(user.client,usr);
@@ -126,11 +131,6 @@ exports.Users = function() {
       user.alive = true;
       user.channelid = channel.id;
     });
-    
-    //delete challenge and availble users
-    usr.availables = _.without.apply(_,[usr.availables].concat(ch.accepted));
-    usr.availables = _.union.apply(_,[usr.availables].concat(ch.undecided));
-    usr.challenges = _.without(usr.challenges,ch);
   };
   
   usr.lobbyMessage = function(client) {

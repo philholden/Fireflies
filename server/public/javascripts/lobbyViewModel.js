@@ -52,6 +52,8 @@ function LobbyViewModel() {
           }
         }
       });
+    } else {
+      self.meUndecided(false);
     }
     self.myChallengers(myChallengers);
   }
