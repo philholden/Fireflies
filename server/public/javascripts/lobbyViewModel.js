@@ -18,6 +18,7 @@ function LobbyViewModel() {
     var availables = []; //available
     var isSelected;
     self.me = req.me === undefined ? self.me : req.me;
+    req.users.sort(function(a,b){return a.score-b.score});
     req.users.forEach(function(user) {
       isSelected = _.include(self.selected,user.id);
       isAvailable = _.include(req.availables,user.id);
@@ -47,7 +48,6 @@ function LobbyViewModel() {
         all2 = all;
       }
     });
-    console.log(challenge);
     var accepted;
     if(challenge){
       self.mode("challenge");
@@ -73,6 +73,9 @@ function LobbyViewModel() {
     self.displayLobby(mode == "lobby");
     self.displayGame(mode == "game");
     self.displayChallenge(mode == "challenge");
+//    if(mode == "game" && $("#game").requestFullscreen){
+//      $("#game").requestFullscreen();
+//    }
   }
   
   self.selected = [];
@@ -149,7 +152,6 @@ function User(user,selected,accepted) {
   self.selected = ko.observable();
   self.accepted = accepted;
   self.selected(_.include(selected,self.id));
-  console.log(lobby.me);
   self.classes = ko.computed(function(){
     return (self.selected() ? "selected" : "") +
       (self.id == lobby.me ? "me" : "");
@@ -160,6 +162,11 @@ function User(user,selected,accepted) {
   self.userInfo = ko.computed(function() {
     return self.name + " " + self.score;    
   }, this);
+
+  self.userTip = ko.computed(function() {
+    return self.id == lobby.me ? "Click to edit name" : "Click to challenge";
+  }, this);
+
   self.challengeInfo = ko.computed(function() {
     return self.name + " " + self.score + " " +(self.accepted ? "accepted" : "waiting");    
   }, this);

@@ -102,17 +102,35 @@
       padding-left: 0;
     }
     
-    .users li {
+    .users tr {
       cursor: default;
     }
     
-    li.me {
-      font-weight: bold;
+    .users tr:hover {
+      background: #ccc;
     }
     
-    li.me:after {
-      content: " (me)";
+    table, th, td
+    {
+      border-collapse:collapse;
+      border-spacing: 0px;
+      border:0px solid black;
+    } 
+    
+    tr.me {
+      font-weight: bold;
+      background: orange;
     }
+    
+    .name {
+      display: inline-block;
+      width: 5em;
+    }
+    
+    .score {
+      display: inline-block;
+    }
+    
   </style>
   </head>
   <body tabindex="0">
@@ -125,16 +143,31 @@
     <div id="lobby" data-bind="visible: displayLobby">
       <p>Select players to challenge</p>
       <p>or click your player to edit name:</p>
-      <ul data-bind="foreach: availables" class="users">
-        <li data-bind="text: userInfo, click: $parent.addSelection,
-         attr: {class : classes}"></li>
+      <!--<ul data-bind="foreach: availables" class="users">
+        <li data-bind="click: $parent.addSelection, attr: {class : classes}">
+          <div class="name" data-bind="text: name"></div>
+          <div class="score" data-bind="text: score"></div>
+        </li>
+      </ul>-->
+      <table>
+        <tbody data-bind="foreach: availables" class="users">
+   
+        <tr data-bind="click: $parent.addSelection, attr: {class : classes}">
+          <td class="name" data-bind="text: name, attr: {title : userTip}"></td>
+          <td class="score" data-bind="text: score"></td>
+        </tr>
       </ul>
+        </tbody>
+      </table>
       <button id="challenge" data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
     </div>
     <div id="challenge" data-bind="visible: displayChallenge">
       <p>You have been challenged:</p>
       <ul data-bind="foreach: myChallengers" class="users">
-        <li data-bind="text: challengeInfo, attr: {class : classes}"></li>
+        <li data-bind="attr: {class : classes}">
+          <div class="name" data-bind="text: name"></div>
+          <div class="score" data-bind="text: score"></div>
+        </li>
       </ul>
       <button data-bind="enable: meUndecided, click: accept">accept</button>
       <button data-bind="enable: meUndecided, click: decline">decline</button>

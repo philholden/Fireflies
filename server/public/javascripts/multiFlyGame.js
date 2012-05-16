@@ -36,23 +36,25 @@ function Frame(p,cio,w){
     var n = p.length;
     for(var j=0;j<p.length;j++)
     {
-      for(var i=j+1;i<p.length;i++)
-      {
-        if ((p[i].fly.uc==0)&&(p[j].fly.uc==0))
+      if((p[j].fly.uc==0)&&(p[j].fly.dead==0)) {
+        for(var i=j+1;i<p.length;i++)
         {
-          x=Math.abs(p[i].fly.x-p[j].fly.x);
-          y=Math.abs(p[i].fly.y-p[j].fly.y);
-          dist= x * x + y * y;
- //         $('#col').html("dist:"+dist);
-          if (dist<196)
+          if ((p[i].fly.uc==0)&&(p[i].fly.dead==0))
           {
-            audio[0].play();
-            if(p[i].fly.ys>p[j].fly.ys)
+            x=Math.abs(p[i].fly.x-p[j].fly.x);
+            y=Math.abs(p[i].fly.y-p[j].fly.y);
+            dist= x * x + y * y;
+   //         $('#col').html("dist:"+dist);
+            if (dist<169)
             {
-              p[j].fly.uc=250;
-            } else
-            {
-              p[i].fly.uc=250;
+              audio[0].play();
+              if(p[i].fly.ys>p[j].fly.ys)
+              {
+                p[j].fly.uc=250;
+              } else
+              {
+                p[i].fly.uc=250;
+              }
             }
           }
         }

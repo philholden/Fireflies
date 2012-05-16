@@ -136,6 +136,7 @@ exports.Users = function(gcs) {
     var users = usr.users.filter(function(user){
       return _.include(ch.accepted,user.id);
     });
+    users.sort(function(a,b){return a.score - b.score});
     //delete challenge and availble users
     usr.availables = _.without.apply(_,[usr.availables].concat(ch.accepted));
     usr.availables = _.union.apply(_,[usr.availables].concat(ch.undecided));

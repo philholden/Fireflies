@@ -49,6 +49,8 @@ function Fly(p,j,w) {
     c.y = 0;
     c.ys = 0;
     c.uc = 0;
+    //
+    c.dead = c.dead == 1 ? 2:c.dead;
   }
 
   if (c.y>w.wl) //bounds
