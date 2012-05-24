@@ -213,6 +213,10 @@ input[type=text] {
 .smoke {
   color: black;
 }
+#game canvas {
+  margin: 20px auto;
+}
+
 #screen {
 
 }
