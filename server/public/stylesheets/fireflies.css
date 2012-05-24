@@ -54,7 +54,7 @@ table, th, td
 }
 
 #lobby table {
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 20px;
   background-color: #0a0a0a;
 }
@@ -94,6 +94,10 @@ tr.me:hover td{
   font-size: 18px;
 }
 
+#challenge {
+
+}
+
 .slice {
   width: 960px;
   margin: 0px auto;
@@ -107,6 +111,7 @@ tr.me:hover td{
   display: block;
   padding: 20px;
   margin: 0px auto 20px;
+  max-height: 300px;
 }
 
 .clear {
@@ -214,7 +219,13 @@ input[type=text] {
   color: black;
 }
 #game canvas {
-  margin: 20px auto;
+  margin: 30px auto;
+}
+#challenge td {
+  color:#fca710;
+}
+#challenge .accepted td{
+  color: #58ff00;
 }
 
 #screen {

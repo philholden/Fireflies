@@ -17,6 +17,7 @@ function LobbyViewModel() {
   self.displayGame = ko.observable(true);
   self.displayChallenge = ko.observable(false);
   self.challengeSec = ko.observable(5);
+  self.loaded = ko.observable(false);
   
   self.nameOkEnabled = ko.computed(function(){
     return self.myName() != "" && self.myName() != self.savedName();
@@ -180,6 +181,9 @@ function User(user,selected,accepted) {
   self.classes = ko.computed(function(){
     return (self.selected() ? "selected" : "") +
       (self.id == lobby.me ? "me" : "");
+  });
+  self.acceptedClass = ko.computed(function(){
+    return self.accepted ? "accepted" : "";
   });
   self.toggleSelected = function(user) {
     user.selected = !user.selected;

@@ -43,7 +43,12 @@
       body = $("body");
       requestAnimationFrame(step);
       body.keyup(function(e){key(kb.keyUp(e.keyCode))});
-      body.keydown(function(e){key(kb.keyDown(e.keyCode))});
+      body.keydown(function(e){
+        key(kb.keyDown(e.keyCode));
+        if(lobby && lobby.displayGame()){
+          e.preventDefault();
+        }  
+      });
     }
     
     function key(k){
@@ -88,9 +93,9 @@
       },500);
       lobby = new LobbyViewModel();
       ko.applyBindings(lobby);
+      lobby.loaded(true);
     });
 
-    
   </script>
   <style>
         
@@ -110,7 +115,7 @@
       <div id="logo"><span>F</span><span>i</span><span>r</span><span>e</span><span>f</span><span>l</span><span>i</span><span>e</span><span>s</span></div>
       
     </div>
-    <div id="#minheight">
+    <div id="#minheight" style="display:none" data-bind="visible: loaded">
       <div id="lobby" data-bind="visible: displayLobby" class="slice">
         <div class="slice1">
           <p>Name <input id="name" type="text" tabindex="1" data-bind="value: myName,executeOnEnter: sendName, valueUpdate: 'afterkeydown'">
@@ -136,7 +141,7 @@
             </tr>
             </tbody>
           </table>
-          <button id="challenge" data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
+          <button data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
         </div>
         <div class="slice3" data-bind="visible: displayChallenge">
           <div id="challenge" data-bind="visible: displayChallenge" class="slice">
@@ -151,9 +156,9 @@
               <th class="last">Status</th>
             </tr>
             <tbody data-bind="foreach: myChallengers" class="users">
-            <tr data-bind="attr: {class : classes}">
+            <tr data-bind="attr: {class : acceptedClass}">
               <!--<td class="first">s</td>-->
-              <td class="name" data-bind="text: name, attr: {title : userTip}"></td>
+              <td class="name" data-bind="text: name"></td>
               <td class="score" data-bind="text: score"></td>
               <td class="fbscore">0</td>
               <td class="last" data-bind="text: challengeStatus"></td>
@@ -161,31 +166,12 @@
             </tbody>
           </table>
           
-          
-<!--          <ul data-bind="foreach: myChallengers" class="users">
-            <li data-bind="attr: {class : classes}">
-              <div class="name" data-bind="text: name"></div>
-              <div class="score" data-bind="text: score"></div>
-            </li>
-    </ul>-->
           <button data-bind="enable: meUndecided, click: accept">accept</button>
           <button data-bind="enable: meUndecided, click: decline">decline</button>
           </div>
         </div>
       </div>
- <!--  
-      <div id="challenge" data-bind="visible: displayChallenge" class="slice">
-        <p>You have been challenged:</p>
-        <ul data-bind="foreach: myChallengers" class="users">
-          <li data-bind="attr: {class : classes}">
-            <div class="name" data-bind="text: name"></div>
-            <div class="score" data-bind="text: score"></div>
-          </li>
-        </ul>
-        <button data-bind="enable: meUndecided, click: accept">accept</button>
-        <button data-bind="enable: meUndecided, click: decline">decline</button>
-      </div>
- -->     
+    
       <div id="game" data-bind="visible: displayGame" class="slice">
         <div id="col"></div>
         <canvas id="screen"width="800" height="450"></canvas>
