@@ -34,6 +34,7 @@ function Frame(p,cio,w){
     var x,y,dist;
     var p = c.players;
     var n = p.length;
+//    $('#col').html(n);
     for(var j=0;j<p.length;j++)
     {
       if((p[j].fly.uc==0)&&(p[j].fly.dead==0)) {
@@ -44,7 +45,7 @@ function Frame(p,cio,w){
             x=Math.abs(p[i].fly.x-p[j].fly.x);
             y=Math.abs(p[i].fly.y-p[j].fly.y);
             dist= x * x + y * y;
-   //         $('#col').html("dist:"+dist);
+ 
             if (dist<169)
             {
               audio[0].play();

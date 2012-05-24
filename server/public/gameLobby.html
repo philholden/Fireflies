@@ -1,6 +1,11 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <link href='http://fonts.googleapis.com/css?family=Codystar|Poiret+One|Quicksand|Just+Me+Again+Down+Here|Oxygen|Homenaje|Imprima|Love+Ya+Like+A+Sister' rel='stylesheet' type='text/css'>
+  <!--<link href='http://fonts.googleapis.com/css?family=Julee|Rammetto+One|Caesar+Dressing|Chau+Philomene+One|Gochi+Hand|Gloria+Hallelujah|Handlee|Aclonica|Chewy' rel='stylesheet' type='text/css'>-->  
   <link rel="stylesheet" href="stylesheets/smoke.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="stylesheets/fireflies.css" type="text/css" media="screen" />
+    <script src="javascripts/screenfull.js" type="text/javascript"></script>
   <script src="javascripts/smoke.min.js" type="text/javascript"></script>
   <script src="javascripts/util.js" type="text/javascript"></script>
   <script src="javascripts/underscore-min.js" type="text/javascript"></script>  
@@ -88,49 +93,7 @@
     
   </script>
   <style>
-    .man {
-      position: absolute;
-      color: white;
-    }
-    canvas {display: block}
-    audio {display: none}
-    .selected {
-      background: #ccc;
-    }
-    .users {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    
-    .users tr {
-      cursor: default;
-    }
-    
-    .users tr:hover {
-      background: #ccc;
-    }
-    
-    table, th, td
-    {
-      border-collapse:collapse;
-      border-spacing: 0px;
-      border:0px solid black;
-    } 
-    
-    tr.me {
-      font-weight: bold;
-      background: orange;
-    }
-    
-    .name {
-      display: inline-block;
-      width: 5em;
-    }
-    
-    .score {
-      display: inline-block;
-    }
-    
+        
   </style>
   </head>
   <body tabindex="0">
@@ -140,39 +103,105 @@
     <audio src="sound/drip2.ogg" controls></audio>
     <audio src="sound/lick.ogg" controls></audio>
     <audio src="sound/splash2.ogg" controls></audio>
-    <div id="lobby" data-bind="visible: displayLobby">
-      <p>Select players to challenge</p>
-      <p>or click your player to edit name:</p>
-      <!--<ul data-bind="foreach: availables" class="users">
-        <li data-bind="click: $parent.addSelection, attr: {class : classes}">
-          <div class="name" data-bind="text: name"></div>
-          <div class="score" data-bind="text: score"></div>
-        </li>
-      </ul>-->
-      <table>
-        <tbody data-bind="foreach: availables" class="users">
-   
-        <tr data-bind="click: $parent.addSelection, attr: {class : classes}">
-          <td class="name" data-bind="text: name, attr: {title : userTip}"></td>
-          <td class="score" data-bind="text: score"></td>
-        </tr>
-      </ul>
-        </tbody>
-      </table>
-      <button id="challenge" data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
+    <div id="header" class="slice">
+      <div id="social"><img src="/images/twitter.png"> <img src="/images/facebook.png"></div>
+      <div class="clear"></div>
+      <img id="kraya" src="/images/krayativity.png"/>
+      <div id="logo"><span>F</span><span>i</span><span>r</span><span>e</span><span>f</span><span>l</span><span>i</span><span>e</span><span>s</span></div>
+      
     </div>
-    <div id="challenge" data-bind="visible: displayChallenge">
-      <p>You have been challenged:</p>
-      <ul data-bind="foreach: myChallengers" class="users">
-        <li data-bind="attr: {class : classes}">
-          <div class="name" data-bind="text: name"></div>
-          <div class="score" data-bind="text: score"></div>
-        </li>
-      </ul>
-      <button data-bind="enable: meUndecided, click: accept">accept</button>
-      <button data-bind="enable: meUndecided, click: decline">decline</button>
-    </div>
-    <div id="game" data-bind="visible: displayGame">
+    <div id="#minheight">
+      <div id="lobby" data-bind="visible: displayLobby" class="slice">
+        <div class="slice1">
+          <p>Name <input id="name" type="text" tabindex="1" data-bind="value: myName,executeOnEnter: sendName, valueUpdate: 'afterkeydown'">
+            <button data-bind="click: sendName, enable: nameOkEnabled">OK</button></p>        
+        </div>
+        <div class="slice2" data-bind="visible: !displayChallenge()">
+          <p>Select players to challenge</p>
+          <table>
+            <tr>
+              <!--<th class="first">d</th>-->
+              <th class="name">Name</th>
+              <th class="score">Score</th>
+              <th class="fbscore">Facebook Score</th>
+              <!--<th class="last">d</th>-->
+            </tr>
+            <tbody data-bind="foreach: availables" class="users">
+            <tr data-bind="click: $parent.addSelection, attr: {class : classes}">
+              <!--<td class="first">s</td>-->
+              <td class="name" data-bind="text: name, attr: {title : userTip}"></td>
+              <td class="score" data-bind="text: score"></td>
+              <td class="fbscore">0</td>
+              <!--<td class="last">s</td>-->
+            </tr>
+            </tbody>
+          </table>
+          <button id="challenge" data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
+        </div>
+        <div class="slice3" data-bind="visible: displayChallenge">
+          <div id="challenge" data-bind="visible: displayChallenge" class="slice">
+          <p>You have been challenged!
+            <span data-bind="text: challengeSec"></span></p>
+          <table>
+            <tr>
+              <!--<th class="first">d</th>-->
+              <th class="name">Name</th>
+              <th class="score">Score</th>
+              <th class="fbscore">Facebook Score</th>
+              <th class="last">Status</th>
+            </tr>
+            <tbody data-bind="foreach: myChallengers" class="users">
+            <tr data-bind="attr: {class : classes}">
+              <!--<td class="first">s</td>-->
+              <td class="name" data-bind="text: name, attr: {title : userTip}"></td>
+              <td class="score" data-bind="text: score"></td>
+              <td class="fbscore">0</td>
+              <td class="last" data-bind="text: challengeStatus"></td>
+            </tr>
+            </tbody>
+          </table>
+          
+          
+<!--          <ul data-bind="foreach: myChallengers" class="users">
+            <li data-bind="attr: {class : classes}">
+              <div class="name" data-bind="text: name"></div>
+              <div class="score" data-bind="text: score"></div>
+            </li>
+    </ul>-->
+          <button data-bind="enable: meUndecided, click: accept">accept</button>
+          <button data-bind="enable: meUndecided, click: decline">decline</button>
+          </div>
+        </div>
+      </div>
+ <!--  
+      <div id="challenge" data-bind="visible: displayChallenge" class="slice">
+        <p>You have been challenged:</p>
+        <ul data-bind="foreach: myChallengers" class="users">
+          <li data-bind="attr: {class : classes}">
+            <div class="name" data-bind="text: name"></div>
+            <div class="score" data-bind="text: score"></div>
+          </li>
+        </ul>
+        <button data-bind="enable: meUndecided, click: accept">accept</button>
+        <button data-bind="enable: meUndecided, click: decline">decline</button>
+      </div>
+ -->     
+      <div id="game" data-bind="visible: displayGame" class="slice">
+        <div id="col"></div>
+        <canvas id="screen"width="800" height="450"></canvas>
+      </div>
+      <div id="footer">
+        <div class="slice">
+          <div id="phil" class="credit">
+            <div class="job">Development</div>
+            <div class="person">Phil Holden</div>
+          </div>
+          <div id="lelen" class="credit">
+            <div class="job">Graphic Design</div>
+            <div class="person">Lelen Holden</div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

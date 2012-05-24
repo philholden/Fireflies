@@ -8,8 +8,9 @@ function Renderer(wrapper,w) {
   rd.w = w;
  
   rd.init = function() {
-    wrapper.append('<canvas id="screen" width="'+w.w+'" height="'+w.h+'"></canvas>');
+    //wrapper.append('<canvas id="screen" width="'+w.w+'" height="'+w.h+'"></canvas>');
     rd.canvas = document.getElementById('screen');
+    //$("#screen").click(function(){screenfull.request(rd.canvas)});
     rd.ctx = ctx = rd.canvas.getContext('2d');
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);

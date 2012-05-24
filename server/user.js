@@ -84,7 +84,7 @@ exports.Users = function(gcs) {
       var challenger = challengable[0];
       var ch = new Challenge(challengable)
       usr.challenges.push(ch);
-      ch.timer = setTimeout(autoStart,5000);
+      ch.timer = setTimeout(autoStart,10000);
     };
 
     function autoStart() {

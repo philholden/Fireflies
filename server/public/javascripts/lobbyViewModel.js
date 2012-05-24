@@ -5,14 +5,22 @@ function LobbyViewModel() {
   self.availables = ko.observableArray([]);
   self.maxSelected = 2;
   self.selected = [];
+  self.timer = null;
   self.challenge = ko.observableArray([]);
   self.myChallengers = ko.observableArray([]);
   self.me = null;
+  self.myName = ko.observable("");
+  self.savedName = ko.observable("");
   self.meUndecided = ko.observable(false);
   self.challengeEnabled = ko.observable(false);
   self.displayLobby = ko.observable(false);
   self.displayGame = ko.observable(true);
   self.displayChallenge = ko.observable(false);
+  self.challengeSec = ko.observable(5);
+  
+  self.nameOkEnabled = ko.computed(function(){
+    return self.myName() != "" && self.myName() != self.savedName();
+  },this);
   
   self.update = function(req) {
     var availables = []; //available
@@ -20,6 +28,12 @@ function LobbyViewModel() {
     self.me = req.me === undefined ? self.me : req.me;
     req.users.sort(function(a,b){return a.score-b.score});
     req.users.forEach(function(user) {
+      if(user.id == self.me) {
+        self.savedName(user.name);
+        if(self.myName()=="") {
+          self.myName(user.name);
+        }
+      }
       isSelected = _.include(self.selected,user.id);
       isAvailable = _.include(req.availables,user.id);
       if (isAvailable) {
@@ -70,7 +84,18 @@ function LobbyViewModel() {
   }
   
   self.mode = function(mode){
-    self.displayLobby(mode == "lobby");
+    if(mode == "challenge" && !self.displayChallenge()){
+      //timer
+      self.challengeSec(11);
+      (function (){
+        self.challengeSec(self.challengeSec()-1);
+        if(self.challengeSec()>1){
+          clearTimeout(self.timer);
+          self.timer = setTimeout(arguments.callee,1000);
+        }
+      }) ();
+    }
+    self.displayLobby(mode == "lobby" || mode == "challenge");
     self.displayGame(mode == "game");
     self.displayChallenge(mode == "challenge");
 //    if(mode == "game" && $("#game").requestFullscreen){
@@ -81,13 +106,7 @@ function LobbyViewModel() {
   self.selected = [];
   
   self.addSelection = function(user) {
-    if(user.id === self.me) {
-      smoke.prompt('Please enter your name:',function(e){
-        console.log(e);
-        if(e && e !== "") {
-          gc.newUser(e);
-        } 
-      });
+    if(user.id == self.me) {
       return;
     }
     var hasUser = _.include(self.selected,user.id);
@@ -141,6 +160,12 @@ function LobbyViewModel() {
     });
     return userIds;
   }
+  
+  self.sendName = function(a){
+    if(self.nameOkEnabled()){
+      gc.newUser($("#name").val());
+    }
+  };
 }
 
 function User(user,selected,accepted) {
@@ -164,11 +189,11 @@ function User(user,selected,accepted) {
   }, this);
 
   self.userTip = ko.computed(function() {
-    return self.id == lobby.me ? "Click to edit name" : "Click to challenge";
+    return self.id == lobby.me ? "Me" : self.selected() ? "Click to unselect" : "Click to select";
   }, this);
 
-  self.challengeInfo = ko.computed(function() {
-    return self.name + " " + self.score + " " +(self.accepted ? "accepted" : "waiting");    
+  self.challengeStatus = ko.computed(function() {
+    return self.accepted ? "accepted" : "waiting";    
   }, this);
 }
 
