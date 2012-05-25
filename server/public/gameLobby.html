@@ -154,9 +154,9 @@
             </tr>
             <tbody data-bind="foreach: myChallengers" class="users">
             <tr data-bind="attr: {class : challengeStatus}">
-              <td class="name" data-bind="text: name"></td>
-              <td class="score" data-bind="text: score|0"></td>
-              <td class="fbscore">0</td>
+              <td class="name" data-bind="text: name, style: styles"></td>
+              <td class="score" data-bind="text: score|0, style: styles"></td>
+              <td class="fbscore" data-bind="style: styles">0</td>
               <td class="last" data-bind="text: challengeStatus"></td>
             </tr>
             </tbody>

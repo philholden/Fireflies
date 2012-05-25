@@ -37,10 +37,10 @@ function Frame(p,cio,w){
 //    $('#col').html(n);
     for(var j=0;j<p.length;j++)
     {
-      if((p[j].fly.uc==0)&&(p[j].fly.dead==0)) {
+      if(!p[j].fly.uc && !p[j].fly.dead && !p[j].fly.invulnerable) {
         for(var i=j+1;i<p.length;i++)
         {
-          if ((p[i].fly.uc==0)&&(p[i].fly.dead==0))
+          if (!p[i].fly.uc && !p[i].fly.dead && !p[i].fly.invulnerable)
           {
             x=Math.abs(p[i].fly.x-p[j].fly.x);
             y=Math.abs(p[i].fly.y-p[j].fly.y);
@@ -68,6 +68,7 @@ function Frame(p,cio,w){
     var b = c.fish.t.fly;
     if(Util.nearerThan(a.x,a.y,b.x,b.y,10) && !b.dead) {
       b.dead = deadTime;
+      b.lives -= 1;
       audio[0].play();
     }
   }
@@ -75,7 +76,7 @@ function Frame(p,cio,w){
   //death is handeled after 1 sec so client can agree
   function handelDeaths() {
     c.players.forEach(function(pl){
-      if(pl.fly.dead == deadTime - 60){
+      if(pl.fly.dead == deadTime - 60 && !pl.fly.lives){
         gc.socket.emit('dies',{userid:pl.userInfo.userid});
       }
     });

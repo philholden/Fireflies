@@ -52,6 +52,9 @@ function Renderer(wrapper,w) {
     var pl = en.frames[en.end].players[i];
     var c = pl.fly;
     var length = i == en.me ? 15 : 10;
+    //flash if invulnerable
+    var opacity = c.invulnerable ? c.invulnerable/2%2|0 : 1;
+    
     if(c.dead) {
       return;
     }
@@ -66,7 +69,7 @@ function Renderer(wrapper,w) {
     }
     for (j = 1;j < length; j++) {
       
-      ctx.strokeStyle = "hsla("+hue+",100%,50%,"+(1-j/length)+")";
+      ctx.strokeStyle = "hsla("+hue+",100%,50%,"+((1-j/length)*opacity)+")";
       if((en.end - j)>0){
         c = en.frames[en.end - j].players[i].fly;  
         ctx.lineTo(c.x,c.y);
@@ -82,7 +85,7 @@ function Renderer(wrapper,w) {
     ctx.textAlign = 'center';
     ctx.font = 'normal 9px Arial';
     ctx.fillText(pl.userInfo.name,c.x,c.y - 26);
-    ctx.fillText(pl.userInfo.score|0,c.x,c.y - 15);
+    ctx.fillText(pl.fly.lives +" : " + (pl.userInfo.score|0),c.x,c.y - 15);
     ctx.lineWidth = i == en.me ? 1 : 1;
     //ctx.lineWidth = 1;
   }
@@ -126,6 +129,7 @@ function Renderer(wrapper,w) {
   rd.drawReflection = function(i,n,en) {
     var pl = en.frames[en.end].players[i];
     var c = en.frames[en.end].players[i].fly;
+    var opacity = c.invulnerable ? c.invulnerable/2%2|0 : 1;
     if(c.dead) {
       return;
     }
@@ -135,7 +139,7 @@ function Renderer(wrapper,w) {
     hue = pl.userInfo.hue;
     ctx.lineTo(c.x,w.wl+(w.wl-c.y)/ref);
     for (j = 1;j < 10; j++) {
-      ctx.strokeStyle = "hsla("+hue+",100%,50%,"+((1-j/10)/3)+")";
+      ctx.strokeStyle = "hsla("+hue+",100%,50%,"+(((1-j/10)/3)*opacity)+")";
       if((en.end - j)>0){
         c = en.frames[en.end - j].players[i].fly;
         ctx.lineTo(c.x,w.wl+(w.wl-c.y)/ref);

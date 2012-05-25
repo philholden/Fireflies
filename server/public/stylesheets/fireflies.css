@@ -38,12 +38,20 @@ audio {display: none}
   cursor: default;
 }
 
-.users tr:hover td{
+.slice2 .users tr:hover td{
   background-color: rgba(255,255,255,0.05);
 }
 
 .users tr.me:hover td{
   background-color: rgba(255,255,255,0.0);
+}
+
+.users tr td {
+  transition: background .3s;
+  -moz-transition: background .3s; /* Firefox 4 */
+  -webkit-transition: background .3s; /* Safari and Chrome */
+  -o-transition: background .3s; /* Opera */
+  -ms-transition: background .3s; /* Opera */
 }
 
 table, th, td

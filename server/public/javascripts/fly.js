@@ -19,13 +19,19 @@ function Fly(p,j,w) {
   } else {
     c.uc =0;
   }
-   
+  
+  if(p.invulnerable){
+    c.invulnerable = p.invulnerable - 1;
+  }
+  
+  c.invulnerable 
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
     c.xi = 0.4;  //inertia
     c.yi = 0.4;
-  
-
+    c.xInit = p.xInit;
+    
+  c.lives = p.lives;
   c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity
   c.ya = p.y<30?w.gy*4:(j.v*p.yi)+w.gy;
 
@@ -46,11 +52,15 @@ function Fly(p,j,w) {
 
   if(p.dead > 0){
     c.dead = p.dead - 1;
-    c.y = 0;
-    c.ys = 0;
+    c.xs = 0;
+    c.y = 40;
+    c.ys = -5;
     c.uc = 0;
-    //
-    c.dead = c.dead == 1 ? 2:c.dead;
+    c.invulnerable = 120;
+    c.x = c.xInit;
+    if(!c.lives) {
+      c.dead = c.dead == 1 ? 2:c.dead;
+    }
   } else {
     c.dead = 0;
   }
@@ -67,8 +77,9 @@ function Fly(p,j,w) {
   }
   
   function init() {
+    c.xInit = (w.w/(p.n+2))*(p.i+1);
+    c.invulnerable = 0;
     c.x = (w.w/(p.n+2))*(p.i+1);
-    console.log(c.x);
     c.y = 0.0;
     c.xs = 0.0;
     c.ys = 0.0;
@@ -81,5 +92,6 @@ function Fly(p,j,w) {
     c.uc = 0;
     c.plop = true;
     c.dead = 0;
+    c.lives = 3;
   }
 }
