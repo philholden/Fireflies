@@ -135,7 +135,7 @@
             <tr data-bind="click: $parent.addSelection, attr: {class : classes}">
               <!--<td class="first">s</td>-->
               <td class="name" data-bind="text: name, attr: {title : userTip}"></td>
-              <td class="score" data-bind="text: score"></td>
+              <td class="score" data-bind="text: score|0"></td>
               <td class="fbscore">0</td>
               <!--<td class="last">s</td>-->
             </tr>
@@ -156,10 +156,10 @@
               <th class="last">Status</th>
             </tr>
             <tbody data-bind="foreach: myChallengers" class="users">
-            <tr data-bind="attr: {class : acceptedClass}">
+            <tr data-bind="attr: {class : challengeStatus}">
               <!--<td class="first">s</td>-->
               <td class="name" data-bind="text: name"></td>
-              <td class="score" data-bind="text: score"></td>
+              <td class="score" data-bind="text: score|0"></td>
               <td class="fbscore">0</td>
               <td class="last" data-bind="text: challengeStatus"></td>
             </tr>

@@ -142,6 +142,7 @@ io.sockets.on('connection', function(client){
         usr.startGame(ch,broadcastLobby);
       };
     }
+    broadcastLobby();
     console.log(io.sockets.manager.rooms);
   });
   

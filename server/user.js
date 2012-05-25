@@ -12,7 +12,8 @@ exports.Users = function(gcs) {
   usr.defaultNames = ['Spark','Lightning','Flash','Lumen','Photon','Neon',
     'Glow','Ignite','Kindle','Comet','Halo','Flare','Bokeh','Light','Energy',
     'Tinder','Glory','Torch','Meteorite','Radient','Flame','Spectrum',
-    'Ambient','Starlight','Moonbeam','Supernova','Phosphorescence','Plasma'];
+    'Ambient','Starlight','Moonbeam','Supernova','Phosphorescence','Plasma',
+    'Hue'];
   
   usr.addUser = function(client,name) {
     if (usr.clientUser[client.id] === undefined) {
@@ -121,7 +122,8 @@ exports.Users = function(gcs) {
       users.push({
         id:user.id,
         name:user.name,
-        score:user.score
+        score:user.score,
+        hue:user.hue
       });
     });
     return users;
@@ -175,7 +177,7 @@ exports.Users = function(gcs) {
     usr.availables = _.without.apply(_,[usr.availables].concat(challenged));
     ch.accept = function(userid) {
       ch.undecided = _.without(ch.undecided,userid);
-      ch.accepted.push(userid);
+      ch.accepted = _.union(ch.accepted,userid);
       if(ch.undecided.length === 0) {
         return true;
       }
@@ -212,6 +214,7 @@ exports.User = function(id,client) {
   user.client = client;
   user.name = 'anonymous';
   user.score = 100;
+  user.hue = (360 * Math.random())|0;
   user.alive = true;
   user.channeid = null;
 }

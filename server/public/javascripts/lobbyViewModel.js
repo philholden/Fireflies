@@ -176,15 +176,13 @@ function User(user,selected,accepted) {
   self.name = user.name;
   self.score = user.score;
   self.selected = ko.observable();
-  self.accepted = accepted;
+  self.accepted = ko.observable(accepted);
   self.selected(_.include(selected,self.id));
   self.classes = ko.computed(function(){
     return (self.selected() ? "selected" : "") +
       (self.id == lobby.me ? "me" : "");
   });
-  self.acceptedClass = ko.computed(function(){
-    return self.accepted ? "accepted" : "";
-  });
+
   self.toggleSelected = function(user) {
     user.selected = !user.selected;
   }
@@ -197,7 +195,7 @@ function User(user,selected,accepted) {
   }, this);
 
   self.challengeStatus = ko.computed(function() {
-    return self.accepted ? "accepted" : "waiting";    
+    return self.accepted() ? "accepted" : "waiting";    
   }, this);
 }
 
