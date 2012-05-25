@@ -171,16 +171,28 @@ function LobbyViewModel() {
 
 function User(user,selected,accepted) {
   var self = this;
-  
+  console.log(user);
   self.id = user.id;
   self.name = user.name;
   self.score = user.score;
+  self.hue = user.hue;
+  self.hsla = "hsla("+self.hue+",100%,50%,1)";
+  self.hsla2 = "hsla("+self.hue+",100%,30%,1)";
   self.selected = ko.observable();
   self.accepted = ko.observable(accepted);
   self.selected(_.include(selected,self.id));
+  
   self.classes = ko.computed(function(){
     return (self.selected() ? "selected" : "") +
       (self.id == lobby.me ? "me" : "");
+  });
+  
+  self.styles = ko.computed(function(){
+    var shadow = self.hsla + " 0 0 0.5em";
+    var out = {};
+    out.color = self.selected()? self.hsla : self.hsla2;
+    out['text-shadow'] = self.selected() ? shadow : "none";
+    return out;
   });
 
   self.toggleSelected = function(user) {

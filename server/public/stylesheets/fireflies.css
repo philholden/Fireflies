@@ -39,7 +39,11 @@ audio {display: none}
 }
 
 .users tr:hover td{
-  color: #ffa;
+  background-color: rgba(255,255,255,0.05);
+}
+
+.users tr.me:hover td{
+  background-color: rgba(255,255,255,0.0);
 }
 
 table, th, td
@@ -53,10 +57,15 @@ table, th, td
   font-size: 20px;
 }
 
+table, td {
+  width: 10%;
+}
+
 #lobby table {
   overflow-y: auto;
   margin-bottom: 20px;
   background-color: #0a0a0a;
+  width: 100%;
 }
 
 #lobby .slice3 table {
@@ -80,6 +89,15 @@ tr.me td{
 
 tr.me:hover td{
   color: #f77;
+}
+
+tr.me td.select span:before {
+  content: "<< You";
+  color: white;
+}
+
+tr.selected td.select span:before {
+  content: "\2714"
 }
 
 .name {
