@@ -69,7 +69,7 @@ io.sockets.on('connection', function(client){
     console.log(req);
     var channel = gcs.getClientChannel(client);
     var dead = usr.getUserById(req.userid);
-    if(!channel){
+    if(!channel||!dead){
       return;
     }
     console.log(dead.name);
@@ -103,12 +103,21 @@ io.sockets.on('connection', function(client){
     //leave game
       
     function exitGame(user){
-      console.log(user);
       var us = user;
       usr.makeAvailable(user.id);
       user.client.join('lobby');
+      //this causes errors on refresh
       setTimeout(function(){
-        us.client.leave(channel.id);
+        console.log(channel.id);
+        console.log(channel);
+        console.log(io.sockets.manager.rooms);
+        console.log(us);
+        var clts = io.sockets.manager.rooms[channel.id];
+          if((clts instanceof Array) && (_.include(clts,channel.id))) {
+            
+//        if(channel.id !== null) {
+          us.client.leave(channel.id);
+        }
       },5000);
     }
   });

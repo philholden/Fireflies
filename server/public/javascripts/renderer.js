@@ -7,7 +7,7 @@ function Renderer(wrapper,w) {
   var halo = new Image();
   var lily = new Image();
   var fg = new Image();
-  var ref = 3;
+  var ref = 1;
   rd.w = w;
  
   rd.init = function() {
@@ -17,7 +17,7 @@ function Renderer(wrapper,w) {
     rd.ctx = ctx = rd.canvas.getContext('2d');
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);
-    bg.src = "images/background5.png";
+    bg.src = "images/background6.png";
 //    fish.src = "images/fish.png";
     fish.src = "images/fishes.png";
     bird.src = "images/bird.png";
@@ -206,10 +206,10 @@ function Renderer(wrapper,w) {
     var sw = 31;
     var sh = 17;
     var x = en.frames[en.end].fish.x;
-    x = Math.max(x,150);
+    x = Math.max(x,300);
     x = Math.min(x,800);
-    x -= 150;
-    var fr = (1-x/(rd.w.w - 150))*7|0; //ping pong frames
+    x -= 300;
+    var fr = (1-x/(rd.w.w - 300))*7|0; //ping pong frames
     ctx.drawImage(bird,0,sh*fr,sw,sh,112,173,sw,sh);
   }
   
