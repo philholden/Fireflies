@@ -3,6 +3,7 @@ function Renderer(wrapper,w) {
   var ctx;
   var bg = new Image();
   var fish = new Image();
+  var bird = new Image();
   var halo = new Image();
   var lily = new Image();
   var fg = new Image();
@@ -17,7 +18,9 @@ function Renderer(wrapper,w) {
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);
     bg.src = "images/background5.png";
-    fish.src = "images/fish.png";
+//    fish.src = "images/fish.png";
+    fish.src = "images/fishes.png";
+    bird.src = "images/bird.png";
     halo.src = "images/halo.png";
 //    fg.src = "images/foreground.png";
     lily.src = "images/lily.png"
@@ -27,6 +30,7 @@ function Renderer(wrapper,w) {
     ctx.drawImage(bg,0,0,rd.w.w,rd.w.wl,0,0,rd.w.w,rd.w.wl);
     rd.drawFlies(en);
     rd.drawFish(en);
+    rd.drawBird(en);
     ctx.drawImage(bg,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl);
     rd.drawFliesReflection(en);
     rd.drawFishReflection(en);
@@ -148,7 +152,7 @@ function Renderer(wrapper,w) {
     }
    // ctx.lineWidth = 1;
   }
-  
+/*  
   rd.drawFish = function(en){
     var c = en.frames[en.end].fish;
     var w = 10;
@@ -161,21 +165,52 @@ function Renderer(wrapper,w) {
     ctx.rotate(theta);ctx.scale(scale,1);
     ctx.drawImage(fish,-44,-8);
     ctx.restore();
-  }
+  }*/
   
-  rd.drawFishReflection = function(en){
+  rd.drawFish = function(en){
     var c = en.frames[en.end].fish;
     var w = 10;
     var scale = c.xs < 0 ? -1 : 1;
-    var theta = (-45 - (c.jump) /360)*Math.PI*2*scale;    
+    var theta = (-45 - (c.jump) /360)*Math.PI*2*scale;
+    var fr = Math.abs((en.head/2|0)%4-2); //ping pong frames
+    var sw = 38;
+    var sh = 15;
+    ctx.save();
+    ctx.translate(c.x,c.y);
+    ctx.rotate(theta);
+    ctx.scale(scale,1);
+    ctx.drawImage(fish,0,sh*fr,sw,sh,-34,-11,sw,sh);
+    ctx.restore();
+  }
+  
+  rd.drawFishReflection = function(en){
+    var sw = 38;
+    var sh = 15;
+    var c = en.frames[en.end].fish;
+    var w = 10;
+    var scale = c.xs < 0 ? -1 : 1;
+    var theta = (-45 - (c.jump) /360)*Math.PI*2*scale;
+    var fr = Math.abs((en.head/2|0)%4-2); //ping pong frames  
     ctx.save();
     ctx.rect(0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl);
     ctx.clip();
     ctx.translate(c.x,rd.w.wl+((rd.w.wl-c.y)));
     ctx.rotate(-theta);
     ctx.scale(scale,-1/ref);
-    ctx.drawImage(fish,-44,-8);
+    //ctx.drawImage(fish,-44,-8);
+    ctx.drawImage(fish,0,sh*fr,sw,sh,-34,-11,sw,sh);
     ctx.restore();
+  }
+  
+  rd.drawBird = function(en) {
+    var sw = 31;
+    var sh = 17;
+    var x = en.frames[en.end].fish.x;
+    x = Math.max(x,150);
+    x = Math.min(x,800);
+    x -= 150;
+    var fr = (1-x/(rd.w.w - 150))*7|0; //ping pong frames
+    ctx.drawImage(bird,0,sh*fr,sw,sh,112,173,sw,sh);
   }
   
 }

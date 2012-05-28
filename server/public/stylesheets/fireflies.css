@@ -42,8 +42,8 @@ audio {display: none}
   background-color: rgba(255,255,255,0.05);
 }
 
-.users tr.me:hover td{
-  background-color: rgba(255,255,255,0.0);
+.users tr.me td, .users tr.me:hover td{
+  background-color: rgba(255,255,0,0.05);
 }
 
 .users tr td {
@@ -77,7 +77,7 @@ table, td {
 }
 
 #lobby .slice3 table {
-  background: #220;
+  background: #0a0a00;
 }
 
 #lobby td, #lobby th {
