@@ -6,14 +6,19 @@ function Renderer(wrapper,w) {
   var bird = new Image();
   var halo = new Image();
   var lily = new Image();
+  var water = new Image();
   var fg = new Image();
   var ref = 1;
   rd.w = w;
- 
+  
   rd.init = function() {
     //wrapper.append('<canvas id="screen" width="'+w.w+'" height="'+w.h+'"></canvas>');
     rd.canvas = document.getElementById('screen');
+//    rd.offscreen_canvas = document.createElement('canvas');
+//    rd.offscreen_canvas.width = rd.w.w;
+//    rd.offscreen_canvas.height = rd.w.wl;
     //$("#screen").click(function(){screenfull.request(rd.canvas)});
+//    rd.ctx = ctx = rd.offscreen_canvas.getContext('2d');
     rd.ctx = ctx = rd.canvas.getContext('2d');
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,w.w,w.h);
@@ -23,19 +28,33 @@ function Renderer(wrapper,w) {
     bird.src = "images/bird.png";
     halo.src = "images/halo.png";
 //    fg.src = "images/foreground.png";
-    lily.src = "images/lily.png"
+    lily.src = "images/lily.png";
+    water.src = "images/water.png";
   }
   
   rd.draw = function(en){
     ctx.drawImage(bg,0,0,rd.w.w,rd.w.wl,0,0,rd.w.w,rd.w.wl);
-    rd.drawFlies(en);
-    rd.drawFish(en);
     rd.drawBird(en);
-    ctx.drawImage(bg,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl);
+    rd.drawFish(en);
+    rd.globalReflection();
+    rd.drawFlies(en);
+//    ctx.drawImage(bg,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl,0,rd.w.wl,rd.w.w,rd.w.h-rd.w.wl);
+    
+//    rd.drawFishReflection(en);
+//    rd.fps();
+    
+    ctx.drawImage(water,0,rd.w.wl);
     rd.drawFliesReflection(en);
-    rd.drawFishReflection(en);
-//    ctx.drawImage(fg,0,316);
-    rd.fps();
+    ctx.drawImage(lily,200,rd.w.wl);
+  }
+  
+  rd.globalReflection = function(){
+    var wh = rd.w.h-rd.w.wl
+    var top = rd.w.wl-1-wh;
+    ctx.save();
+    ctx.scale(1,-1);
+    ctx.drawImage(rd.canvas,0,top,rd.w.w,wh,0,-rd.w.h,rd.w.w,wh);
+    ctx.restore();
   }
   
   rd.drawFlies = function(en){
