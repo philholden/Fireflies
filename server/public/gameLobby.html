@@ -90,11 +90,28 @@
         a.load();
       });
       setTimeout(function(){
-        gc = new gameChannel()
+        gc = new gameChannel();
       },500);
       lobby = new LobbyViewModel();
       ko.applyBindings(lobby);
       lobby.loaded(true);
+    });
+    
+    $(window).ready(function(){
+      var i;
+      var div;
+      for (i=0;i<360;i++) {
+        div = $('<div rel="'+i+'"></div>');
+        div.css({background:'hsl('+i+',100%,50%)'});
+        $('#color').append(div);
+      };
+      $('#color').mousedown(function(e){e.preventDefault();});
+      $('#color').mouseup(function(e){
+//        $('#color div').removeClass('selected');
+        var tar = $(e.target);
+//        tar.addClass('selected');
+        gc.socket.json.emit('color',{'hue':tar.attr('rel')});
+      });
     });
 
   </script>
@@ -129,11 +146,12 @@
     <div id="#minheight" style="display:none" data-bind="visible: loaded">
       <div id="lobby" data-bind="visible: displayLobby" class="slice">
         <div class="slice1">
-          <p>Name <input id="name" type="text" tabindex="1" data-bind="value: myName,executeOnEnter: sendName, valueUpdate: 'afterkeydown'">
-            <button data-bind="click: sendName, enable: nameOkEnabled">OK</button></p>        
+          <label>Edit your name: </label> <input id="name" type="text" tabindex="1" data-bind="value: myName,executeOnEnter: sendName, valueUpdate: 'afterkeydown'">
+            <button data-bind="click: sendName, enable: nameOkEnabled">OK</button>
+          <label>Click to choose your colour: </label><div id="color"></div>       
         </div>
         <div class="slice2" data-bind="visible: !displayChallenge()">
-          <p>Select players to challenge</p>
+          <label>Select players to challenge:</label>
           <table>
             <tr>
               <th class="name">Name</th>

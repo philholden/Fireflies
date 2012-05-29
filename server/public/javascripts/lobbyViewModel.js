@@ -31,6 +31,7 @@ function LobbyViewModel() {
     req.users.forEach(function(user) {
       if(user.id == self.me) {
         self.savedName(user.name);
+        self.color(user.hue);
         if(self.myName()=="") {
           self.myName(user.name);
         }
@@ -166,6 +167,12 @@ function LobbyViewModel() {
     if(self.nameOkEnabled()){
       gc.newUser($("#name").val());
     }
+  };
+  
+  self.color = function(hue){
+    $('#color div').removeClass('selected');
+    var tar = $('#color div[rel='+hue+']');
+    tar.addClass('selected');
   };
 }
 

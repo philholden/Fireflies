@@ -72,7 +72,7 @@ table, td {
 #lobby table {
   overflow-y: auto;
   margin-bottom: 20px;
-  background-color: #0a0a0a;
+  background-color: #0c0c0c;
   width: 100%;
 }
 
@@ -81,7 +81,7 @@ table, td {
 }
 
 #lobby td, #lobby th {
-  padding: 0 10px;
+  padding: 3px 10px;
 }
 th {
   font-weight: bold;
@@ -231,14 +231,16 @@ button[disabled] {
 
 input[type=text] {
   border: 0px solid;
-  border-radius: 5px;
+  gborder-radius: 5px;
   font-family: 'Quicksand', sans-serif;
   font-size: inherit;
   font-weight: bold;
-  padding: 2px 5px;
+  padding: 2px 30px;
   width: 6em;
   line-height: 27px;
   height: 27px;
+  background: #0c0c0c;
+  color: white;
 }
 
 .smoke {
@@ -254,6 +256,32 @@ input[type=text] {
   color: #58ff00;
 }
 
-#screen {
+#color {
+  position: relative;
+  height: 10px;
+  width: 360px;
+  border: 1px solid black;
+}
 
+#color div{
+  height: 10px;
+  width: 1px;
+  float: left;
+  background: white;
+  position: relative;
+}
+
+#color div.selected{
+  border-radius: 10px 10px 10px 10px; 
+  border: 2px solid black;
+  z-index: 1;
+  width: 7px;
+  height: 18px;
+  margin: -6px -5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4em;
+  margin-top: 1em;
 }

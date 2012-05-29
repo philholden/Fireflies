@@ -164,6 +164,16 @@ io.sockets.on('connection', function(client){
     console.log(io.sockets.manager.rooms);
   });
   
+  client.json.on('color', function(req){
+    var user = usr.getClientUser(client);
+    if(user !== undefined) {
+      user.hue = req.hue;
+      var msg = usr.lobbyMessage(client);
+      client.json.emit('lobby',msg);
+    }
+    console.log("color");
+  });
+  
   client.on('disconnect',function(req){
     var channel = gcs.getClientChannel(client);
     if(channel){
