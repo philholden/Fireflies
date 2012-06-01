@@ -1,7 +1,7 @@
 function gameChannel(){
   console.log("load");
   var gc = this;
-  var socket = gc.socket = io.connect('http://192.168.147.79:3000');
+  var socket = gc.socket = io.connect(window.location.origin);
   
   socket.on('connect', function(data){
     gc.newUser("");
