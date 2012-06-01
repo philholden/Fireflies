@@ -14,7 +14,7 @@ function Frame(p,cio,w){
     c.players.push(new Player(obj,w,cio));
   });
   c.fish = new Fish(p.fish,c.players,w);
-  collisionFlies();
+  collisionFlies2(p.players);
   collisionFish();
   handelDeaths();
   
@@ -56,6 +56,34 @@ function Frame(p,cio,w){
               {
                 p[i].fly.uc=250;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  function collisionFlies2(p2)
+  {
+    var x,y,dist;
+    var p = c.players;
+    var pp = p2;
+    var n = p.length;
+//    $('#col').html(n);
+    for(var j=0;j<p.length;j++)
+    {
+      if(!p[j].fly.uc && !p[j].fly.dead && !p[j].fly.invulnerable) {
+        for(var i=j+1;i<p.length;i++)
+        {
+          if (!p[i].fly.uc && !p[i].fly.dead && !p[i].fly.invulnerable)
+          { 
+            x=Math.abs(p[i].fly.x-p[j].fly.x);
+            if(p[i].fly.y - p[j].fly.y < 0 && pp[i].fly.y-pp[j].fly.y >= 0 && x < 13) {
+              p[i].fly.uc=250;
+              audio[0].play();
+            } else if (p[j].fly.y - p[i].fly.y < 0 && pp[j].fly.y-pp[i].fly.y >= 0 && x < 13) {
+              p[j].fly.uc=250;
+              audio[0].play();
             }
           }
         }

@@ -76,13 +76,20 @@ table, td {
   width: 100%;
 }
 
+#color-wrapper {
+  background-color: #0c0c0c;
+  padding: 10px 20px;
+  width: 362px;
+}
+
 #lobby .slice3 table {
   background: #0a0a00;
 }
 
 #lobby td, #lobby th {
-  padding: 3px 10px;
+  padding: 3px 20px;
 }
+
 th {
   font-weight: bold;
 }
@@ -135,7 +142,7 @@ tr.selected td.select span:before {
 
 #lobby table {
   display: block;
-  padding: 20px;
+  padding: 6px 0px 0px;
   margin: 0px auto 20px;
   max-height: 300px;
 }
@@ -149,7 +156,7 @@ tr.selected td.select span:before {
 }
 
 #social {
-  padding: 20px 0px 10px;
+  padding: 30px 0px 10px;
   float: right;
 }
 
@@ -158,6 +165,7 @@ tr.selected td.select span:before {
   font-size: 50px;
   position: relative;
   top: -3px;
+  padding-top: 20px;
 }
 
 #logo span:nth-child(1) { color:#ef0000; }
@@ -187,14 +195,17 @@ tr.selected td.select span:before {
   height: 167px;
   position: absolute;
   bottom: 0px;
+  text-align: center;
 }
 
+#footer .middle {
+  display: inline-block;
+}
 .credit {
-  padding-top: 50px;
+  padding: 50px 50px 0;
   font-family: 'Quicksand', sans-serif;
-  width: 50%;
   float: left;
-  text-align: center;
+  text-align: left;
 }
 
 .credit .job {
@@ -202,13 +213,13 @@ tr.selected td.select span:before {
 }
 
 .credit .person {
-  font-size: 20px;
+  font-size: 22px;
   color: #fff;
 }
 
 button {
   font-family: 'Homenaje', sans-serif;
-  background: #58ff00;
+  background: #48dd00;#58ee00;
   border-radius: 5px;
   height: 31px;
   color: white;
@@ -217,11 +228,11 @@ button {
   font-size: 20px;
   text-align: center;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 button:hover {
-  background: #aaff00;
+  background: #58ee00;
 }
 
 button[disabled] {
@@ -234,9 +245,9 @@ input[type=text] {
   gborder-radius: 5px;
   font-family: 'Quicksand', sans-serif;
   font-size: inherit;
-  font-weight: bold;
-  padding: 2px 30px;
-  width: 6em;
+  font-weight: normal;
+  padding: 2px 20px;
+  width: 160px;
   line-height: 27px;
   height: 27px;
   background: #0c0c0c;
@@ -282,6 +293,6 @@ input[type=text] {
 
 label {
   display: block;
-  margin-bottom: 0.4em;
+  margin-bottom: 0.6em;
   margin-top: 1em;
 }

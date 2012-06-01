@@ -24,7 +24,7 @@ function Fly(p,j,w) {
     c.invulnerable = p.invulnerable - 1;
   }
   
-  c.invulnerable 
+//  c.invulnerable 
     c.wrx = 1.0; //wind resistance
     c.wry = 1.0;
     c.xi = 0.4;  //inertia
@@ -32,11 +32,11 @@ function Fly(p,j,w) {
     c.xInit = p.xInit;
     
   c.lives = p.lives;
-  c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity
-  c.ya = p.y<30?w.gy*4:(j.v*p.yi)+w.gy;
-
-  c.xa = p.x<50?w.gy*5:c.xa; //bounds
-  c.xa = p.x>w.w-50?-w.gy*5:c.xa;
+  c.xa = (j.h*c.xi)+w.gx; //acceleration joystick inertia and gravity 
+  var acc = (j.v==-1?-1.1:j.v)*p.yi+w.gy;
+  c.ya = p.y<20?Math.max(w.gy*1,acc):acc;
+  c.xa = p.x<40?Math.max(w.gy*1,c.xa):c.xa; //bounds
+  c.xa = p.x>w.w-40?Math.min(-w.gy*1,c.xa):c.xa;
   c.xs = p.xs + c.xa; //speed
   c.ys = p.ys + c.ya;
 

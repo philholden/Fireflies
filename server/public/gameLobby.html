@@ -138,8 +138,7 @@
     var twtLink = 'http://twitter.com/home?status='+encodeURIComponent(twtTitle + ' ' + twtUrl);
     document.write('<a href="'+twtLink+'" target="_blank"'+'><img src="images/twitter.png"  border="0" alt="Tweet This!" /'+'><'+'/a>');
   </script> <img src="/images/facebook.png"></div>
-      <div class="clear"></div>
-      <img id="kraya" src="/images/krayativity.png"/>
+  
       <div id="logo"><span>F</span><span>i</span><span>r</span><span>e</span><span>f</span><span>l</span><span>i</span><span>e</span><span>s</span></div>
       
     </div>
@@ -148,7 +147,8 @@
         <div class="slice1">
           <label>Edit your name: </label> <input id="name" type="text" tabindex="1" data-bind="value: myName,executeOnEnter: sendName, valueUpdate: 'afterkeydown'">
             <button data-bind="click: sendName, enable: nameOkEnabled">OK</button>
-          <label>Click to choose your colour: </label><div id="color"></div>       
+          <label>Click to choose your colour: </label>
+          <div id="color-wrapper"><div id="color"></div></div>       
         </div>
         <div class="slice2" data-bind="visible: !displayChallenge()">
           <label>Select players to challenge:</label>
@@ -172,8 +172,8 @@
         </div>
         <div class="slice3" data-bind="visible: displayChallenge">
           <div id="challenge" data-bind="visible: displayChallenge" class="slice">
-          <p>You have been challenged!
-            <span data-bind="text: challengeSec"></span></p>
+          <label>You have been challenged!
+            <span data-bind="text: challengeSec"></span></label>
           <table>
             <tr>
               <th class="name">Name</th>
@@ -203,13 +203,18 @@
       </div>
       <div id="footer">
         <div class="slice">
-          <div id="phil" class="credit">
-            <div class="job">Development</div>
-            <div class="person">Phil Holden</div>
-          </div>
-          <div id="lelen" class="credit">
-            <div class="job">Graphic Design</div>
-            <div class="person">Lelen Holden</div>
+          <div class="middle">
+            <div id="phil" class="credit">
+               <img src="/images/kraya.png"/>
+            </div>
+            <div id="phil" class="credit">
+              <div class="job">Game Design</div>
+              <div class="person">Phil Holden</div>
+            </div>
+            <div id="lelen" class="credit">
+              <div class="job">Graphic Design</div>
+              <div class="person">Lelen Holden</div>
+            </div>
           </div>
         </div>
       </div>
