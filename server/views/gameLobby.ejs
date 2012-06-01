@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fireflies: multiplayer HTML5 Game</title>
+    <link href='http://fonts.googleapis.com/css?family=Codystar|Poiret+One|Quicksand|Just+Me+Again+Down+Here|Oxygen|Homenaje|Imprima|Love+Ya+Like+A+Sister' rel='stylesheet' type='text/css'>
+  <!--<link href='http://fonts.googleapis.com/css?family=Julee|Rammetto+One|Caesar+Dressing|Chau+Philomene+One|Gochi+Hand|Gloria+Hallelujah|Handlee|Aclonica|Chewy' rel='stylesheet' type='text/css'>-->  
+  <link rel="stylesheet" href="stylesheets/smoke.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="stylesheets/fireflies.css" type="text/css" media="screen" />
+    <script src="javascripts/screenfull.js" type="text/javascript"></script>
+  <script src="javascripts/smoke.min.js" type="text/javascript"></script>
+  <script src="javascripts/util.js" type="text/javascript"></script>
+  <script src="javascripts/underscore-min.js" type="text/javascript"></script>  
+  <script src="javascripts/world.js" type="text/javascript"></script>
+  <script src="javascripts/joystick.js" type="text/javascript"></script>
+  <script src="javascripts/fly.js" type="text/javascript"></script>
+  <script src="javascripts/fish.js" type="text/javascript"></script>
+  <script src="javascripts/multiFlyGame.js" type="text/javascript"></script>
+  <script src="javascripts/engine.js" type="text/javascript"></script>
+  <script src="javascripts/keyboard.js" type="text/javascript"></script>
+  <script src="javascripts/player.js" type="text/javascript"></script>
+  <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+  <script src="javascripts/knockout-2.0.0.js" type="text/javascript"></script>
+  <script type="text/javascript" src="socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="javascripts/gameChannel.js"></script>
+  <script type="text/javascript" src="javascripts/renderer.js"></script>
+  <script type="text/javascript" src="javascripts/lobbyViewModel.js"></script>
+  <script>
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||  
+                        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    var en = new Engine();
+    var kb = new Keyboard();
+    var a=0;
+    var man;
+    var input;
+    var st = Date.now();
+    var man;
+    var rd;
+    var gc;
+    var audio;
+    var lobby;
+    var facejson = '<%- body %>';
+    
+    function loop(){
+      input = $("input[type=text]");
+      body = $("body");
+      requestAnimationFrame(step);
+      body.keyup(function(e){key(kb.keyUp(e.keyCode))});
+      body.keydown(function(e){
+        key(kb.keyDown(e.keyCode));
+        if(lobby && lobby.displayGame()){
+          e.preventDefault();
+        }  
+      });
+    }
+    
+    function key(k){
+      if(k && gc){
+        gc.socket.json.send(keyEncode(k));
+      }
+    }
+    
+    function keyEncode(k){
+      return k + en.me + ":" + en.frameId(); 
+    }
+    
+    function keyDecode(c){
+      var sp = c.split(':');
+      return {
+        e:c.charAt(0),
+        id:sp.substr(1),
+        f:sp[1]
+      };
+    }
+    
+    function step(timestamp) {
+      if (rd) {
+        rd.draw(en);
+        en.render++;
+      }
+      if(en.go){
+        requestAnimationFrame(step);
+      }
+    }
+    
+    $(window).load(function(){
+      var w = new World();
+      rd = new Renderer($('#game'),w);
+      rd.init();
+      audio = $('audio');
+      audio.each(function(i,a){
+        a.load();
+      });
+      setTimeout(function(){
+        gc = new gameChannel();
+      },500);
+      lobby = new LobbyViewModel();
+      ko.applyBindings(lobby);
+      lobby.loaded(true);
+    });
+    
+    $(window).ready(function(){
+      var i;
+      var div;
+      for (i=0;i<360;i++) {
+        div = $('<div rel="'+i+'"></div>');
+        div.css({background:'hsl('+i+',100%,50%)'});
+        $('#color').append(div);
+      };
+      $('#color').mousedown(function(e){e.preventDefault();});
+      $('#color').mouseup(function(e){
+//        $('#color div').removeClass('selected');
+        var tar = $(e.target);
+//        tar.addClass('selected');
+        gc.socket.json.emit('color',{'hue':tar.attr('rel')});
+      });
+    });
+
+  </script>
+  
+  <style>
+        
+  </style>
+  </head>
+  <body tabindex="0">
+    <input type="hidden" id="channel" value="physics" />
+    <audio src="sound/hit4.ogg" controls></audio>
+    <audio src="sound/drip3.ogg" controls></audio>
+    <audio src="sound/drip2.ogg" controls></audio>
+    <audio src="sound/lick.ogg" controls></audio>
+    <audio src="sound/splash2.ogg" controls></audio>
+    <div id="header" class="slice">
+      <div id="social"><script type="text/javascript">
+    var twtTitle  = document.title;
+    var twtUrl    = location.href;
+    var maxLength = 140 - (twtUrl.length + 1);
+    if (twtTitle.length > maxLength) {
+    twtTitle = twtTitle.substr(0, (maxLength - 3))+'...';
+    }
+    var twtLink = 'http://twitter.com/home?status='+encodeURIComponent(twtTitle + ' ' + twtUrl);
+    document.write('<a href="'+twtLink+'" target="_blank"'+'><img src="images/twitter.png"  border="0" alt="Tweet This!" /'+'><'+'/a>');
+  </script> <img src="/images/facebook.png"></div>
+      <a href="http://fireflies.kraya.net"><div id="logo"><span>F</span><span>i</span><span>r</span><span>e</span><span>f</span><span>l</span><span>i</span><span>e</span><span>s</span></div></a>     
+      <div class="clear unspace"></div>
+    </div>
+    <div id="#minheight" style="display:none" data-bind="visible: loaded">
+      <div id="lobby" data-bind="visible: displayLobby" class="slice">
+        <div class="slice1">
+          <label>Edit your name: </label> <input id="name" type="text" tabindex="1" data-bind="value: myName,executeOnEnter: sendName, valueUpdate: 'afterkeydown'">
+            <button data-bind="click: sendName, enable: nameOkEnabled">OK</button>
+          <label>Click to choose your colour: </label>
+          <div id="color-wrapper"><div id="color"></div></div>       
+        </div>
+        <div class="slice2" data-bind="visible: !displayChallenge()">
+          <label>Select players to challenge:</label>
+          <table>
+            <tr>
+              <th class="name">Name</th>
+              <th class="score">Score</th>
+              <th class="fbscore">Facebook Score</th>
+              <th class="select">Selected</th>
+            </tr>
+            <tbody data-bind="foreach: availables" class="users">
+            <tr data-bind="click: $parent.addSelection, attr: {class : classes}">
+              <td class="name" data-bind="text: name, attr: {title : userTip}, style: styles"></td>
+              <td class="score" data-bind="text: score|0, style: styles"></td>
+              <td class="fbscore" data-bind="style: styles">0</td>
+              <td class="select"><span></span></td>
+            </tr>
+            </tbody>
+          </table>
+          <button data-bind="click: sendChallenge,enable: challengeEnabled">Challenge</button>
+        </div>
+        <div class="slice3" data-bind="visible: displayChallenge">
+          <div id="challenge" data-bind="visible: displayChallenge" class="slice">
+          <label>You have been challenged!
+            <span data-bind="text: challengeSec"></span></label>
+          <table>
+            <tr>
+              <th class="name">Name</th>
+              <th class="score">Score</th>
+              <th class="fbscore">Facebook Score</th>
+              <th class="last">Status</th>
+            </tr>
+            <tbody data-bind="foreach: myChallengers" class="users">
+            <tr data-bind="attr: {class : challengeStatus}">
+              <td class="name" data-bind="text: name, style: styles"></td>
+              <td class="score" data-bind="text: score|0, style: styles"></td>
+              <td class="fbscore" data-bind="style: styles">0</td>
+              <td class="last" data-bind="text: challengeStatus"></td>
+            </tr>
+            </tbody>
+          </table>
+          
+          <button data-bind="enable: meUndecided, click: accept">accept</button>
+          <button data-bind="enable: meUndecided, click: decline">decline</button>
+          </div>
+        </div>
+      </div>
+    
+      <div id="game" data-bind="visible: displayGame" class="slice">
+        <div id="col"></div>
+        <canvas id="screen"width="800" height="450"></canvas>
+      </div>
+      <div id="footer">
+        <div class="slice">
+          <div class="middle">
+            <div id="phil" class="credit">
+               <img src="/images/kraya.png"/>
+            </div>
+            <div id="phil" class="credit">
+              <div class="job">Game Design</div>
+              <div class="person">Phil Holden</div>
+            </div>
+            <div id="lelen" class="credit">
+              <div class="job">Graphic Design</div>
+              <div class="person">Lelen Holden</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
