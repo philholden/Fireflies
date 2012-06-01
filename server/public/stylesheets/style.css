@@ -1,7 +1,6 @@
 body {
-  padding: 50px;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-
 }
 a {
   color: #00B7FF;
@@ -9,4 +8,59 @@ a {
 canvas {
   display: block;
 }
-
+.man {
+  position: absolute;
+  color: white;
+}
+canvas {
+  display: block;
+}
+audio {
+  display: none;
+}
+.selected {
+  text-shadow: yellow 0em 0em 0.5em;
+}
+.users {
+  list-style-type: none;
+  padding-left: 0;
+  font-family: 'Chewy', cursive;
+}
+.users tr {
+  cursor: default;
+}
+.users tr:hover td {
+  color: #ffa;
+}
+table,
+th,
+td {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  border: 0px solid black;
+  color: white;
+}
+.selected td {
+  color: #ffa;
+}
+tr.me td {
+  font-weight: bold;
+  color: #f77;
+}
+.name {
+  display: inline-block;
+  width: 5em;
+}
+.score {
+  display: inline-block;
+}
+#lobby {
+  background: black;
+  color: white;
+  height: 100%;
+  width: 100%;
+}
+.slice1,
+.slice3 {
+  height: 200px;
+}

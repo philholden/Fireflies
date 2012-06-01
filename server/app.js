@@ -11,11 +11,12 @@ var express = require('express')
   , _ = require('underscore');
 
 io = require('socket.io');
+fs = require('fs');
 
 var gcs = new gameChannel.gameChannels();
 var usr = new user.Users(gcs);
 var app = express();
-
+  
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -34,7 +35,18 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+app.engine('html', function(path, options, fn){
+  fs.readFile(path, 'utf8', function(err, str){
+    if (err) return fn(err);
+    fn(null, str);
+  });
+});
+
+app.post('/', routes.gameLobby);
 app.get('/', routes.index);
+
+app.get('/hello', routes.hello);
+
 var httpServer = http.createServer(app);
 io = io.listen(httpServer);
 httpServer.listen(3000);

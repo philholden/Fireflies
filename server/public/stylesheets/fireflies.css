@@ -14,6 +14,7 @@ body {
 
 a {
   color: #00B7FF;
+  text-decoration: none;
 }
 canvas {
   display: block;
@@ -166,6 +167,11 @@ tr.selected td.select span:before {
   position: relative;
   top: -3px;
   padding-top: 20px;
+  float: left;
+}
+
+.unspace {
+margin: -1em;
 }
 
 #logo span:nth-child(1) { color:#ef0000; }
@@ -271,7 +277,7 @@ input[type=text] {
   position: relative;
   height: 10px;
   width: 360px;
-  border: 1px solid black;
+  border: 1px solid #0C0C0C;
 }
 
 #color div{
@@ -284,7 +290,7 @@ input[type=text] {
 
 #color div.selected{
   border-radius: 10px 10px 10px 10px; 
-  border: 2px solid black;
+  border: 1px solid #0C0C0C;
   z-index: 1;
   width: 7px;
   height: 18px;
