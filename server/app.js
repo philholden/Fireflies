@@ -8,10 +8,11 @@ var express = require('express')
   , http = require('http')
   , gameChannel = require('./gameChannel')
   , user = require('./user')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , config = require('./config')
+  , fs = require('fs');
 
 io = require('socket.io');
-fs = require('fs');
 
 var gcs = new gameChannel.gameChannels();
 var usr = new user.Users(gcs);
@@ -49,7 +50,7 @@ app.get('/hello', routes.hello);
 
 var httpServer = http.createServer(app);
 io = io.listen(httpServer);
-httpServer.listen(3000);
+httpServer.listen(config.port);
 
 console.log("Express server listening on port 3000");
 

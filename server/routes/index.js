@@ -3,9 +3,11 @@
  * GET home page.
  */
 
+var config = require('./config')
+
 exports.index = function(req, res){
   //res.render('index', { title: 'Express' });
-  res.redirect("http://fireflies.kraya.net");
+  res.redirect(config.entrySite);
 };
 
 exports.gameLobby = function(req, res){
