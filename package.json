@@ -1,13 +1,22 @@
 {
-  "name": "application-name",
+  "name": "fireflies",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app"
-  },
+  }
   "dependencies": {
     "express": "3.0.0alpha1",
     "jade": "*",
     "less-middleware": "*"
+    "ejs":"0.7.x",
+    "socket.io":"0.9.x",
+    "underscore":"1.3.x"
+  },
+  "engines": {
+    "node": "0.6.x"
+  },
+  "author": {
+    "name": "Phil Holden"
   }
 }
