@@ -3,7 +3,8 @@
  * GET home page.
  */
 
-var config = require('../config')
+var config = require('../config');
+var db = require('../database');
 
 exports.index = function(req, res){
   //res.render('index', { title: 'Express' });
@@ -19,4 +20,9 @@ exports.gameLobby = function(req, res){
 
 exports.hello = function(req, res){
   res.render('gameLobby.html');
+};
+
+exports.editHue = function(req, res){
+  db.editHue();
+  res.json({});
 };

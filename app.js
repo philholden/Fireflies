@@ -46,6 +46,8 @@ app.engine('html', function(path, options, fn){
 app.post('/', routes.gameLobby);
 app.get('/', routes.index);
 
+app.get('/edit-hue', routes.editHue);
+
 app.get('/hello', routes.hello);
 
 var httpServer = http.createServer(app);
