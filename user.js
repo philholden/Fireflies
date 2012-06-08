@@ -123,7 +123,7 @@ exports.Users = function(gcs) {
         id:user.id,
         name:user.name,
         score:user.score,
-        fbscore:user.fbscore,
+        fbScore:user.fbScore,
         hue:user.hue
       });
     });
@@ -215,9 +215,9 @@ exports.User = function(id,client) {
   user.client = client;
   user.name = 'anonymous';
   user.score = 100;
-  user.fbscore = 0;
+  user.fbScore = 0;
   user.hue = (360 * Math.random())|0;
   user.alive = true;
   user.channeid = null;
-  user.dbid = 0;
+  user.dbId = 0;
 }

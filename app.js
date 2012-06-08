@@ -76,19 +76,19 @@ io.sockets.on('connection', function(client){
     var req = req;
     client.join('lobby');
     var user;
-    if (req.dbid) {
+    if (req.dbId) {
       console.log(req);
-      db.getUser(req.dbid,response);
+      db.getUser(req.dbId,response);
     } else {
       response(null);
     }
     function response(data){
       var user = usr.addUser(client,req.name);
-      if(data.user){
+      if(data && data.user){
         user.name = data.user.User.firstname;
         user.hue = data.user.User.hue;
-        user.dbid = data.user.User.id;
-        user.fbscore = data.user.User.score;
+        user.dbId = data.user.User.id;
+        user.fbScore = parseInt(data.user.User.score);
       }
       usr.makeAvailable(user.id);
       //push lobby users
@@ -108,7 +108,6 @@ io.sockets.on('connection', function(client){
     if(!channel||!dead){
       return;
     }
-    console.log(dead.name);
     //tithe
     var users = usr.users.filter(function(user){
       return user.alive &&
@@ -123,10 +122,7 @@ io.sockets.on('connection', function(client){
       users.forEach(function(user){
         user.score += tithe/users.length;
       });
-      console.log("doom");
-      console.log(users.length);
-      console.log(tithe);
-      console.log(tithe);
+      fbScore(users,dead);
     }
     
     exitGame(dead);
@@ -136,6 +132,28 @@ io.sockets.on('connection', function(client){
     }
 
     broadcastLobby();
+    
+    function fbScore(users,dead) {
+      if(!dead.dbId){
+        return;
+      }
+      console.log(dead);
+      var fbAlive = users.filter(function(user){
+        return user.dbId!==0;
+      });
+      var fbAliveIds = fbAlive.map(function(user){
+        return user.dbId;
+      });
+      if(fbAliveIds.length){
+        db.userDies(dead.dbId,fbAliveIds);
+        var tithe = dead.fbScore/10;
+        dead.fbScore -= tithe;
+        fbAlive.forEach(function(user){
+          user.fbScore += tithe/fbAlive.length;
+        });      
+      }
+    }
+    
     //leave game
       
     function exitGame(user){
@@ -144,10 +162,10 @@ io.sockets.on('connection', function(client){
       user.client.join('lobby');
       //this causes errors on refresh
       setTimeout(function(){
-        console.log(channel.id);
-        console.log(channel);
-        console.log(io.sockets.manager.rooms);
-        console.log(us);
+      //  console.log(channel.id);
+      //  console.log(channel);
+      //  console.log(io.sockets.manager.rooms);
+      //  console.log(us);
         var clts = io.sockets.manager.rooms[channel.id];
           if((clts instanceof Array) && (_.include(clts,channel.id))) {
             

@@ -38,7 +38,7 @@
     var gc;
     var audio;
     var lobby;
-    var dbid = <%- id %>;
+    var dbId = <%- id %>;
     
     function loop(){
       input = $("input[type=text]");
@@ -163,7 +163,7 @@
             <tr data-bind="click: $parent.addSelection, attr: {class : classes}">
               <td class="name" data-bind="text: name, attr: {title : userTip}, style: styles"></td>
               <td class="score" data-bind="text: score|0, style: styles"></td>
-              <td class="fbscore" data-bind="text: fbscore|0,style: styles">0</td>
+              <td class="fbscore" data-bind="text: fbScore|0,style: styles">0</td>
               <td class="select"><span></span></td>
             </tr>
             </tbody>

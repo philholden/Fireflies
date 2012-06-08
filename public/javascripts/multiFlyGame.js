@@ -78,10 +78,10 @@ function Frame(p,cio,w){
           if (!p[i].fly.uc && !p[i].fly.dead && !p[i].fly.invulnerable)
           { 
             x=Math.abs(p[i].fly.x-p[j].fly.x);
-            if(p[i].fly.y - p[j].fly.y < 0 && pp[i].fly.y-pp[j].fly.y >= 0 && x < 13) {
+            if(p[i].fly.y - p[j].fly.y < 0 && pp[i].fly.y-pp[j].fly.y >= 0 && x < 16) {
               p[i].fly.uc=250;
               audio[0].play();
-            } else if (p[j].fly.y - p[i].fly.y < 0 && pp[j].fly.y-pp[i].fly.y >= 0 && x < 13) {
+            } else if (p[j].fly.y - p[i].fly.y < 0 && pp[j].fly.y-pp[i].fly.y >= 0 && x < 16) {
               p[j].fly.uc=250;
               audio[0].play();
             }

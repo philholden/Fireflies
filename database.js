@@ -18,8 +18,12 @@ exports.addUser = function(user,next) {
   send(user,'/users/add2.json','POST',next);
 };
 
-//exports.getUser(1);
+exports.userDies = function(deadId,aliveIds) {
+  send({User:{deadId:deadId},aliveIds:aliveIds},'/users/user_dies.json','POST');
+};
 
+//exports.getUser(1);
+/*
 exports.editDisplayname(1,"philholden");
 exports.editHue(1,123);
 exports.addUser({
@@ -29,7 +33,7 @@ exports.addUser({
   lastname: "Holden",
   json: "{}"
 },function(txt){console.log(txt)});
-
+*/
 function send(obj,path,method,next) {
   method = method === undefined ? 'POST' : method;
   var out = [];

@@ -42,7 +42,7 @@ function gameChannel(){
   gc.newUser = function(name) {
      socket.json.emit('newuser', {
        name: name,
-       dbid: dbid
+       dbId: dbId
      }); 
   };
   

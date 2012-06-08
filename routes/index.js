@@ -26,7 +26,7 @@ exports.gameLobby = function(req, res){
   }
   function response(user){
     //user = JSON.parse(user);
-    var id = user.user.User ? user.user.User.id : 'null';
+    var id = user.user ? user.user.User ? user.user.User.id : 'null' : 'null';
     res.render('gameLobby.ejs', {id:id});
   }
   //res.redirect("/gameLobby.html");
