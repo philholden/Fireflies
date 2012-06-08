@@ -222,6 +222,9 @@ io.sockets.on('connection', function(client){
     var user = usr.getClientUser(client);
     if(user !== undefined) {
       user.hue = req.hue;
+      if(user.dbId){
+        db.editHue(dbId,hue);
+      }
       var msg = usr.lobbyMessage(client);
       client.json.emit('lobby',msg);
     }
