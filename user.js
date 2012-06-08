@@ -123,6 +123,7 @@ exports.Users = function(gcs) {
         id:user.id,
         name:user.name,
         score:user.score,
+        fbscore:user.fbscore,
         hue:user.hue
       });
     });

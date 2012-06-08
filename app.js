@@ -88,7 +88,7 @@ io.sockets.on('connection', function(client){
         user.name = data.user.User.firstname;
         user.hue = data.user.User.hue;
         user.dbid = data.user.User.id;
-        user.fbscore = data.user.User.score = 100;
+        user.fbscore = data.user.User.score;
       }
       usr.makeAvailable(user.id);
       //push lobby users
