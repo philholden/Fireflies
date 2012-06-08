@@ -14,6 +14,13 @@ exports.index = function(req, res){
 exports.gameLobby = function(req, res){
   //res.render('index', { title: 'Express' });
   console.log(req.body);
+  if(req.body.fbid){
+    req.body.json = "{}";
+    req.body.displayname = "123456789101112";
+    req.body.hue = Math.random()*360|0;
+    db.addUser(req.body);
+  }
+  
   res.render('gameLobby.ejs', {body:JSON.stringify(req.body)});
   //res.redirect("/gameLobby.html");
 };

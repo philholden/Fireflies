@@ -218,5 +218,3 @@ exports.User = function(id,client) {
   user.alive = true;
   user.channeid = null;
 }
-
-

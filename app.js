@@ -17,7 +17,7 @@ io = require('socket.io');
 var gcs = new gameChannel.gameChannels();
 var usr = new user.Users(gcs);
 var app = express();
-  
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -32,6 +32,10 @@ app.configure(function(){
   app.use(app.router);
 });
 
+app.locals.use(function(req, res) {
+  res.locals.session = req.session;
+});
+ 
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
