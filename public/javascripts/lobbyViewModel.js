@@ -182,6 +182,7 @@ function User(user,selected,accepted) {
   self.id = user.id;
   self.name = user.name;
   self.score = user.score;
+  self.fbscore = user.fbscore;
   self.hue = user.hue;
   self.hsla = "hsla("+self.hue+",100%,50%,1)";
   self.hsla2 = "hsla("+self.hue+",100%,30%,1)";

@@ -10,7 +10,8 @@ var express = require('express')
   , user = require('./user')
   , _ = require('underscore')
   , config = require('./config')
-  , fs = require('fs');
+  , fs = require('fs')
+  , db = require('./database');
 
 io = require('socket.io');
 
@@ -72,15 +73,31 @@ io.sockets.on('connection', function(client){
   });
   
   client.json.on('newuser', function(req){
+    var req = req;
     client.join('lobby');
-    var user = usr.addUser(client,req.name);
-    usr.makeAvailable(user.id);
-    //push lobby users
-    var msg = usr.lobbyMessage(client);
-    client.json.broadcast.to('lobby').emit('lobby',msg);
-    //tell the new user their id 
-    msg.me = user ? user.id : undefined;
-    client.json.emit('lobby',msg);
+    var user;
+    if (req.dbid) {
+      console.log(req);
+      db.getUser(req.dbid,response);
+    } else {
+      response(null);
+    }
+    function response(data){
+      var user = usr.addUser(client,req.name);
+      if(data.user){
+        user.name = data.user.User.firstname;
+        user.hue = data.user.User.hue;
+        user.dbid = data.user.User.id;
+        user.fbscore = data.user.User.score = 100;
+      }
+      usr.makeAvailable(user.id);
+      //push lobby users
+      var msg = usr.lobbyMessage(client);
+      client.json.broadcast.to('lobby').emit('lobby',msg);
+      //tell the new user their id 
+      msg.me = user ? user.id : undefined;
+      client.json.emit('lobby',msg);
+    };
   });
   
   client.json.on('dies',function(req){

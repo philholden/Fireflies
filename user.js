@@ -214,7 +214,9 @@ exports.User = function(id,client) {
   user.client = client;
   user.name = 'anonymous';
   user.score = 100;
+  user.fbscore = 0;
   user.hue = (360 * Math.random())|0;
   user.alive = true;
   user.channeid = null;
+  user.dbid = 0;
 }
