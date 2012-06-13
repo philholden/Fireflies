@@ -166,9 +166,26 @@ function Frame(p,cio,w){
   function handelDeaths() {
     c.players.forEach(function(pl){
       if(pl.fly.dead == deadTime - 60 && !pl.fly.lives){
-        gc.socket.emit('dies',{userid:pl.userInfo.userid});
+        if(!en.replay) {
+          gc.socket.emit('dies',{userid:pl.userInfo.userid});
+          if (gameOver()) {
+            console.log(en.replayData());
+            rp = en.replayData();
+            $.post("/add-replay",en.replayData());
+          }
+        } 
       }
     });
+  }
+  
+  function gameOver() {
+    var alive = 0;
+    c.players.forEach(function(pl){
+      if(pl.fly.lives){
+        alive++;
+      }
+    });
+    return alive == 1;
   }
   
 }

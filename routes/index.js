@@ -40,3 +40,34 @@ exports.editHue = function(req, res){
   db.editHue();
   res.json({});
 };
+
+exports.addReplay = function(req, res){
+  try{
+    var json=JSON.stringify(req.body);
+    var dbIds = getDbIds(req);
+    console.log("body");
+    console.log(dbIds);
+    console.log(req.body);
+    if(dbIds.length){
+      db.addReplay(dbIds,json);
+    }
+    res.json({});
+  } catch (e){
+    console.log('no encode');
+    console.log(e);
+  }
+  function getDbIds(req){
+    var uis;
+    console.log("uis");console.log(req.body);
+    if((uis = req.body) && (uis = uis.startInfo) && (uis = uis.userInfos)){
+       console.log("uis");console.log(uis);
+      console.log(uis.filter(getDbId));
+      var dbIds = [];
+      return uis.filter(getDbId).map(getDbId);
+      function getDbId(ui){
+        return parseInt(ui.dbId)?parseInt(ui.dbId):0;
+      };
+    }
+    return [];
+  }
+}

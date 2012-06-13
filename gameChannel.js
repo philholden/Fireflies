@@ -84,6 +84,7 @@ exports.gameChannel = function(id,gcs,n,usr) {
     self.userid = user.id;
     self.score = user.score;
     self.hue = user.hue;
+    self.dbId = user.dbId;
   }
 }
 

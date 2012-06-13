@@ -22,6 +22,10 @@ exports.userDies = function(deadId,aliveIds) {
   send({User:{deadId:deadId},aliveIds:aliveIds},'/users/user_dies.json','POST');
 };
 
+exports.addReplay = function(dbIds,json) {
+  send({Replay:{json:json,version:0.9},User:{User:dbIds}},'/replays/add.json','POST');
+}
+
 //exports.getUser(1);
 /*
 exports.editDisplayname(1,"philholden");

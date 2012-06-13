@@ -14,6 +14,8 @@ function Engine() {
   en.numPlayers = undefined;
   en.go = false;
   en.render = 0;
+  en.replay = false;
+  en.startInfo = {};
 
   
   //create a frame
@@ -36,15 +38,21 @@ function Engine() {
     }
   }
   
-  en.start=function(obj,gc){
-    console.log("enstart");
- //   frames = en.frames = [];
+  en.start=function(obj,replayIo){
+  //  console.log("enstart");
+    frames = en.frames = [];
+    en.end = 0;
     io = en.io = [];
+    en.startInfo = obj;
+    if(replayIo) {
+      en.replay = replayIo ? true : false;
+      io = en.io = replayIo;
+    }
     en.stop();
     en.render = 0;
     en.go = true;
     en.startTime = Date.now();
-    console.log(obj);
+//    console.log(obj);
     frames[0] = new Frame(obj,null,en.world);
     en.head = 0;
     en.me = obj.i;
@@ -56,12 +64,20 @@ function Engine() {
     },en.fpms);
   }
   
+  en.replayData=function(){
+    var out = {
+      startInfo: en.startInfo,
+      io: KeyCodec.ioEncode(en.io)
+    };
+    return out;
+  };
+  
   en.stop=function(){
     if(timer) {
       clearInterval(timer);
     }
     en.go = false;
-  }
+  };
   
   /* e: event
    * frame: frame number event happens on

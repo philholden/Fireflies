@@ -18,13 +18,13 @@ function gameChannel(){
   
   socket.on('message', function(req){
     var fId = en.frameId();
-    var rq = keyDecode(req);
+    var rq = KeyCodec.keyDecode(req);
     en.addIOEvent({id:rq.id,k:rq.e},rq.f);
   });
   
   socket.on('start', function(req){
     if(en){
-      en.start(req,gc);
+      en.start(req);
       loop();
     }
   });
@@ -45,13 +45,4 @@ function gameChannel(){
        dbId: dbId
      }); 
   };
-  
-  function keyDecode(c){
-    var sp = c.split(':');
-    return {
-      e:c.charAt(0),
-      id:parseInt(sp[0].substr(1)),
-      f:parseInt(sp[1])
-    };
-  }
 }
