@@ -19,7 +19,7 @@ function gameChannel(){
   socket.on('message', function(req){
     var fId = en.frameId();
     var rq = KeyCodec.keyDecode(req);
-    en.addIOEvent({id:rq.id,k:rq.e},rq.f);
+    en.addIOEvent({id:rq.id,k:rq.k},rq.f);
   });
   
   socket.on('start', function(req){

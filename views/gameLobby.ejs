@@ -56,7 +56,9 @@
     
     function key(k){
       if(k && gc){
-        gc.socket.json.send(KeyCodec.keyEncode(k));
+        if(en && !en.replay) {
+          gc.socket.json.send(KeyCodec.keyEncode(k));
+        }
       }
     }
     

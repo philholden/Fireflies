@@ -77,9 +77,9 @@ function Fly(p,j,w) {
   }
   
   function init() {
-    c.xInit = (w.w/(p.n+2))*(p.i+1);
+    c.xInit = (w.w/p.n)*(p.i+.5);
     c.invulnerable = 0;
-    c.x = (w.w/(p.n+2))*(p.i+1);
+    c.x = c.xInit;
     c.y = 0.0;
     c.xs = 0.0;
     c.ys = 0.0;

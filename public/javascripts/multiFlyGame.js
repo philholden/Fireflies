@@ -4,7 +4,6 @@ function Frame(p,cio,w){
   c.players = [];
   
   if(!(p instanceof Frame)) {
-    console.log(p);
     init();
     return;
   }
@@ -173,7 +172,16 @@ function Frame(p,cio,w){
             rp = en.replayData();
             $.post("/add-replay",en.replayData());
           }
-        } 
+        } else {
+          if (gameOver()) {
+            var rp = en.replayData();
+            en.stop();
+            setTimeout(function(){
+            en.start(rp.startInfo,KeyCodec.ioDecode(rp.io));
+            //en.startTime = Date.now();
+            loop();},100);
+          }
+        }
       }
     });
   }
