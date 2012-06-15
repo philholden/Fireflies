@@ -42,7 +42,7 @@ function send(obj,path,method,next) {
   method = method === undefined ? 'POST' : method;
   var out = [];
   var post_data = querystring.stringify(obj);
-  console.log(post_data);
+  //console.log(post_data);
   var options = {
     host: config.dbSite,
     port: 80,
@@ -65,7 +65,7 @@ function send(obj,path,method,next) {
           out = JSON.parse(out);
         } catch(e) {
           out = {error: out};
-          console.log(out);
+          //console.log(out);
         };
         next(out);
       }

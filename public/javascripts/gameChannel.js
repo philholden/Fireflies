@@ -1,5 +1,4 @@
 function gameChannel(){
-  console.log("load");
   var gc = this;
   var socket = gc.socket = io.connect(window.location.origin);
   
@@ -30,12 +29,10 @@ function gameChannel(){
   });
   
   socket.on('lobby', function(req){
-    console.log(req);
     lobby.update(req);
   });
   
   socket.on('gameover', function(req){
-    console.log('gameover');
     en.stop();
   });
   

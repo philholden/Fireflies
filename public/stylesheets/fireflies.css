@@ -312,7 +312,7 @@ label {
   width: 50%;
 }
 
-#header a {
+#footer a, #header a {
   color: white;
   text-decoration: none;
 }

@@ -60,6 +60,13 @@ app.get('/hello', routes.hello);
 var httpServer = http.createServer(app);
 io = io.listen(httpServer);
 httpServer.listen(config.port);
+io.configure(function () {
+  io.set('transports', ['websocket']);
+});
+
+io.configure('production', function () {
+  io.set('log level', 1);
+});
 
 console.log("Express server listening on port 3000");
 
@@ -79,7 +86,7 @@ io.sockets.on('connection', function(client){
     client.join('lobby');
     var user;
     if (req.dbId) {
-      console.log(req);
+      //console.log(req);
       db.getUser(req.dbId,response);
     } else {
       response(null);
@@ -103,8 +110,8 @@ io.sockets.on('connection', function(client){
   });
   
   client.json.on('dies',function(req){
-    console.log("dies");
-    console.log(req);
+    //console.log("dies");
+    //console.log(req);
     var channel = gcs.getClientChannel(client);
     var dead = usr.getUserById(req.userid);
     if(!channel||!dead){
@@ -230,7 +237,6 @@ io.sockets.on('connection', function(client){
       var msg = usr.lobbyMessage(client);
       client.json.emit('lobby',msg);
     }
-    console.log("color");
   });
   
   client.on('disconnect',function(req){

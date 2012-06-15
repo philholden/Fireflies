@@ -18,7 +18,6 @@ exports.gameChannels = function() {
   }
   
   gcs.getClientChannel = function(client){
-    console.log(client.id);
     return gcs.clientChannel[client.id];
   };
 }
@@ -34,11 +33,8 @@ exports.gameChannel = function(id,gcs,n,usr) {
   gc.usr = usr;
   
   gc.addClient = function(client){
-    client.join(gc.id);
     gc.clients.push(client);
-    console.log(client.id);
     gc.gcs.clientChannel[client.id] = gcs.getChannel(gc.id);
-    console.log(gcs.clientChannel);
     if(gc.canStart()){
       setTimeout(start,100);
       function start(){

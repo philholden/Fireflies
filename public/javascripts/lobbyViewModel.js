@@ -58,7 +58,6 @@ function LobbyViewModel() {
     var all2 = [];
     chs.forEach(function(ch){
       all = _.union(ch.undecided,ch.accepted);
-      console.log(all);
       if(_.include(all,self.me)) {
         challenge = ch;
         all2 = all;
@@ -140,7 +139,6 @@ function LobbyViewModel() {
   self.sendChallenge = function(){
     var userids = _.union(self.me,self.selected);
     gc.socket.emit('lobbychallenge',{userids:userids});
-    console.log(userids);
   }
   
   self.accept = function() {
@@ -178,7 +176,6 @@ function LobbyViewModel() {
 
 function User(user,selected,accepted) {
   var self = this;
-  console.log(user);
   self.id = user.id;
   self.name = user.name;
   self.score = user.score;

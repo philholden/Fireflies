@@ -45,9 +45,9 @@ exports.addReplay = function(req, res){
   try{
     var json=JSON.stringify(req.body);
     var dbIds = getDbIds(req);
-    console.log("body");
-    console.log(dbIds);
-    console.log(req.body);
+    //console.log("body");
+    //console.log(dbIds);
+    //console.log(req.body);
     if(dbIds.length){
       db.addReplay(dbIds,json);
     }
