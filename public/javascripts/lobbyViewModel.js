@@ -3,7 +3,7 @@ function LobbyViewModel() {
   var self = this;
   self.users = ko.observableArray([]);
   self.availables = ko.observableArray([]);
-  self.maxSelected = 2;
+  self.maxSelected = 5;
   self.selected = [];
   self.timer = null;
   self.challenge = ko.observableArray([]);

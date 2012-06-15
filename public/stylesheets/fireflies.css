@@ -14,7 +14,6 @@ body {
 
 a {
   color: #00B7FF;
-  text-decoration: none;
 }
 canvas {
   display: block;
@@ -133,7 +132,7 @@ tr.selected td.select span:before {
 }
 
 .slice {
-  width: 960px;
+  width: 800px;
   margin: 0px auto;
 }
 
@@ -165,13 +164,9 @@ tr.selected td.select span:before {
   font-family: 'Love Ya Like A Sister', cursive;
   font-size: 50px;
   position: relative;
+  left: -20px;
   top: -3px;
   padding-top: 20px;
-  float: left;
-}
-
-.unspace {
-margin: -1em;
 }
 
 #logo span:nth-child(1) { color:#ef0000; }
@@ -277,7 +272,7 @@ input[type=text] {
   position: relative;
   height: 10px;
   width: 360px;
-  border: 1px solid #0C0C0C;
+  border: 1px solid black;
 }
 
 #color div{
@@ -290,7 +285,7 @@ input[type=text] {
 
 #color div.selected{
   border-radius: 10px 10px 10px 10px; 
-  border: 1px solid #0C0C0C;
+  border: 2px solid black;
   z-index: 1;
   width: 7px;
   height: 18px;
@@ -301,4 +296,50 @@ label {
   display: block;
   margin-bottom: 0.6em;
   margin-top: 1em;
+}
+
+
+
+.front-page {
+  min-height: 820px;
+}
+
+.front-page #footer {
+  position: relative;
+}
+
+.front-page #logo {
+  width: 50%;
+}
+
+#header a {
+  color: white;
+  text-decoration: none;
+}
+
+
+#play-login-wrapper {
+  width: 800px;
+  margin: 0px auto;
+}
+
+#login {
+  font-size: 16px;
+  font-size: 20px;
+  font-family: Quicksand
+}
+
+#login select {
+  font-size: 20px;
+  font-family: Quicksand
+}
+
+.colf {
+  float: left;
+  width: 400px;
+}
+
+.middle {
+  margin: 10px auto 0;
+  display: block;
 }
