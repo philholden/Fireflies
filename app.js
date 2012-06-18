@@ -58,7 +58,7 @@ app.get('/edit-hue', routes.editHue);
 app.get('/hello', routes.hello);
 
 app.configure('production', function () {
-  config.port = process.env.PORT || 3000;
+  config.port = process.env.PORT || 5000;
   config.entrySite = 'http://fireflies.kraya.net';
   config.dbSite = 'http://data.fireflies.kraya.net';
   config.dbFrag = '';
