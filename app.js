@@ -72,8 +72,9 @@ app.configure('developement', function () {
 });
 
 var httpServer = http.createServer(app);
+httpServer.listen(process.env.PORT || 5000);
 io = io.listen(httpServer);
-httpServer.listen(config.port);
+//httpServer.listen(config.port);
 io.configure(function () {
   io.set('transports', ['websocket']);
 });
@@ -85,7 +86,7 @@ io.configure('production', function () {
 io.configure('developement', function () {
   io.set('log level', 3);
 });
-console.log("Express server listening on port 3000");
+console.log("Express server listening on port" + config.port);
 
 io.sockets.on('connection', function(client){
   console.log('connected');
