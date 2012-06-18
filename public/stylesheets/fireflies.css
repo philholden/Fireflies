@@ -6,10 +6,18 @@ html, body{
 
 body {
   margin: 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Oxygen', sans-serif;
   font-size: 14px;
   min-height: 768px;
   color: white;
+}
+
+h2 {
+  margin: 40px 0 0;
+}
+
+p {
+  margin: 0.8em 0;
 }
 
 a {
@@ -61,8 +69,8 @@ table, th, td
   border:0px solid black;
   color: white;
   text-align: left;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 20px;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 14px;
 }
 
 table, td {
@@ -124,7 +132,7 @@ tr.selected td.select span:before {
 }
 
 #lobby {
-  font-size: 18px;
+  font-size: 14px;
 }
 
 #challenge {
@@ -161,10 +169,10 @@ tr.selected td.select span:before {
 }
 
 #logo {
-  font-family: 'Love Ya Like A Sister', cursive;
-  font-size: 50px;
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 35px;
   position: relative;
-  left: -20px;
+  left: -16px;
   top: -3px;
   padding-top: 20px;
 }
@@ -204,7 +212,7 @@ tr.selected td.select span:before {
 }
 .credit {
   padding: 50px 50px 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Oxygen', sans-serif;
   float: left;
   text-align: left;
 }
@@ -214,6 +222,7 @@ tr.selected td.select span:before {
 }
 
 .credit .person {
+  font-family: Shadows Into Light;
   font-size: 22px;
   color: #fff;
 }
@@ -244,7 +253,7 @@ button[disabled] {
 input[type=text] {
   border: 0px solid;
   gborder-radius: 5px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Oxygen', sans-serif;
   font-size: inherit;
   font-weight: normal;
   padding: 2px 20px;
@@ -298,7 +307,9 @@ label {
   margin-top: 1em;
 }
 
-
+#screen {
+  padding: 15px 0;
+}
 
 .front-page {
   min-height: 820px;
@@ -324,14 +335,13 @@ label {
 }
 
 #login {
-  font-size: 16px;
-  font-size: 20px;
-  font-family: Quicksand
+  font-size: 14px;
+  font-family: Oxygen;
 }
 
 #login select {
-  font-size: 20px;
-  font-family: Quicksand
+  font-size: 14px;
+  font-family: Oxygen;
 }
 
 .colf {
@@ -342,4 +352,8 @@ label {
 .middle {
   margin: 10px auto 0;
   display: block;
+}
+
+#play-login-wrapper {
+  margin-bottom: -20px;  
 }

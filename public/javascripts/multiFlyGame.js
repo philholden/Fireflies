@@ -108,9 +108,11 @@ function Frame(p,cio,w){
             if(xCross(p[i].fly,p[j].fly,pp[i].fly,pp[j].fly,dist)
               || hemi(p[i].fly,p[j].fly,pp[i].fly,pp[j].fly,dist)) {
                 p[j].fly.uc=250;
+                audio[2].play();
             } else if (xCross(p[j].fly,p[i].fly,pp[j].fly,pp[i].fly,dist)
               || hemi(p[j].fly,p[i].fly,pp[j].fly,pp[i].fly,dist)) {
                 p[i].fly.uc=250;
+                audio[2].play();
             }
           }
         }
