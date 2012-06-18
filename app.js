@@ -29,14 +29,14 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
-  app.use(express.session());
+//  app.use(express.session());
   app.use(app.router);
 });
-
+/*
 app.locals.use(function(req, res) {
   res.locals.session = req.session;
 });
- 
+ */
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
@@ -58,7 +58,7 @@ app.get('/edit-hue', routes.editHue);
 app.get('/hello', routes.hello);
 
 app.configure('production', function () {
-  config.port = 80;
+  config.port = process.env.PORT || 3000;
   config.entrySite = 'http://fireflies.kraya.net';
   config.dbSite = 'http://data.fireflies.kraya.net';
   config.dbFrag = '';
