@@ -57,6 +57,20 @@ app.get('/edit-hue', routes.editHue);
 
 app.get('/hello', routes.hello);
 
+app.configure('production', function () {
+  config.port = 80;
+  config.entrySite = 'http://fireflies.kraya.net';
+  config.dbSite = 'http://data.fireflies.kraya.net';
+  config.dbFrag = '';
+});
+
+app.configure('developement', function () {
+  config.port = 3000;
+  config.entrySite = 'http://fireflies.kraya.net';
+  config.dbSite = 'test';
+  config.dbFrag = '/workspace3/firefliescake';
+});
+
 var httpServer = http.createServer(app);
 io = io.listen(httpServer);
 httpServer.listen(config.port);
@@ -68,6 +82,9 @@ io.configure('production', function () {
   io.set('log level', 1);
 });
 
+io.configure('developement', function () {
+  io.set('log level', 3);
+});
 console.log("Express server listening on port 3000");
 
 io.sockets.on('connection', function(client){
