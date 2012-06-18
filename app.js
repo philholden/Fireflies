@@ -65,7 +65,7 @@ app.configure('production', function () {
 });
 
 app.configure('developement', function () {
-  config.port = = process.env.PORT || 5000;
+  config.port = process.env.PORT || 5000;
   config.entrySite = 'http://fireflies.kraya.net';
   config.dbSite = 'test';
   config.dbFrag = '/workspace3/firefliescake';
