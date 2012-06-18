@@ -86,7 +86,7 @@ io.configure('production', function () {
 io.configure('developement', function () {
   io.set('log level', 3);
 });
-console.log("Express server listening on port" + config.port);
+console.log("Express server listening on port " + process.env.PORT || 5000);
 
 io.sockets.on('connection', function(client){
   console.log('connected');
