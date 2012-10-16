@@ -1,5 +1,5 @@
 var config = {};
-config.port = 80;
+config.port = 5000;
 config.entrySite = 'http://fireflies.kraya.net';
 config.dbSite = 'test';
 config.dbSite = 'data.fireflies.kraya.net';

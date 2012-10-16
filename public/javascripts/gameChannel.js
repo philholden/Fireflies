@@ -1,6 +1,6 @@
 function gameChannel(){
   var gc = this;
-  var socket = gc.socket = io.connect(window.location.origin);
+  var socket = gc.socket = io.connect(window.location.host);
   
   socket.on('connect', function(data){
     gc.newUser("");

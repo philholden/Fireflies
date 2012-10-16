@@ -1,6 +1,6 @@
 {
   "name": "fireflies",
-  "version": "0.0.1",
+  "version": "0.0.1-11",
   "private": true,
   "scripts": {
     "start": "app.js"
@@ -10,7 +10,7 @@
     "jade": "*",
     "less-middleware": "*",
     "ejs": "0.7.x",
-    "socket.io": "0.9.x",
+    "socket.io": "0.9.5",
     "underscore": "1.3.x",
     "qs": "0.5.x"
   },

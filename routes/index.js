@@ -2,7 +2,6 @@
 /*
  * GET home page.
  */
-
 var config = require('../config');
 var db = require('../database');
 
