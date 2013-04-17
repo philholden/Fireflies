@@ -1,11 +1,8 @@
 function gameChannel(){
   var gc = this;
-  console.log('hello');
   var socket = gc.socket = io.connect(window.location.host);
-  console.log(window.location.host);
   socket.on('connect', function(data){
     gc.newUser("");
-    console.log('hello');
 /*    var message = {
       channel: "physics"
     }; 
