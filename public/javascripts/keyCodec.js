@@ -51,21 +51,36 @@ KeyCodec.keyDecode = function(c){
  * @param  {array} io array of frame containing key presses
  * @return {string}   encoded io events
  */
-KeyCodec.ioEncode= function(io){
-  var out = [];
-  var i;
-  var k;
+// KeyCodec.ioEncode= function(io){
+//   var out = [];
+//   var i;
+//   var k;
 
-  for (i = 0;i<io.length;i++){
-    k = io[i];
-    if (k){
-      for (j = 0; j < k.length; j++) {
-        out.push(k.id + K.k + i);
-      }
+//   for (i = 0;i<io.length;i++){
+//     k = io[i];
+//     if (k){
+//       for (j = 0; j < k.length; j++) {
+//         out.push(k.id + K.k + i);
+//       }
+//     }
+//   }
+//   return out.join(',');
+// };
+
+KeyCodec.ioEncode= function(io){
+  var i;
+  var out = [];
+  var h;
+  for(i = 0;i<io.length;i++){
+    if(k = io[i]){
+      k.forEach(function(h){
+        out.push(h.id + h.k + i);
+      });
     }
   }
   return out.join(',');
-};
+}
+
 
 /**
  * Takes in a string consisting of comma separated key events 
