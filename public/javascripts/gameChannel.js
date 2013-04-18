@@ -11,7 +11,7 @@ function gameChannel(){
   });
   
   socket.on('disconnect', function(data){
-    window.location="http://fireflies.kraya.net/";
+    //window.location="http://fireflies.kraya.net/";
   });
   
   socket.on('message', function(req){
