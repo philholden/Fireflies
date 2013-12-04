@@ -6,7 +6,7 @@ Fireflies
     }
 
 
-```
+```JavaScript
 function() {
   var a = 1;
 }
