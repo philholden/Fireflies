@@ -1,6 +1,6 @@
 function gameChannel(){
   var gc = this;
-  var socket = gc.socket = io.connect(window.location.host);
+  var socket = gc.socket = io.connect(window.location.host);//window.location.host);
   
   socket.on('connect', function(data){
     gc.newUser("");
@@ -12,7 +12,7 @@ function gameChannel(){
   });
   
   socket.on('disconnect', function(data){
-    window.location="http://fireflies.kraya.net/";
+    //window.location="http://fireflies.kraya.net/";
   });
   
   socket.on('message', function(req){
@@ -39,7 +39,7 @@ function gameChannel(){
   gc.newUser = function(name) {
      socket.json.emit('newuser', {
        name: name,
-       dbId: dbId
+       dbId: undefined
      }); 
   };
 }

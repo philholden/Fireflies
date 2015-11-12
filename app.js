@@ -51,7 +51,7 @@ app.engine('html', function(path, options, fn){
 app.post('/add-replay', routes.addReplay);
 
 app.post('/', routes.gameLobby);
-app.get('/', routes.index);
+app.get('/', function(req, res) {res.redirect('/gameLobby.html')});
 
 app.get('/edit-hue', routes.editHue);
 

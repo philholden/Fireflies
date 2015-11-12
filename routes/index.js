@@ -7,7 +7,8 @@ var db = require('../database');
 
 exports.index = function(req, res){
   //res.render('index', { title: 'Express' });
-  res.redirect(config.entrySite);
+  //res.redirect(config.entrySite);
+  res.render('gameLobby.html');
 };
 
 exports.gameLobby = function(req, res){
